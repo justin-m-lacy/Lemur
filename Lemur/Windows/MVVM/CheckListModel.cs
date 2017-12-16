@@ -62,6 +62,8 @@ namespace Lemur.Windows.MVVM {
 
 		#endregion
 
+		#region PROPERTIES
+
 		private bool _multiCheck = true;
 		/// <summary>
 		/// Indicates multiple items from the list can be checked at the same time.
@@ -69,10 +71,7 @@ namespace Lemur.Windows.MVVM {
 		public bool MultiCheck {
 			get { return this._multiCheck; }
 			set {
-				if( value != this._multiCheck ) {
-					this._multiCheck = value;
-					this.NotifyPropertyChanged();
-				}
+				this.SetProperty( ref this._multiCheck, value );
 			}
 		}
 
@@ -87,17 +86,14 @@ namespace Lemur.Windows.MVVM {
 
 			get { return this.selectedItem; }
 			set {
-				if( this.selectedItem != value ) {
-					this.selectedItem = value;
-					this.NotifyPropertyChanged( SelectedPropertyName );
-				}
+				this.SetProperty( ref this.selectedItem, value, SelectedPropertyName );
 			}
 
 		}
 
 		private readonly ObservableCollection<ListItemModel<T>> items = new ObservableCollection<ListItemModel<T>>();
 		/// <summary>
-		/// The files being displayed.
+		/// The items being displayed.
 		/// </summary>
 		public ObservableCollection<ListItemModel<T>> Items {
 			get { return this.items; }
@@ -105,12 +101,13 @@ namespace Lemur.Windows.MVVM {
 
 		private readonly ObservableCollection<T> _checkedItems = new ObservableCollection<T>();
 		/// <summary>
-		/// Collection of items that have been set in the list.
+		/// Collection of items that have been checked in the list.
 		/// </summary>
 		public ObservableCollection<T> CheckedItems {
 			get { return this._checkedItems; }
 		}
-		
+
+		#endregion
 
 		/// <summary>
 		/// Returns a list of all items that have been checked.
@@ -120,6 +117,11 @@ namespace Lemur.Windows.MVVM {
 			return this.Items.Where( ( item ) => { return item.IsChecked; } ).ToArray();
 		}
 
+		/// <summary>
+		/// Called when a ListItemModel's checked property changes.
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="nowChecked"></param>
 		private void ItemCheckedChanged( ListItemModel<T> item, bool nowChecked ) {
 
 			if( nowChecked ) {
@@ -142,6 +144,20 @@ namespace Lemur.Windows.MVVM {
 	
 		}
 
+		/// <summary>
+		/// Returns whether any items in the list are selected (not checked.)
+		/// </summary>
+		/// <returns></returns>
+		public bool HasSelectedItems() {
+
+			return this.SelectedItem != null;
+
+		}
+
+		/// <summary>
+		/// Check if any items in the list have had their items 'checked.'
+		/// </summary>
+		/// <returns></returns>
 		public bool HasCheckedItems() {
 			return this.CheckedItems.Count > 0;
 		}
@@ -173,7 +189,7 @@ namespace Lemur.Windows.MVVM {
 		public CheckListModel( IEnumerable<T> start_files=null ) {
 
 			this.items = new ObservableCollection<ListItemModel<T>>();
-			this.items.CollectionChanged += this.Files_CollectionChanged;
+			this.items.CollectionChanged += this.Items_CollectionChanged;
 
 			if( start_files != null ) {
 
@@ -210,7 +226,7 @@ namespace Lemur.Windows.MVVM {
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void Files_CollectionChanged( object sender, NotifyCollectionChangedEventArgs e ) {
+		private void Items_CollectionChanged( object sender, NotifyCollectionChangedEventArgs e ) {
 
 			//Console.WriteLine( "ITEMS CHANGED: " + e.Action.ToString() );
 
