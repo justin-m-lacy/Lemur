@@ -20,6 +20,36 @@ namespace Lemur.Windows.MVVM {
 		/// </summary>
 		static public Func<ViewModelBase, bool> CloseView;
 
+		#region PROPERTIES
+
+		/// <summary>
+		/// Provides any services needed by the ViewModel.
+		/// </summary>
+		private IServiceProvider serviceProvider;
+		public IServiceProvider ServiceProvider {
+			get {
+				return this.serviceProvider;
+			}
+			set {
+				this.SetProperty( ref this.serviceProvider, value );
+			}
+
+		}
+		/// <summary>
+		/// ViewElement bound to the ViewMode.
+		/// NOTE: This could be a problem for VM's bound to multiple Views...
+		/// </summary>
+		private FrameworkElement _view;
+		public FrameworkElement ViewElement {
+			get { return this._view; }
+			set {
+				this.SetProperty( ref this._view, value );
+			}
+
+		}
+
+		#endregion
+
 		public ViewModelBase() {
 		}
 
@@ -44,45 +74,6 @@ namespace Lemur.Windows.MVVM {
 
 		} // TryClose()
 
-		/// <summary> 
-		/// Notify ViewModel property changed.
-		/// </summary>
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public const string ServiceProviderString = "ServiceProvider";
-
-		/// <summary>
-		/// Provides any services needed by the ViewModel.
-		/// </summary>
-		private IServiceProvider serviceProvider;
-		public IServiceProvider ServiceProvider {
-			get {
-				return this.serviceProvider;
-			}
-			set {
-				if( this.serviceProvider != value ) {
-					this.serviceProvider = value;
-					this.NotifyPropertyChanged( ServiceProviderString );
-				}
-			}
-
-		}
-		/// <summary>
-		/// ViewElement bound to the ViewMode.
-		/// NOTE: This could be a problem for VM's bound to multiple Views...
-		/// </summary>
-		private FrameworkElement _view;
-		public FrameworkElement ViewElement {
-			get { return this._view; }
-			set {
-				if( _view != value ) {
-					this._view = value;
-					this.NotifyPropertyChanged( "ViewElement" );
-				}
-			}
-
-		}
-
 		public T GetService<T>() {
 
 			if( this.serviceProvider == null ) {
@@ -93,23 +84,36 @@ namespace Lemur.Windows.MVVM {
 
 		}
 
+		#region PROPERTY CHANGES
+
+		/// <summary> 
+		/// Notify ViewModel property changed.
+		/// </summary>
+		public event PropertyChangedEventHandler PropertyChanged;
+
 		/// <summary>
-		/// Updates property and notifies a change if the new value is not the same as the previous value.
+		/// Updates a property and dispatches a changed event if the new value is
+		/// not the same as the current value.
 		/// </summary>
 		/// <param name="propertyName"></param>
-		protected virtual void TryPropertyChanged( ref object oldValue, object newVal,
+		protected bool SetProperty<T>( ref T original, T newVal,
 			[CallerMemberName] string propertyName = "" ) {
 
-			if( oldValue.Equals( newVal ) ) {
-				return;
+			if( EqualityComparer<T>.Default.Equals( original, newVal ) ) {
+				return false;
 			}
 
 			this.VerifyPropertyName( propertyName );
+
+			original = newVal;
+
 			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( propertyName ) );
+
+			return true;
 
 		} //
 
-		protected virtual void NotifyPropertyChanged( [CallerMemberName] string propertyName="" ) {
+		protected void NotifyPropertyChanged( [CallerMemberName] string propertyName="" ) {
 
 			this.VerifyPropertyName( propertyName );
 			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( propertyName ) );
@@ -127,6 +131,8 @@ namespace Lemur.Windows.MVVM {
 			}
 
 		}
+
+		#endregion
 
 	} // class
 

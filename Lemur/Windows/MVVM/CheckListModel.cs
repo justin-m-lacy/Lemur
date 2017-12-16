@@ -33,39 +33,29 @@ namespace Lemur.Windows.MVVM {
 
 			get {
 				return this._cmdDeleteChecked ?? ( this._cmdDeleteChecked = new RelayCommand(
-
 			  null, this.HasCheckedItems
-
 			  ) );
 			}
 	
 			set {
-
-				if( this._cmdDeleteChecked != value ) {
-					this._cmdDeleteChecked = value;
-					this.NotifyPropertyChanged();
-				}
+				this.SetProperty( ref this._cmdDeleteChecked, value );
 			} //
 
 		} // CmdDelete
 
-		private RelayCommand _cmdOpenChecked;
-		public RelayCommand CmdOpen {
+		private RelayCommand _cmdAddItem;
+		public RelayCommand CmdAddItem {
 
 			get {
-				return this._cmdOpenChecked ?? ( this._cmdOpenChecked = new RelayCommand(
+				return this._cmdAddItem ?? ( this._cmdAddItem = new RelayCommand(
 
-			  null, this.HasCheckedItems
+			  null
 
 			  ) );
 			}
 
 			set {
-
-				if( this._cmdOpenChecked != value ) {
-					this._cmdOpenChecked = value;
-					this.NotifyPropertyChanged();
-				}
+				this.SetProperty( ref this._cmdAddItem, value );
 			} //
 
 		} // CmdOpen
@@ -147,8 +137,7 @@ namespace Lemur.Windows.MVVM {
 				}
 	
 			} //
-
-			this.CmdOpen.RaiseCanExecuteChanged();
+			
 			this.CmdDelete.RaiseCanExecuteChanged();
 	
 		}
@@ -177,7 +166,6 @@ namespace Lemur.Windows.MVVM {
 			this.items.Clear();
 			this.CheckedItems.Clear();
 
-			this.CmdOpen.RaiseCanExecuteChanged();
 			this.CmdDelete.RaiseCanExecuteChanged();
 
 		} //
