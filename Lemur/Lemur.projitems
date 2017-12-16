@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>619c683e-54c5-4361-a568-ad207e52174e</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Lemur</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\ChildObservable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IListVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IO\AsyncIO.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IO\IStorageFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IO\IStorageProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListVisitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileDeleteOp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatchFinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\BaseCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\ConditionList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\DirectoryCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\ExtensionCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileEnumerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\IMatchCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\IsEmpty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\SizeConditionVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\NameContainsCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\NameRegexTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\PathRegexTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\SizeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FolderClean.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\ImageCompareOp.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\Matching\BaseTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\Matching\IMatchTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\Matching\MatchOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\Matching\TestList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\RegistrySearch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PasswordedData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\CancellableProgress.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\OperationResult.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\ProgressInformation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Tasks\ProgressOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\ISyncRoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\DataRange.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\DataRangeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\DataSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\CollectionUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\DataUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\Extensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\FileUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\AppUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\ByteTextBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\CachedImage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\IntegerField.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\KeyGestureBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\BoolToVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToSolidColorBrush.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\CollectionToVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\InvertBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\KeyResourceConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\LongToDataString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\NonNullToVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringMatchToBool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringMatchToVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringToCoordinate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\DataSizeToString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\TabIndexConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Disposable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Images\AnimatedBitmap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Images\Picture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Images\Stretch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Input\FreeKeyGesture.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Input\IKeyBind.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Input\KeyBindingSet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MimeUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ChangeEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumSourceExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\PropertyNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\NativeMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\RegistryUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\BoolSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\EnumSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\Setting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\FormatString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\IView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ListItemModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CheckListModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\TextString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\View.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\WindowView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\ServiceProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\UserSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\FileNameRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\FilePathRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\PredicateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\RuleProperties.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\UniqueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\WindowExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\WpfSynchronizer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Windows\Text\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Windows\Templates\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Operations\FileMatching\ConditionsDictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+</Project>
