@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TorboFile.Operations {
+namespace Lemur.Operations {
 
 	/// <summary>
 	/// Searches registry for keys while providing real-time updates

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace TorboFile.Operations {
+namespace Lemur.Operations {
 
 	public enum FileOperationType {
 		Move,
@@ -14,7 +14,7 @@ namespace TorboFile.Operations {
 
 	/// <summary>
 	/// Represents a Move or Delete File Operation.
-	/// TODO: Expand to allow for more options; multiple files?
+	/// TODO: Class is being replaced by more versatile <see cref="Lemur.FileMatching.Actions.FileOperation"/>
 	/// </summary>
 	public class FileOperation {
 

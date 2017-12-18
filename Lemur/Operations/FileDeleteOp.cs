@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using static Lemur.Debug.DebugUtils;
 
-namespace TorboFile {
+namespace Lemur {
 
 	/// <summary>
 	/// Deletes a group of files while reporting progress.

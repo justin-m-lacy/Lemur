@@ -8,7 +8,7 @@ using Lemur.Tasks;
 using Lemur.Types;
 using Lemur.Operations.FileMatching;
 
-namespace TorboFile {
+namespace Lemur.Operations {
 
 	/// <summary>
 	/// Cleans the contents of a Folder according to a set of criteria.

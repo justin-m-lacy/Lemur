@@ -7,6 +7,10 @@ using System.IO;
 
 namespace Lemur.Operations.FileMatching {
 
+	/// <summary>
+	/// NOTE: not sure what the intention was with this class.
+	/// Recursive seems more a general setting, than a test on a given file.
+	/// </summary>
 	public abstract class DirectoryCondition : BaseCondition {
 
 		private bool _recursive;

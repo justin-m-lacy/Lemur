@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using Lemur.Tasks;
 
-namespace TorboFile.Operations {
+namespace Lemur.Operations {
 
 	[Flags]
 	public enum ImageCompareFlags {

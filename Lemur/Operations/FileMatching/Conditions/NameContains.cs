@@ -5,22 +5,22 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching {
 
-	public class NameContainsCondition : BaseCondition {
+	public class NameContains : BaseCondition {
 
 		/// <summary>
 		/// Substring to find within the file name.
 		/// </summary>
-		private string _nameSubstring;
-		public string NameSubstring {
-			get { return this._nameSubstring; }
+		private string _matchString;
+		public string MatchString {
+			get { return this._matchString; }
 			set {
-				this._nameSubstring = value;
+				this._matchString = value;
 			}
 		}
 
 		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
 
-			if( info.Name.Contains( _nameSubstring ) ) {
+			if( info.Name.Contains( _matchString ) ) {
 				return base.IsMatch(true);
 			}
 			return base.IsMatch(false);

@@ -10,7 +10,7 @@ using Lemur.Tasks;
 using static Lemur.Debug.DebugUtils;
 using Lemur.Utils;
 
-namespace TorboFile {
+namespace Lemur {
 
 	/// <summary>
 	/// Removes duplicate copies of a file within a given directory.

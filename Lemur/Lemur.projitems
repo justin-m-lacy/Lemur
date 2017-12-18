@@ -19,6 +19,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileDeleteOp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatchFinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\IFileAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\BaseCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ConditionList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\DirectoryCondition.cs" />
@@ -31,9 +33,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileMatchBuilderVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileTestVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\PlaceholderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\SizeConditionVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContainsCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContains.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameRegexTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\PathRegexTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\SizeCondition.cs" />
@@ -64,6 +67,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\CachedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\IntegerField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\KeyGestureBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\ArrayToString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\BoolToVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToSolidColorBrush.cs" />
@@ -92,6 +96,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumDescriptionTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumSourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\PropertyNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\NativeMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\RegistryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\BoolSetting.cs" />

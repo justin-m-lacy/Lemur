@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TorboFile {
+namespace Lemur {
 
 	/// <summary>
 	/// Options for how to delete and order files in a MatchGroup.

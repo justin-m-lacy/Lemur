@@ -8,8 +8,11 @@
     xmlns:convert="clr-namespace:Lemur.Windows.Converters"
     xmlns:local="clr-namespace:Lemur.Operations.FileMatching">
 
+    <!-- CONVERTERS -->
     <convert:DataSizeToString x:Key="dataConverter"/>
-
+    <convert:StringArrayToString x:Key="stringSplitter"/>
+    
+  
     <ControlTemplate x:Key="errorTemplate">
         <StackPanel>
             <AdornedElementPlaceholder />
@@ -19,10 +22,19 @@
 
     <DataTemplate x:Key="baseTestTemplate" DataType="{x:Type local:BaseCondition}">
 
-        <CheckBox x:Name="ChkExclude" Content="Exclusion Condition" IsChecked="{Binding Exclude, Mode=TwoWay}"
+		<StackPanel Orientation="Horizontal">
+			<CheckBox x:Name="chkExclude" Content="Exclusion Condition" IsChecked="{Binding Exclude, Mode=TwoWay}"
                   ToolTip="If checked, only items that do NOT match this requirement will be included in results."/>
+			<TextBlock x:Name="fldExclude" Text="Items matching this condition will be included in the search."/>
+		</StackPanel>
 
-    </DataTemplate>
+		<DataTemplate.Triggers>
+			<DataTrigger Binding="{Binding Exclude}">
+				<Setter TargetName="fldExclude" Property="Text"
+						Value="Items matching this condition will be excluded from the search." />
+			</DataTrigger>
+		</DataTemplate.Triggers>
+	</DataTemplate>
 
     <DataTemplate x:Key="dataInput" DataType="{x:Type types:DataSize}">
 
@@ -40,11 +52,46 @@
         
     </DataTemplate>
 
+	<DataTemplate x:Key="nameContainsTemplate" DataType="{x:Type local:NameContains}">
+
+		<StackPanel>
+			<ContentPresenter ContentTemplate="{StaticResource baseTestTemplate}"/>
+
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="File/Directory name contains: "/>
+				<TextBox Text="{Binding Path=MatchString}"/>
+			</StackPanel>
+
+		</StackPanel>
+		
+	</DataTemplate>
+
+	<DataTemplate x:Key="emptyTestTemplate" DataType="{x:Type local:EmptyCondition}">
+
+        <TextBlock x:Name="fldText"
+				   Text="Empty directories will be included in the search." />
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding Path=Exclude}" Value="true">
+                <Setter TargetName="fldText" Property="Text"
+						Value="Empty directories will be excluded from the search.">
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+
+    </DataTemplate>
+    
     <DataTemplate x:Key="extensionTestTemplate" DataType="{x:Type local:ExtensionCondition}">
         <StackPanel>
             <ContentPresenter ContentTemplate="{StaticResource baseTestTemplate}"/>
             <TextBox x:Name="fldExtensionList" HorizontalContentAlignment="Left">
-                
+                <TextBox.Text>
+                    <Binding ValidatesOnExceptions="True" Path="Extensions" Converter="{StaticResource stringSplitter}">
+                        <Binding.ValidationRules>
+                            <rules:StringContentsRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
             </TextBox>
         </StackPanel>
     </DataTemplate>
