@@ -9,19 +9,19 @@ using System.IO;
 namespace Lemur.Operations.FileMatching {
 
 	/// <summary>
-	/// Operation that matches files or directories by some criteria,
+	/// Operation that matches files or directories by a list of criteria,
 	/// and reports the match results.
 	/// </summary>
 	public class FileMatchOperation : ProgressOperation {
 
 		#region PROPERTIES
 
+		private IEnumerable<IMatchCondition> _conditions;
+
 		/// <summary>
 		/// Conditions that files or directories must match in order
 		/// to be included in a match operation.
 		/// </summary>
-		IEnumerable<IMatchCondition> _conditions;
-
 		public IEnumerable<IMatchCondition> Conditions {
 			get { return this._conditions; }
 
@@ -58,6 +58,7 @@ namespace Lemur.Operations.FileMatching {
 
 		/// <summary>
 		/// List of files or directories that match the search conditions.
+		/// The list is cleared at the start of every call to Run()
 		/// </summary>
 		public List<FileSystemInfo> Matches { get { return this.matches; } }
 
@@ -86,6 +87,8 @@ namespace Lemur.Operations.FileMatching {
 			} else {
 				this.VisitDirectory( this.folderPath );
 			}
+
+			this.OperationComplete();
 
 		}
 
@@ -163,7 +166,7 @@ namespace Lemur.Operations.FileMatching {
 		}
 
 		/// <summary>
-		/// Returns true if file at path is a valid match,
+		/// Returns true if FileSystemInfo entry is a valid match,
 		/// false otherwise.
 		/// </summary>
 		/// <param name="path"></param>

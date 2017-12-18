@@ -12,7 +12,7 @@ namespace Lemur.Operations.FileMatching {
 	/// Files passed to this Condition are ignored. (False is returned
 	/// regardless of Exclude variable.)
 	/// </summary>
-	public class IsEmpty : DirectoryCondition {
+	public class EmptyCondition : DirectoryCondition {
 
 		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
 

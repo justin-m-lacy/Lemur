@@ -10,6 +10,15 @@ namespace Lemur.Operations.FileMatching.Models {
 		protected BaseCondition condition;
 		public BaseCondition MatchCondition {
 			get { return condition; }
+			set {
+
+				this.SetProperty( ref this.condition, value );
+				if( this.condition != null ) {
+					this.condition.Exclude = this.Exclude;
+				}
+
+			}
+
 		}
 
 		private bool _exclude;
@@ -19,13 +28,10 @@ namespace Lemur.Operations.FileMatching.Models {
 			}
 			set {
 
-				if( value == this._exclude ) {
-					return;
-				}
-	
-				this._exclude = value;
-				if( this.condition != null ) {
-					condition.Exclude = value;
+				if( this.SetProperty( ref this._exclude, value ) ) {
+					if ( condition != null ) {
+						condition.Exclude = value;
+					}
 				}
 				
 			} // set

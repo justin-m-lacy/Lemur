@@ -4,43 +4,64 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:types="clr-namespace:Lemur.Types"
     xmlns:controls="clr-namespace:Lemur.Windows.Controls"
+    xmlns:rules="clr-namespace:Lemur.Windows.Validation"
+    xmlns:convert="clr-namespace:Lemur.Windows.Converters"
     xmlns:local="clr-namespace:Lemur.Operations.FileMatching">
 
-    <ControlTemplate x:Key="ErrorTemplate">
+    <convert:DataSizeToString x:Key="dataConverter"/>
+
+    <ControlTemplate x:Key="errorTemplate">
         <StackPanel>
             <AdornedElementPlaceholder />
             <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
         </StackPanel>
     </ControlTemplate>
 
-    <DataTemplate x:Key="baseConditionTemplate" DataType="{x:Type local:BaseCondition}">
+    <DataTemplate x:Key="baseTestTemplate" DataType="{x:Type local:BaseCondition}">
 
         <CheckBox x:Name="ChkExclude" Content="Exclusion Condition" IsChecked="{Binding Exclude, Mode=TwoWay}"
                   ToolTip="If checked, only items that do NOT match this requirement will be included in results."/>
 
     </DataTemplate>
 
-    <DataTemplate x:Key="dataSizeInput" DataType="{x:Type types:DataSize}">
- 
-        <TextBox
-                         Text="{Binding ValidatesOnExceptions=True}" Validation.ErrorTemplate="{StaticResource ErrorTemplate}"
-                         HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" MaxLines="1" MaxLength="0"/>
+    <DataTemplate x:Key="dataInput" DataType="{x:Type types:DataSize}">
+
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" MaxLines="1" MaxLength="0"
+                 Validation.ErrorTemplate="{StaticResource errorTemplate}">
+            <TextBox.Text>
+                <Binding ValidatesOnExceptions="true" Converter="{StaticResource dataConverter}">
+                    <Binding.ValidationRules>
+                        <rules:DataSizeRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox.Text>
+
+        </TextBox>
         
     </DataTemplate>
-    
+
+    <DataTemplate x:Key="extensionTestTemplate" DataType="{x:Type local:ExtensionCondition}">
+        <StackPanel>
+            <ContentPresenter ContentTemplate="{StaticResource baseTestTemplate}"/>
+            <TextBox x:Name="fldExtensionList" HorizontalContentAlignment="Left">
+                
+            </TextBox>
+        </StackPanel>
+    </DataTemplate>
+
     <DataTemplate x:Key="sizeConditionTemplate" DataType="{x:Type local:SizeCondition}">
 
         <StackPanel>
-        <ContentPresenter ContentTemplate="{StaticResource baseConditionTemplate}"/>
+        <ContentPresenter ContentTemplate="{StaticResource baseTestTemplate}"/>
 
             <StackPanel x:Name="ContentSizeRange" Orientation="Horizontal" Margin="16,4,0,8">
                 <StackPanel x:Name="MinSizePanel">
                     <TextBox x:Name="LblMinSize" Text="Min Size (bytes):" HorizontalAlignment="Left" VerticalAlignment="Top" Width="101"/>
-                    <ContentPresenter ContentSource="MinSize" ContentTemplate="{StaticResource dataSizeInput}"/>
+                    <ContentPresenter Content="{Binding MinSize}" ContentTemplate="{StaticResource dataInput}"/>
                 </StackPanel>
                 <StackPanel Margin="32,0,0,0">
                     <TextBox x:Name="LblMaxSize" Text="Max Size (bytes):" HorizontalAlignment="Left" VerticalAlignment="Top" Width="101"/>
-                    <ContentPresenter ContentSource="MaxSize" ContentTemplate="{StaticResource dataSizeInput}"/>
+                    <ContentPresenter Content="{Binding MaxSize}" ContentTemplate="{StaticResource dataInput}"/>
                 </StackPanel>
 
             </StackPanel>

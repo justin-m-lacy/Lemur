@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Lemur.Windows.MVVM;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Lemur.Windows.Validation {
@@ -14,7 +16,14 @@ namespace Lemur.Windows.Validation {
 	/// <typeparam name="T"></typeparam>
 	public class PredicateRule<T> : ValidationRule {
 
-		public RuleProperties<T> Properties;
+		private DependencyPredicate<T> _rule;
+		public DependencyPredicate<T> Rule {
+			get { return this._rule; }
+			set => this._rule = value;
+		}
+
+		private RuleProperties properties;
+		public RuleProperties Properties { get => properties; set => properties = value; }
 
 		public override ValidationResult Validate( object value, CultureInfo cultureInfo ) {
 
@@ -23,11 +32,11 @@ namespace Lemur.Windows.Validation {
 				throw new System.ComponentModel.DataAnnotations.ValidationException( "Unexpected type." );
 			}
 
-			if( Properties == null || Properties.ValidationTest == null ) {
+			if( Rule == null || Rule.Predicate == null ) {
 				return new ValidationResult( true, null );
 			}
 
-			Predicate<T> validTest = Properties.ValidationTest;
+			Predicate<T> validTest = Rule.Predicate;
 
 			T item = (T)value;
 			if( validTest( item ) ) {

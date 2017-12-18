@@ -11,13 +11,13 @@ namespace Lemur.Windows.Validation {
 	/// <summary>
 	/// Validation Rule that ensures the name is a valid file path. (Not necessarily existing.)
 	/// </summary>
-	public class FilePathRule : ValidationRule {
+	public class FilePathRule : CustomValidationRule {
 
 		public override ValidationResult Validate( object value, CultureInfo cultureInfo ) {
 
 			string text = value.ToString();
 			if( string.IsNullOrEmpty( text ) ) {
-				return new ValidationResult( false, "Cannot convert value to a valid file path." );
+				return new ValidationResult( false, ErrorMessage( "Cannot convert value to a valid file path.") );
 			}
 
 			char[] illegal = Path.GetInvalidPathChars();
@@ -27,7 +27,7 @@ namespace Lemur.Windows.Validation {
 
 				char c = text[i];
 				if( illegal.Contains( c ) ) {
-					return new ValidationResult( false, c + " is not allowed in a file path." );
+					return new ValidationResult( false, ErrorMessage( c + " is not allowed in a file path.") );
 				}
 
 			} //

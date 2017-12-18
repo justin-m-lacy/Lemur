@@ -19,22 +19,24 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileDeleteOp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatchFinder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\BaseCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\ConditionList.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\DirectoryCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\ExtensionCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\BaseCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ConditionList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\DirectoryCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ExtensionCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchError.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\IMatchCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\IsEmpty.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IMatchCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\EmptyCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileMatchBuilderVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\PlaceholderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\SizeConditionVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\NameContainsCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\NameRegexTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\PathRegexTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\SizeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContainsCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameRegexTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\PathRegexTest.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\SizeCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FolderClean.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\ImageCompareOp.cs" />
@@ -85,6 +87,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MimeUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ChangeEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionViewModelBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DependencyPredicate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DependencyWrapper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumDescriptionTypeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumSourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\PropertyNotifier.cs" />
@@ -104,15 +108,19 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\ServiceProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\UserSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\CustomValidationRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\FileNameRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\FilePathRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\PredicateRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\RegexRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\RuleProperties.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\UniqueRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\StringContentsRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\UniqueItemRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\WindowExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\WpfSynchronizer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Windows\Text\" />
     <Folder Include="$(MSBuildThisFileDirectory)Windows\Templates\" />
   </ItemGroup>
@@ -121,5 +129,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\DataSizeRule.cs" />
   </ItemGroup>
 </Project>

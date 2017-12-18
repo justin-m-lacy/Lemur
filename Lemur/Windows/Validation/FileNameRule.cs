@@ -11,7 +11,7 @@ namespace Lemur.Windows.Validation {
 	/// <summary>
 	/// Validation Rule that ensures the name is a valid file name. (Not necessarily existing.)
 	/// </summary>
-	public class FileNameRule : ValidationRule {
+	public class FileNameRule : CustomValidationRule {
 
 		public override ValidationResult Validate( object value, CultureInfo cultureInfo ) {
 
