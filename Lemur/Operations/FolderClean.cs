@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Lemur.Tasks;
 using Lemur.Types;
 using Lemur.Operations.FileMatching;
+using Lemur.Windows;
 
 namespace Lemur.Operations {
 

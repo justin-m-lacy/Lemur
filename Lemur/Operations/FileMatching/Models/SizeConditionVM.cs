@@ -9,6 +9,7 @@ namespace Lemur.Operations.FileMatching.Models {
 	/// <summary>
 	/// A File Size Condition for file matching.
 	/// </summary>
+	[Obsolete]
 	public class SizeConditionVM : BaseConditionVM {
 
 		public string _badFormatMessage = "Invalid Data Size";

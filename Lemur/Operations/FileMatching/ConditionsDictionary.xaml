@@ -6,13 +6,15 @@
     xmlns:controls="clr-namespace:Lemur.Windows.Controls"
     xmlns:rules="clr-namespace:Lemur.Windows.Validation"
     xmlns:convert="clr-namespace:Lemur.Windows.Converters"
+	xmlns:models="clr-namespace:Lemur.Operations.FileMatching.Models"
     xmlns:local="clr-namespace:Lemur.Operations.FileMatching">
+
+	<!-- DEFAULT/SAMPLE RESOURCES FOR WORKING WITH FILE MATCHING CONDITIONS -->
 
     <!-- CONVERTERS -->
     <convert:DataSizeToString x:Key="dataConverter"/>
     <convert:StringArrayToString x:Key="stringSplitter"/>
     
-  
     <ControlTemplate x:Key="errorTemplate">
         <StackPanel>
             <AdornedElementPlaceholder />
@@ -20,7 +22,30 @@
         </StackPanel>
     </ControlTemplate>
 
-    <DataTemplate x:Key="baseTestTemplate" DataType="{x:Type local:BaseCondition}">
+    <DataTemplate x:Key="fileTestTemplate" DataType="{x:Type models:FileTestVM}">
+
+		<StackPanel Orientation="Horizontal">
+
+			<TextBlock x:Name="fldOpName" Text="{Binding Path=DisplayName}"/>
+			<TextBlock x:Name="fldDesc" Text="{Binding Path=TestDesc}"/>
+
+			<CheckBox x:Name="chkExclude" Content="Exclusion Condition" IsChecked="{Binding Exclude, Mode=TwoWay}"
+                  ToolTip="If checked, only items that do NOT match this requirement will be included in results."/>
+			<TextBlock x:Name="fldExclude" Text="{Binding Path=IncludeText}"/>
+
+			<ContentPresenter Content="{Binding Path=MatchCondition}"/>
+
+		</StackPanel>
+
+		<DataTemplate.Triggers>
+			<DataTrigger Binding="{Binding Exclude}" Value="true">
+				<Setter TargetName="fldExclude" Property="Text" Value="{Binding Path=ExcludeText}" />
+			</DataTrigger>
+		</DataTemplate.Triggers>
+
+	</DataTemplate>
+
+	<DataTemplate x:Key="baseConditionTemplate" DataType="{x:Type local:BaseCondition}">
 
 		<StackPanel Orientation="Horizontal">
 			<CheckBox x:Name="chkExclude" Content="Exclusion Condition" IsChecked="{Binding Exclude, Mode=TwoWay}"
@@ -29,14 +54,15 @@
 		</StackPanel>
 
 		<DataTemplate.Triggers>
-			<DataTrigger Binding="{Binding Exclude}">
+			<DataTrigger Binding="{Binding Exclude}" Value="true">
 				<Setter TargetName="fldExclude" Property="Text"
 						Value="Items matching this condition will be excluded from the search." />
 			</DataTrigger>
 		</DataTemplate.Triggers>
+
 	</DataTemplate>
 
-    <DataTemplate x:Key="dataInput" DataType="{x:Type types:DataSize}">
+	<DataTemplate x:Key="dataInput" DataType="{x:Type types:DataSize}">
 
         <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="NoWrap" VerticalAlignment="Top" Width="120" MaxLines="1" MaxLength="0"
                  Validation.ErrorTemplate="{StaticResource errorTemplate}">

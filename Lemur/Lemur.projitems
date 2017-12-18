@@ -98,6 +98,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\PropertyNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\NativeMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\RecycleBinDeleter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\RegistryUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\BoolSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\EnumSetting.cs" />

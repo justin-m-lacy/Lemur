@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching.Models {
 
+	[Obsolete]
 	public class BaseConditionVM : ViewModelBase {
 
 		protected BaseCondition condition;
