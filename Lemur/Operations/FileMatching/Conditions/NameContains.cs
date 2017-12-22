@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Lemur.Types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace Lemur.Operations.FileMatching {
 
+	[NameDesc( "Name Contains", "Matches file based on the contents of the file name." )]
 	public class NameContains : BaseCondition {
 
 		/// <summary>

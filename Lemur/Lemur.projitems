@@ -25,6 +25,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ConditionList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\DirectoryCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ExtensionCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\FileCount.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IsDirectory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IsFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IMatchCondition.cs" />
@@ -34,7 +37,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileMatchBuilderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileTestVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\PlaceholderVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\ConditionPickerVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\SizeConditionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContains.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameRegexTest.cs" />
@@ -57,11 +60,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Types\DataRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\DataRangeConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Types\DataSize.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\NameDescAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Types\TypeDescription.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\CollectionUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\DataUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\FileUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StringExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\TypeUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\AppUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\ByteTextBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\CachedImage.cs" />
@@ -117,6 +123,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\CustomValidationRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\FileNameRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\FilePathRule.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\IntValidationRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\PredicateRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\RegexRule.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\RuleProperties.cs" />
@@ -126,7 +133,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\WpfSynchronizer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\" />
     <Folder Include="$(MSBuildThisFileDirectory)Windows\Text\" />
     <Folder Include="$(MSBuildThisFileDirectory)Windows\Templates\" />
   </ItemGroup>

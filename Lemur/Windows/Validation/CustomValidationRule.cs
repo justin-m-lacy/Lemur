@@ -22,6 +22,22 @@ namespace Lemur.Windows.Validation {
 			return string.IsNullOrEmpty(this._defaultMessage) ? altMessage : this._defaultMessage;
 		}
 
+		/// <summary>
+		/// Returns the result with the given error message on failure, or the default error message if message is null or empty.
+		/// </summary>
+		/// <param name="result"></param>
+		/// <param name="message"></param>
+		/// <returns></returns>
+		protected ValidationResult Result( bool result, string message = null ) {
+
+			if( result ) {
+				return new ValidationResult( true, null );
+			} else {
+				return new ValidationResult( false, string.IsNullOrEmpty( this._defaultMessage ) ? message : this._defaultMessage );
+			}
+
+		}
+
 		private string _defaultMessage;
 		public string DefaultErrorMessage {
 			get {

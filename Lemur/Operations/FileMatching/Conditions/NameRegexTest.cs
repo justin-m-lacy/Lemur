@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lemur.Types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Lemur.Operations.FileMatching {
 	/// <summary>
 	/// Matches files and directories whose name matches a regular expression.
 	/// </summary>
+	[NameDesc( "Name Regular Expression", "Match with regular expression on file name." )]
 	public class NameRegexTest : BaseCondition {
 
 		private Regex _expr;

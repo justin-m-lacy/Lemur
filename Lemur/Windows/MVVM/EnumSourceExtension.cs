@@ -8,7 +8,7 @@ namespace Lemur.Windows.MVVM {
 	/// <summary>
 	/// Code based on class by Brian Lagunas @ brianlagunas.com
 	/// </summary>
-	public class EnumSourceExtension : MarkupExtension {
+	public class EnumSource : MarkupExtension {
 
 		/// <summary>
 		/// Type of enum whose values serve as the binding source.
@@ -36,8 +36,8 @@ namespace Lemur.Windows.MVVM {
 
 		}
 
-		public EnumSourceExtension() { }
-		public EnumSourceExtension( Type enumType ) {
+		public EnumSource() { }
+		public EnumSource( Type enumType ) {
 			this.EnumType = enumType;
 		}
 		

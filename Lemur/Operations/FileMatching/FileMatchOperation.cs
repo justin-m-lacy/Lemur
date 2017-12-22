@@ -78,6 +78,15 @@ namespace Lemur.Operations.FileMatching {
 
 		}
 
+		public FileMatchOperation( IEnumerable<IMatchCondition> conditions, FileMatchSettings settings=null ) {
+
+			this._conditions = conditions;
+			this._settings = settings;
+
+		}
+
+		public FileMatchOperation() {} //
+
 		public override void Run() {
 
 			this.matches.Clear();

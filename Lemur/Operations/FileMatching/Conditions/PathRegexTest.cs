@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lemur.Types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -9,6 +10,7 @@ namespace Lemur.Operations.FileMatching {
 	/// <summary>
 	/// Matches a File or Directory whose full file path matches a regular expression.
 	/// </summary>
+	[NameDesc( "Path Regular Expression", "Match with regular expression on the file path.")]
 	public class PathRegexTest : BaseCondition {
 
 		private Regex _expr;

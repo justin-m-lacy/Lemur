@@ -1,9 +1,12 @@
 ﻿using Lemur.Windows;
 using Lemur.Windows.MVVM;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Reflection;
+using Lemur.Utils;
 
 namespace Lemur.Operations.FileMatching.Models {
 
@@ -12,81 +15,62 @@ namespace Lemur.Operations.FileMatching.Models {
 	/// </summary>
 	public class FileMatchBuilderVM : ViewModelBase {
 
-
 		#region COMMANDS
 
-		private RelayCommand _cmdAddCondition;
-
+		private RelayCommand<Type> _cmdAddCondition;
 		/// <summary>
-		/// Command to create a new Match Condition.
+		/// Add a given MatchCondition of the given type.
 		/// </summary>
-		/*public RelayCommand CmdAddCondition {
+		public RelayCommand<Type> CmdAddCondition {
 
 			get {
 				return this._cmdAddCondition ??
-					( this._cmdAddCondition = new RelayCommand( this.CreateNewTest ) );
-			}
-
-		}*/
-
-		private RelayCommand<BaseCondition> _cmdRemoveCondition;
-		/// <summary>
-		/// Remove the Matching Condition specified.
-		/// </summary>
-		public RelayCommand<BaseCondition> CmdRemoveCondition {
-
-			get {
-				return this._cmdRemoveCondition ??
-					( this._cmdRemoveCondition = new RelayCommand<BaseCondition>(
-						( c ) => { this._matchConditions.Remove( c ); } )
+					( this._cmdAddCondition = new RelayCommand<Type>(
+						( c ) => {
+							Console.WriteLine( "Attempting to add condition: " + c.Name );
+							this.CreateCondition( c );
+						} )
 						);
 			}
 
-		}
+		} // CmdAddCondition
 
+		private RelayCommand<FileTestVM> _cmdRemoveCondition;
 		/// <summary>
-		/// Command to save the operation as a permanent object.
+		/// Remove the Matching Condition specified.
 		/// </summary>
-		private RelayCommand _cmdSaveOperation;
-		/// <summary>
-		/// TODO: Doesn't really belong in this model?
-		/// </summary>
-		public RelayCommand CmdSaveOperation {
+		public RelayCommand<FileTestVM> CmdRemoveCondition {
+
 			get {
-				return this._cmdSaveOperation ?? ( this._cmdSaveOperation = new RelayCommand(
-					this.DispatchRequestSave, this.HasConditions ) );
+				return this._cmdRemoveCondition ??
+					( this._cmdRemoveCondition = new RelayCommand<FileTestVM>(
+						( c ) => {
+							Console.WriteLine( "Attempting to remove condition: " + c.DisplayName );
+							this._conditionModels.Remove( c );
+						} )
+						);
 			}
+
 		}
 
 		#endregion
 
 		#region PROPERTIES
 
-		private ObservableCollection<BaseConditionVM> _conditionModels;
-		public ObservableCollection<BaseConditionVM> ConditionModels {
+		private readonly ObservableCollection<FileTestVM> _conditionModels = new ObservableCollection<FileTestVM>();
+		/// <summary>
+		/// The models of the Conditions being displayed.
+		/// </summary>
+		public ObservableCollection<FileTestVM> ConditionModels {
 			get => _conditionModels;
-			set {
+			/*set {
 
 				if( this.SetProperty( ref this._conditionModels, value ) ) {
-					//this._conditionModels.CollectionChanged += _conditionModels_CollectionChanged;
 				}
 
-			}
+			}*/
 
-		}
-
-		private void _conditionModels_CollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e ) {
 		} //
-
-
-		/// <summary>
-		/// Event triggers when match conditions should be saved for
-		/// future use.
-		/// </summary>
-		public event EventHandler OnRequestSave;
-		private void DispatchRequestSave() {
-			this.OnRequestSave?.Invoke( this, new EventArgs() );
-		}
 
 		private FileMatchSettings _settings;
 		/// <summary>
@@ -103,31 +87,13 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		/// <summary>
 		/// A placeholder VM that allows selecting from available Conditions.
+		/// NOTE: Not currently used.
 		/// </summary>
-		private PlaceholderVM _placeholder;
-		public PlaceholderVM Placeholder {
+		private readonly ConditionPickerVM _picker = new ConditionPickerVM();
+		public ConditionPickerVM ConditionPicker {
 			get {
-				return this._placeholder;
+				return this._picker;
 			}
-			set {
-				this.SetProperty( ref this._placeholder, value );
-			}
-		}
-
-		/// <summary>
-		/// Dispatched when the user selects to save the Match Condition list.
-		/// </summary>
-		//public event Action<FileMatchVM> OnRequestSave;
-
-		private ObservableCollection<BaseCondition> _matchConditions;
-		public ObservableCollection<BaseCondition> MatchConditions {
-			get { return this._matchConditions; }
-			set {
-				if( value != this._matchConditions ) {
-					this._matchConditions = new ObservableCollection<BaseCondition>();
-				}
-			}
-
 		}
 
 		private FileMatchOperation operation;
@@ -148,38 +114,131 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		#endregion
 
-		protected bool HasConditions() {
-			return this._matchConditions != null && this._matchConditions.Count > 0;
+		/// <summary>
+		/// Creates a new FileMatchOperation for the current list of MatchConditions and settings.
+		/// The method attempts to clone the MatchConditions so that altering them does not change
+		/// the current ViewModel.
+		/// 
+		/// In order to clone the MatchConditions, the method first checks if the IMatchCondition
+		/// implements ICloneable.
+		/// If it does not, it checks for a constructor which takes an object of the same type.
+		/// 
+		/// If all options fail, the MatchCondition itself is returned.
+		/// </summary>
+		/// <returns></returns>
+		public FileMatchOperation Create() {
+
+			int len = this._conditionModels.Count;
+			List<IMatchCondition> conditions = new List<IMatchCondition>( len );
+
+			for( int i = 0; i < len; i++ ) {
+
+				FileTestVM vm = this._conditionModels[i];
+				IMatchCondition cond = vm.MatchCondition;
+				if( cond == null ) {
+					continue;
+				}
+				ICloneable clonable = cond as ICloneable;
+				if( clonable != null ) {
+
+					conditions.Add( (IMatchCondition)clonable.Clone() );
+
+				} else if( TypeUtils.CanCloneByConstructor( cond.GetType() ) ) {
+
+					object clone = Activator.CreateInstance( cond.GetType(), new object[] { cond } );
+					conditions.Add( (IMatchCondition)clone );
+
+				} else {
+
+					conditions.Add( cond );
+
+				}
+
+			} // for-loop.
+
+			FileMatchOperation op = new FileMatchOperation( conditions, new FileMatchSettings( this.Settings ) );
+
+			return op;
+
+		} //
+
+		/// <summary>
+		/// Check if there are any non-empty conditions in the current operation build.
+		/// </summary>
+		/// <returns></returns>
+		public bool HasConditions() {
+			return this._conditionModels != null && this._conditionModels.Count > 0;
 		}
 
 		/// <summary>
 		/// Removes a condition from the File Match operation.
 		/// </summary>
 		/// <param name="cond"></param>
-		private void RemoveCondition( BaseCondition cond ) {
+		public void RemoveCondition( BaseCondition cond ) {
 
-			this._matchConditions.Remove( cond );
+			int len = this._conditionModels.Count;
+			for( int i = 0; i < len; i++ ) {
 
+				if( this._conditionModels[i].MatchCondition == cond ) {
+					this._conditionModels.RemoveAt( i );
+					return;
+				}
+
+			}
+
+		} //
+
+		public void RemoveCondition( FileTestVM conditionView ) {
+			this._conditionModels.Remove( conditionView );
 		}
 
-		public FileMatchBuilderVM() {
-
-			this._placeholder = new PlaceholderVM();
-			this._placeholder.OnConditionSelected += this._placeholder_OnConditionSelected;
-
+		public void Clear() {
+			this._conditionModels.Clear();
 		}
 
-		private void _placeholder_OnConditionSelected( Type conditionType ) {
+		/// <summary>
+		/// Create and add a new Matching Condition of the given type.
+		/// </summary>
+		/// <param name="conditionType"></param>
+		public void CreateCondition( Type conditionType ) {
 
 			if( conditionType is null ) {
 				throw new ArgumentNullException( "Condition Type cannot be null." );
 			}
-			if( !typeof(BaseCondition).IsAssignableFrom( conditionType) ) {
+			if( !typeof( IMatchCondition ).IsAssignableFrom( conditionType ) ) {
 				throw new ArgumentException( "Condition Type must be a subclass of FileMatching.BaseCondition." );
 			}
 
 			BaseCondition condition = (BaseCondition)Activator.CreateInstance( conditionType );
 
+			FileTestVM vm = new FileTestVM( condition );
+			this.ConditionModels.Add( vm );
+
+		}
+
+		/// <summary>
+		/// Add a match requirement to the match operation.
+		/// </summary>
+		/// <param name="cond"></param>
+		public void AddCondition( IMatchCondition cond ) {
+
+			FileTestVM vm = new FileTestVM( cond );
+			this.ConditionModels.Add( vm );
+
+		} //
+
+		public FileMatchBuilderVM() {
+
+			//this._picker = new ConditionPickerVM();
+			//Console.WriteLine( "SETTING CREATE CALLBACK" );
+			this._picker.CreateRequested += this.picker_CreateRequested;
+
+		}
+
+		private void picker_CreateRequested( Type conditionType ) {
+
+			//Console.WriteLine( "Creating condition: " + conditionType.Name );
+			this.CreateCondition( conditionType );
 		} //
 
 	} // class

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using Lemur.Types;
 
 namespace Lemur.Operations.FileMatching {
 
 	/// <summary>
 	/// Matches a file based on its file extension. Directories are ignored.
 	/// </summary>
+	[NameDesc( "File Extension", "Matches files based on file extension." )]
 	public class ExtensionCondition : BaseCondition {
 
 		private string[] _extensions;

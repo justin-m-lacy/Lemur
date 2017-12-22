@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lemur.Types;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace Lemur.Operations.FileMatching {
 	/// Files passed to this Condition are ignored. (False is returned
 	/// regardless of Exclude variable.)
 	/// </summary>
+	[NameDesc( "Directory Empty", "Matches only empty directories." )]
 	public class EmptyCondition : DirectoryCondition {
 
 		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {

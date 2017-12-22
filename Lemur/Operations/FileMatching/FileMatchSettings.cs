@@ -26,6 +26,7 @@ namespace Lemur.Operations.FileMatching {
 
 	/// <summary>
 	/// Settings which can be applied to a Match attempt.
+	/// Settings were made a class to make it Bindable in MVVM.
 	/// </summary>
 	public class FileMatchSettings : INotifyPropertyChanged {
 
@@ -33,6 +34,23 @@ namespace Lemur.Operations.FileMatching {
 
 		private void NotifyPropertyChanged( [CallerMemberName] string propName=null ) {
 			this.PropertyChanged?.Invoke( this, new PropertyChangedEventArgs(propName) );
+		}
+
+		public FileMatchSettings() {}
+
+		/// <summary>
+		/// Constructor for copying an existing set of settings.
+		/// </summary>
+		/// <param name="settings"></param>
+		public FileMatchSettings( FileMatchSettings settings ) {
+
+			this.recursive = settings.recursive;
+			this.types = settings.types;
+			this.sizeRange = settings.SizeRange;
+			this.useSizeRange = settings.useSizeRange;
+			this.deleteEmptyFiles = settings.deleteEmptyFiles;
+			this.moveToTrash = settings.moveToTrash;
+
 		}
 
 		/// <summary>

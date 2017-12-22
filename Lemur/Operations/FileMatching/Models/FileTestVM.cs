@@ -18,6 +18,13 @@ namespace Lemur.Operations.FileMatching.Models {
 	/// </summary>
 	public class FileTestVM : ViewModelLite, IMatchCondition {
 
+		#region STATIC PROPERTY DEFAULTS
+
+		// STATIC STRINGS SO ALL VALUES CAN BE SET AT ONCE.
+		//static public readonly string DefaultExcludeToolTip;
+
+		#endregion
+
 		#region PROPERTIES
 
 		private string _displayName;
@@ -25,6 +32,12 @@ namespace Lemur.Operations.FileMatching.Models {
 		/// Name of Test condition to display to the user.
 		/// </summary>
 		public string DisplayName { get => _displayName; set => this.SetProperty( ref this._displayName, value ); }
+
+		private string _excludeToolTip;
+		/// <summary>
+		/// Tooltip to display when hovering over the exclude checkbox.
+		/// </summary>
+		public string ExcludeToolTip { get => this._excludeToolTip; set => this.SetProperty( ref this._excludeToolTip, value ); }
 
 		private string _testDesc;
 		/// <summary>
