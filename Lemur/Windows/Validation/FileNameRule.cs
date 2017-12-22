@@ -13,6 +13,15 @@ namespace Lemur.Windows.Validation {
 	/// </summary>
 	public class FileNameRule : CustomValidationRule {
 
+		private bool _fullPath;
+		/// <summary>
+		/// If true, the entire file path will be searched for the containing string.
+		/// </summary>
+		public bool FullPath {
+			get { return _fullPath; }
+			set { this._fullPath = value; }
+		}
+
 		public override ValidationResult Validate( object value, CultureInfo cultureInfo ) {
 
 			string text = value.ToString();

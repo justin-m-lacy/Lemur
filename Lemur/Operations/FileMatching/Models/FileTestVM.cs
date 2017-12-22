@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Lemur.Operations.FileMatching.Models {
@@ -27,60 +29,127 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		#region PROPERTIES
 
-		private string _displayName;
+		#region DISPLAY TEXT
+
 		/// <summary>
 		/// Name of Test condition to display to the user.
 		/// </summary>
 		public string DisplayName { get => _displayName; set => this.SetProperty( ref this._displayName, value ); }
+		private string _displayName;
 
-		private string _excludeToolTip;
 		/// <summary>
 		/// Tooltip to display when hovering over the exclude checkbox.
 		/// </summary>
 		public string ExcludeToolTip { get => this._excludeToolTip; set => this.SetProperty( ref this._excludeToolTip, value ); }
+		private string _excludeToolTip;
 
-		private string _testDesc;
 		/// <summary>
 		/// Description of the matching test being applied.
 		/// </summary>
 		public string TestDesc { get => _testDesc; set => this.SetProperty( ref this._testDesc, value ); }
+		private string _testDesc;
 
-		private string excludeText;
 		/// <summary>
 		/// Message to display when the match condition is an exclude condition.
 		/// </summary>
 		public string ExcludeText { get => excludeText; set => this.SetProperty( ref this.excludeText, value ); }
+		private string excludeText;
 
-		private string includeText;
 		/// <summary>
-		/// Message to display when the match condition is an exclude condition.
+		/// Message to display when the match condition is an include condition. (Default.)
 		/// </summary>
 		public string IncludeText { get => includeText; set => this.SetProperty( ref this.includeText, value ); }
+		private string includeText;
 
-		protected IMatchCondition condition;
+		#endregion DISPLAY TEXT
 
 		/// <summary>
 		/// The underlying condition being displayed.
 		/// </summary>
-		public IMatchCondition MatchCondition {
+		public IMatchCondition Condition {
 			get { return condition; }
 			set {
 
-				this.SetProperty( ref this.condition, value );
-				if( this.condition != null ) {
-					this.condition.Exclude = this.Exclude;
+				if( this.SetProperty( ref this.condition, value ) ) {
+
+					if( this.condition != null ) {
+
+						this.condition.Exclude = this.Exclude;
+						this.ConditionType = value.GetType();
+
+					} else {
+						this.ConditionType = null;
+					}
+					// update all property indexers on the condition.
+					this.NotifyPropertyChanged( "Property[]" );
+
 				}
 
+			} //set
+
+		} // MatchCondition
+		protected IMatchCondition condition;
+
+		/// <summary>
+		/// Gives access to properties of the underlying condition.
+		/// </summary>
+		/// <param name="propName"></param>
+		/// <returns></returns>
+		[IndexerName( "Property")]
+		public object this[string propName] {
+
+			get {
+
+				if( this._conditionType == null ) {
+					return null;
+				}
+
+				TypeInfo info = this._conditionType.GetTypeInfo();
+				PropertyInfo prop = info.GetProperty( propName, BindingFlags.IgnoreCase );
+				if( prop == null ) {
+					return null;
+				}
+				return prop.GetValue( this.condition );
+
 			}
+			set {
+
+				if( this._conditionType == null ) {
+					return;
+				}
+
+				TypeInfo info = this._conditionType.GetTypeInfo();
+				PropertyInfo prop = info.GetProperty( propName, BindingFlags.IgnoreCase );
+				if( prop == null ) {
+					return;
+				}
+
+				// check if property has changed.
+				object current = prop.GetValue( this.condition );
+				if( !Object.Equals( current, value ) ) {
+
+					prop.SetValue( this.condition, value );
+					/// unfortunately refreshes ALL indexers on Property.
+					this.NotifyPropertyChanged( "Property[]" );
+				}
+
+			} // set
 
 		}
 
 		/// <summary>
-		/// This variable duplicates the exclude from the BaseCondition itself,
-		/// but this allows the value to be saved when the BaseCondition is null,
-		/// or is switched.
+		/// Type of the condition being displayed.
+		/// Use in xaml to change the display Template based on type.
 		/// </summary>
-		private bool _exclude;
+		public Type ConditionType {
+			get {
+				return this._conditionType;
+			}
+			set {
+				this.SetProperty( ref this._conditionType, value );
+			}
+		}
+		private Type _conditionType;
 
 		/// <summary>
 		/// Whether the Matching operation includes or excludes a file which matches
@@ -101,6 +170,13 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		} // Exclude
 
+		/// <summary>
+		/// This variable duplicates the exclude from the BaseCondition itself,
+		/// but this allows the value to be saved when the BaseCondition is null,
+		/// or is switched.
+		/// </summary>
+		private bool _exclude;
+
 		#endregion
 
 		public FileTestVM() { }
@@ -111,8 +187,14 @@ namespace Lemur.Operations.FileMatching.Models {
 		}
 
 		public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+
+			if( this.condition == null ) {
+				return false;
+			}
+
 			return condition.IsMatch( info, settings );
-		}
+
+		} //
 
 	} // class
 

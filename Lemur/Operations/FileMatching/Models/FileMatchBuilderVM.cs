@@ -134,7 +134,7 @@ namespace Lemur.Operations.FileMatching.Models {
 			for( int i = 0; i < len; i++ ) {
 
 				FileTestVM vm = this._conditionModels[i];
-				IMatchCondition cond = vm.MatchCondition;
+				IMatchCondition cond = vm.Condition;
 				if( cond == null ) {
 					continue;
 				}
@@ -179,7 +179,7 @@ namespace Lemur.Operations.FileMatching.Models {
 			int len = this._conditionModels.Count;
 			for( int i = 0; i < len; i++ ) {
 
-				if( this._conditionModels[i].MatchCondition == cond ) {
+				if( this._conditionModels[i].Condition == cond ) {
 					this._conditionModels.RemoveAt( i );
 					return;
 				}

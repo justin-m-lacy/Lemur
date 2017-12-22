@@ -137,12 +137,6 @@
     <Folder Include="$(MSBuildThisFileDirectory)Windows\Templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="$(MSBuildThisFileDirectory)Operations\FileMatching\ConditionsDictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\DataSizeRule.cs" />
   </ItemGroup>
 </Project>
