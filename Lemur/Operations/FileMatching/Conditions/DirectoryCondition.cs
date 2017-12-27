@@ -7,25 +7,22 @@ using System.IO;
 
 namespace Lemur.Operations.FileMatching {
 
-	/// <summary>
-	/// NOTE: not sure what the intention was with this class.
-	/// Recursive seems more a general setting, than a test on a given file.
-	/// </summary>
+	[Serializable]
 	public abstract class DirectoryCondition : BaseCondition {
 
-		private bool _recursive;
+		private bool _haltRecursionOnFail;
 		/// <summary>
-		/// Whether to apply the condition to directories recursively.
+		/// If true, a file match search should not check subdirectories of this directory,
+		/// if this match condition is not met.
+		/// By default, in a recursive search, subdirectories are still searched, even
+		/// if the current directory is not a match.
 		/// </summary>
-		public bool Recursive {
-			get { return this._recursive; }
+		public bool HaltOnFail {
+			get { return this._haltRecursionOnFail; }
 			set {
-				this._recursive = value;
+				this._haltRecursionOnFail = value;
 			}
 		}
-
-		/*public bool IsMatch( FileSystemInfo info ) {
-		}*/
 
     } // class
 

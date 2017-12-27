@@ -7,6 +7,7 @@ using System.Text;
 namespace Lemur.Operations.FileMatching {
 
 	[NameDesc( "Subfile Count", "Limits directories to those containing the given number of subfiles." )]
+	[Serializable]
 	public class FileCount : BaseCondition {
 
 		private bool countSubDirs;

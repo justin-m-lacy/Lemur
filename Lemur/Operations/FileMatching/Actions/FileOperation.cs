@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching.Actions {
 
+	[Serializable]
 	public class FileOperation : ProgressOperation {
 
 		#region PROPERTIES

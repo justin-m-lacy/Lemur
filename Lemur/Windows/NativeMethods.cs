@@ -90,8 +90,19 @@ namespace Lemur.Windows {
 
 		}
 
+		public enum RecycleFlag : int {
+			SHERB_NOFCONFIRMATION=0x00000001,	// Do not confirm the delete.
+			SHERB_NOPROGRESSUI=0x00000002,		// Do not display a progress UI.
+			SHERB_NOSOUND = 0x00000004			// Do not play sound while emptying.
+		}
+
 		[DllImport( "shell32.dll", CharSet = CharSet.Auto )]
 		public static extern int SHFileOperation( ref SHFILEOPSTRUCT FileOp );
+
+		[DllImport( "shell32.dll", CharSet=CharSet.Auto)]
+		/// Pass IntPtr.Zero for hwnd (handle to owner window), null for root path. (optional limit to specific drive)
+		/// Returns an HRESULT, 0 for no error.
+		public static extern int SHEmptyRecycleBin( IntPtr hwnd, string pszRootPath, RecycleFlag dwFlags );
 
 		#endregion
 

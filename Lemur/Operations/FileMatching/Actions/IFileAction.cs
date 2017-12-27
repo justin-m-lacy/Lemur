@@ -15,6 +15,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// <returns></returns>
 		bool Run( FileSystemInfo info );
 
+
 	} // class
 
 } // namespace

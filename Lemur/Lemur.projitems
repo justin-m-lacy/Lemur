@@ -19,8 +19,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileDeleteOp.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatchFinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\EmptyRecycleBin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileDeleteAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\IFileAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\MoveFileAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RecycleAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\NameReplace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RegexReplace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\BaseCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ConditionList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\DirectoryCondition.cs" />
@@ -35,6 +41,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileActionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileMatchBuilderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileTestVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\ConditionPickerVM.cs" />
@@ -86,7 +93,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringMatchToVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringToCoordinate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\DataSizeToString.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\TabIndexConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Disposable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Images\AnimatedBitmap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Images\Picture.cs" />
@@ -96,6 +102,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Input\KeyBindingSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MimeUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ChangeEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ChildExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionViewModelBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DependencyPredicate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DependencyWrapper.cs" />

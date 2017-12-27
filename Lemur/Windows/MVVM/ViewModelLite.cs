@@ -35,8 +35,6 @@ namespace Lemur.Windows.MVVM {
 				return false;
 			}
 
-			this.VerifyPropertyName( propertyName );
-
 			original = newVal;
 
 			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( propertyName ) );
@@ -47,12 +45,14 @@ namespace Lemur.Windows.MVVM {
 
 		protected void NotifyPropertyChanged( [CallerMemberName] string propertyName = "" ) {
 
-			this.VerifyPropertyName( propertyName );
+			//this.VerifyPropertyName( propertyName );
 			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( propertyName ) );
 
 		} //
 
-		[Conditional( "DEBUG" )]
+		///NOTE: had to remove this because it didn't support Property[] syntax.
+		///// FIX LATER?
+		/*[Conditional( "DEBUG" )]
 		public void VerifyPropertyName( string propertyName ) {
 
 			if( TypeDescriptor.GetProperties( this )[propertyName] == null ) {
@@ -62,7 +62,7 @@ namespace Lemur.Windows.MVVM {
 
 			}
 
-		}
+		}*/
 
 		#endregion
 

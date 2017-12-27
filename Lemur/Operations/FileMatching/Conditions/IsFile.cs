@@ -7,6 +7,7 @@ using System.Text;
 namespace Lemur.Operations.FileMatching {
 
 	[NameDesc( "Only Files", "Directories not included in search results." )]
+	[Serializable]
 	public class IsFile : BaseCondition {
 
 		override public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {

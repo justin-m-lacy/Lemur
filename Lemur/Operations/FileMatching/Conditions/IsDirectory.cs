@@ -10,6 +10,7 @@ namespace Lemur.Operations.FileMatching {
 	/// Matches only files which are directories.
 	/// </summary>
 	[NameDesc( "Only Directories", "Only directories are included in search results." )]
+	[Serializable]
 	public class IsDirectory : BaseCondition {
 
 		override public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {

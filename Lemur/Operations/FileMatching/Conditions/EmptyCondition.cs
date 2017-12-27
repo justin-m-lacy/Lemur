@@ -13,6 +13,7 @@ namespace Lemur.Operations.FileMatching {
 	/// Files passed to this Condition are ignored. (False is returned
 	/// regardless of Exclude variable.)
 	/// </summary>
+	[Serializable]
 	[NameDesc( "Directory Empty", "Matches only empty directories." )]
 	public class EmptyCondition : DirectoryCondition {
 

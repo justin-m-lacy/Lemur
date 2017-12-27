@@ -11,6 +11,7 @@ namespace Lemur.Operations.FileMatching {
 	/// Matches a File or Directory whose full file path matches a regular expression.
 	/// </summary>
 	[NameDesc( "Path Regular Expression", "Match with regular expression on the file path.")]
+	[Serializable]
 	public class PathRegexTest : BaseCondition {
 
 		private Regex _expr;

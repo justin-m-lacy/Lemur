@@ -12,6 +12,7 @@ namespace Lemur.Operations.FileMatching {
 	/// Matches a file based on its file extension. Directories are ignored.
 	/// </summary>
 	[NameDesc( "File Extension", "Matches files based on file extension." )]
+	[Serializable]
 	public class ExtensionCondition : BaseCondition {
 
 		private string[] _extensions;

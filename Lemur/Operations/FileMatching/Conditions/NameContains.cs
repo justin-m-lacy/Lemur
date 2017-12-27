@@ -7,7 +7,14 @@ using System.Text;
 namespace Lemur.Operations.FileMatching {
 
 	[NameDesc( "Name Contains", "Matches file based on the contents of the file name." )]
+	[Serializable]
 	public class NameContains : BaseCondition {
+
+		/// <summary>
+		/// If true, the full file path is searched for the match string.
+		/// </summary>
+		public bool FullPath { get => fullPath; set => fullPath = value; }
+		private bool fullPath;
 
 		/// <summary>
 		/// Substring to find within the file name.
@@ -20,9 +27,13 @@ namespace Lemur.Operations.FileMatching {
 			}
 		}
 
+		
+
 		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
 
-			if( info.Name.Contains( _matchString ) ) {
+			string searchString = this.fullPath ? info.FullName : info.Name;
+
+			if( searchString.Contains( _matchString ) ) {
 				return base.IsMatch(true);
 			}
 			return base.IsMatch(false);

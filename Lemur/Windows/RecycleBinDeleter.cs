@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Lemur.Windows.NativeMethods;
 
 namespace Lemur.Windows {
 
@@ -16,6 +17,19 @@ namespace Lemur.Windows {
 	/// 
 	/// </summary>
 	public static class RecycleBinDeleter {
+
+		public static bool EmptyRecycleBin( RecycleFlag flags=0 ) {
+
+			try {
+
+				int result = NativeMethods.SHEmptyRecycleBin( IntPtr.Zero, null, flags );
+				return ( result == 0 );
+	
+			} catch( Exception ) {
+				return false;
+			}
+
+		}
 
 		/// <summary>
 		/// Send file to recycle bin.

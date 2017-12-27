@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace Lemur.Operations.FileMatching {
 
 	[NameDesc( "Size Test", "Allows matching files by file size." )]
+	[Serializable]
 	public class SizeCondition : BaseCondition {
 
 		private DataSize _minSize;

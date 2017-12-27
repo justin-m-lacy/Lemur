@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Lemur.Operations.FileMatching {
 
+	[Serializable]
 	public abstract class BaseCondition : IMatchCondition {
 
 		/// <summary>
@@ -18,6 +20,10 @@ namespace Lemur.Operations.FileMatching {
 			get { return this._exclude; }
 			set { this._exclude = value; }
 		}
+
+		/*virtual public void GetObjectData( SerializationInfo info, StreamingContext context ) {
+			throw new NotImplementedException();
+		}*/
 
 		/// <summary>
 		/// Returns the correct match behavior based on the current Exclusion value

@@ -182,7 +182,7 @@ namespace Lemur.Operations.FileMatching.Models {
 		public FileTestVM() { }
 
 		public FileTestVM( IMatchCondition matchTest, bool exclude=false ) {
-			this.condition = matchTest;
+			this.Condition = matchTest;
 			this._exclude = exclude;
 		}
 

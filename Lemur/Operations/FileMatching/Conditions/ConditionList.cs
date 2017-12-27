@@ -11,6 +11,7 @@ namespace Lemur.Operations.FileMatching {
 	/// <summary>
 	/// MatchCondition consisting of a list of MatchConditions.
 	/// </summary>
+	[Serializable]
 	public class ConditionList : BaseCondition, IList<IMatchCondition> {
 
 		private IList<IMatchCondition> conditions;

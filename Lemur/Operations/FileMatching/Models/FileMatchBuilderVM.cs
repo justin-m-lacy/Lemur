@@ -211,6 +211,8 @@ namespace Lemur.Operations.FileMatching.Models {
 
 			BaseCondition condition = (BaseCondition)Activator.CreateInstance( conditionType );
 
+			Console.WriteLine( "creating type: " + conditionType.Name );
+
 			FileTestVM vm = new FileTestVM( condition );
 			this.ConditionModels.Add( vm );
 
