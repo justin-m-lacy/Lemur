@@ -12,9 +12,9 @@ namespace Lemur.Operations.FileMatching.Actions {
 	/// </summary>
 	[NameDesc( "Delete Files", "Deletes the target files or directory without moving to the recycle bin." )]
 	[Serializable]
-	public class FileDeleteAction : IFileAction {
+	public class FileDeleteAction : FileActionBase {
 
-		public bool Run( FileSystemInfo info ) {
+		override public bool Run( FileSystemInfo info ) {
 
 			info.Delete();
 

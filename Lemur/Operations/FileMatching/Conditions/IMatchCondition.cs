@@ -24,7 +24,7 @@ namespace Lemur.Operations.FileMatching {
 		/// <param name="info"></param>
 		/// <param name="settings"></param>
 		/// <returns></returns>
-		bool IsMatch( FileSystemInfo info, FileMatchSettings settings );
+		bool IsMatch( FileSystemInfo info );
 
     } // class
 

@@ -17,7 +17,7 @@ namespace Lemur.Operations.FileMatching {
 	[NameDesc( "Directory Empty", "Matches only empty directories." )]
 	public class EmptyCondition : DirectoryCondition {
 
-		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		public override bool IsMatch( FileSystemInfo info ) {
 
 			DirectoryInfo dInfo = info as DirectoryInfo;
 			if( dInfo == null ) { return false; }

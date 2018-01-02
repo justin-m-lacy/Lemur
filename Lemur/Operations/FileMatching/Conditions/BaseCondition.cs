@@ -44,7 +44,7 @@ namespace Lemur.Operations.FileMatching {
 		/// <param name="info"></param>
 		/// <param name="settings"></param>
 		/// <returns></returns>
-		virtual public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		virtual public bool IsMatch( FileSystemInfo info ) {
 			return !this._exclude;
 		}
 

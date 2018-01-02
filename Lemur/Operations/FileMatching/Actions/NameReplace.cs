@@ -8,7 +8,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 	[NameDesc( "Name Replace", "Replaces characters in a target file or directory with a given replacement string." )]
 	[Serializable]
-	public class NameReplace : IFileAction {
+	public class NameReplace : FileActionBase {
 
 		private string searchString;
 		private string replaceString;
@@ -25,7 +25,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 			this.replaceString = replace;
 		}
 
-		public bool Run( FileSystemInfo info ) {
+		override public bool Run( FileSystemInfo info ) {
 
 			string newName = info.Name.Replace( searchString, replaceString );
 			string path = Path.GetDirectoryName( info.FullName );

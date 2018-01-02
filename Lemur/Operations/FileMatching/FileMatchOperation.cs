@@ -54,19 +54,19 @@ namespace Lemur.Operations.FileMatching {
 			get { return this.errorList.ToArray(); }
 		}
 
-		private readonly List<FileSystemInfo> matches = new List<FileSystemInfo>();
-
-		/// <summary>
-		/// List of files or directories that match the search conditions.
-		/// The list is cleared at the start of every call to Run()
-		/// </summary>
-		public List<FileSystemInfo> Matches { get { return this.matches; } }
 
 		/// <summary>
 		/// Settings used for the operation.
 		/// </summary>
 		private FileMatchSettings _settings;
 		public FileMatchSettings Settings => _settings;
+
+		/// <summary>
+		/// List of files or directories that match the search conditions.
+		/// The list is cleared at the start of every call to Run()
+		/// </summary>
+		public List<FileSystemInfo> Matches { get { return this.matches; } }
+		private readonly List<FileSystemInfo> matches = new List<FileSystemInfo>();
 
 		#endregion
 
@@ -184,7 +184,7 @@ namespace Lemur.Operations.FileMatching {
 
 			foreach( IMatchCondition cond in this.Conditions ) {
 
-				if( !cond.IsMatch( fileInfo, _settings ) ) {
+				if( !cond.IsMatch( fileInfo ) ) {
 					return false;
 				}
 
@@ -221,7 +221,7 @@ namespace Lemur.Operations.FileMatching {
 
 				foreach( IMatchCondition cond in this._recursionConditions ) {
 
-					if( !cond.IsMatch( info, this._settings ) ) {
+					if( !cond.IsMatch( info ) ) {
 						follow = false;
 						break;
 					}

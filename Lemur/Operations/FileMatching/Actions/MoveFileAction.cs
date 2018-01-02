@@ -8,7 +8,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 	[NameDesc( "Move Files", "Moves the target files or directories to a new location." )]
 	[Serializable]
-	public class MoveFileAction : IFileAction {
+	public class MoveFileAction : FileActionBase {
 
 		private string _destination;
 		public string Destination {
@@ -25,7 +25,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// </summary>
 		/// <param name="info"></param>
 		/// <returns></returns>
-		public bool Run( FileSystemInfo info ) {
+		override public bool Run( FileSystemInfo info ) {
 
 			if( info is FileInfo ) {
 

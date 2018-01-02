@@ -21,7 +21,7 @@ namespace Lemur.Operations.FileMatching {
 			set { this._extensions = value; }
 		}
 
-		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		public override bool IsMatch( FileSystemInfo info ) {
 
 			if( this._extensions == null || this._extensions.Length == 0 ) {
 				return base.IsMatch(false);

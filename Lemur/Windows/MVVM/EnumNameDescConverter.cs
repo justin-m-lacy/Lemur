@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lemur.Types;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
@@ -7,11 +8,13 @@ using System.Text;
 namespace Lemur.Windows.MVVM {
 
 	/// <summary>
-	/// Taken from Brian Lagunas @ brianlagunas.com
+	/// 
+	/// Adapted from Brian Lagunas @ brianlagunas.com
+	/// 
 	/// </summary>
-	public class EnumDescriptionTypeConverter : EnumConverter {
+	public class EnumNameDescConverter : EnumConverter {
 
-		public EnumDescriptionTypeConverter( Type type ) : base( type ) { }
+		public EnumNameDescConverter( Type type ) : base( type ) { }
 
 		public override object ConvertTo( ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType ) {
 
@@ -22,8 +25,10 @@ namespace Lemur.Windows.MVVM {
 					FieldInfo fi = value.GetType().GetField( value.ToString() );
 
 					if( fi != null ) {
-						var attributes = (DescriptionAttribute[])fi.GetCustomAttributes( typeof( DescriptionAttribute ), false );
-						return ( ( attributes.Length > 0 ) && ( !String.IsNullOrEmpty( attributes[0].Description ) ) ) ? attributes[0].Description : value.ToString();
+
+						var attributes = (NameDescAttribute[])fi.GetCustomAttributes( typeof( NameDescAttribute ), false );
+						return ( ( attributes.Length > 0 ) && ( !String.IsNullOrEmpty( attributes[0].Name ) ) ) ? attributes[0].Name : value.ToString();
+
 					}
 
 				}

@@ -8,6 +8,16 @@ namespace Lemur.Operations.FileMatching.Actions {
 	public interface IFileAction {
 
 		/// <summary>
+		/// Indicates the action should only be run once, even when applied to multiple files.
+		/// An example of this is the EmptyRecycleBin action, which doesn't benefit from being
+		/// applied multiple times.
+		/// </summary>
+		bool RunOnce {
+			get;
+			set;
+		}
+
+		/// <summary>
 		/// Returns boolean indicating success.
 		/// </summary>
 		/// <param name="info"></param>
@@ -15,6 +25,15 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// <returns></returns>
 		bool Run( FileSystemInfo info );
 
+		/// <summary>
+		/// Run the action on an enumeration of files.
+		/// If RunOnce is true, the action should be run on the first
+		/// file of the enumeration, or on the root directory,
+		/// if the enumeration is empty.
+		/// </summary>
+		/// <param name="fileList"></param>
+		/// <returns></returns>
+		bool Run( IEnumerable<FileSystemInfo> fileList );
 
 	} // class
 

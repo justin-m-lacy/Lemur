@@ -20,8 +20,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatchFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\EmptyRecycleBin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileActionBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileDeleteAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileActionOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\IFileAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\MoveFileAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RecycleAction.cs" />
@@ -44,12 +45,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileActionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileMatchBuilderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileTestVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\ConditionPickerVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\PickerVMs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\SizeConditionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContains.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameRegexTest.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\PathRegexTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\SizeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionBuilderVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DataObjectVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TypePickerVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FolderClean.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\ImageCompareOp.cs" />
@@ -106,7 +109,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionViewModelBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DependencyPredicate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DependencyWrapper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumDescriptionTypeConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumNameDescConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumSourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\PropertyNotifier.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelLite.cs" />

@@ -13,7 +13,7 @@ namespace Lemur.Operations.FileMatching {
 	[Serializable]
 	public class IsDirectory : BaseCondition {
 
-		override public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		override public bool IsMatch( FileSystemInfo info ) {
 
 			if( info is DirectoryInfo ) {
 				return true;

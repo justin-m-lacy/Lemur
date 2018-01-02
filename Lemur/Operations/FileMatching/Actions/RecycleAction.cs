@@ -9,10 +9,10 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 	[NameDesc( "Recycle", "Recycles the target file or directory." )]
 	[Serializable]
-	public class RecycleAction : IFileAction {
+	public class RecycleAction : FileActionBase {
 
 
-		public bool Run( FileSystemInfo info ) {
+		override public bool Run( FileSystemInfo info ) {
 
 			return RecycleBinDeleter.Delete( info.Name );
 

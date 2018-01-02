@@ -6,7 +6,9 @@ using System.Windows.Markup;
 namespace Lemur.Windows.MVVM {
 
 	/// <summary>
+	/// 
 	/// Code based on class by Brian Lagunas @ brianlagunas.com
+	/// 
 	/// </summary>
 	public class EnumSource : MarkupExtension {
 

@@ -36,7 +36,7 @@ namespace Lemur.Operations.FileMatching {
 		public int MinFiles { get => minFiles; set => minFiles = value; }
 		public int MaxFiles { get => maxFiles; set => maxFiles = value; }
 
-		override public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		override public bool IsMatch( FileSystemInfo info ) {
 
 			if( info is FileInfo ) {
 				return this.allowFiles;

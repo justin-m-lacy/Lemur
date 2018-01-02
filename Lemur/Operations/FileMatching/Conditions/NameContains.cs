@@ -29,7 +29,7 @@ namespace Lemur.Operations.FileMatching {
 
 		
 
-		public override bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		public override bool IsMatch( FileSystemInfo info ) {
 
 			string searchString = this.fullPath ? info.FullName : info.Name;
 

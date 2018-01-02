@@ -10,7 +10,7 @@ namespace Lemur.Operations.FileMatching {
 	[Serializable]
 	public class IsFile : BaseCondition {
 
-		override public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		override public bool IsMatch( FileSystemInfo info ) {
 
 			if( info is FileInfo ) {
 				return true;

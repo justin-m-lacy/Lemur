@@ -7,9 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace Lemur.Operations.FileMatching.Actions {
 
-	[NameDesc( "Regex Name Replace", "Replaces characters in a file name according to the given regular expression." )]
+	[NameDesc( "Regex Name Replace", "Uses a regular expression to replace characters in a file name." )]
 	[Serializable]
-	public class RegexReplace : IFileAction {
+	public class RegexReplace : FileActionBase {
 
 		private Regex replaceRule;
 		private string replaceString;
@@ -24,7 +24,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 		}
 
-		public bool Run( FileSystemInfo info ) {
+		override public bool Run( FileSystemInfo info ) {
 
 			string newName = this.replaceRule.Replace( info.Name, this.replaceString );
 			string path = Path.GetDirectoryName( info.FullName );

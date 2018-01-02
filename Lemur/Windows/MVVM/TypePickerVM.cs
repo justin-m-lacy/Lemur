@@ -1,35 +1,32 @@
-﻿using Lemur.Windows.MVVM;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Lemur.Windows.MVVM;
 using System.Reflection;
 using Lemur.Windows;
 using Lemur.Types;
 using System.Linq;
 
-namespace Lemur.Operations.FileMatching.Models {
+namespace Lemur.Windows.MVVM {
 
 	/// <summary>
-	/// Placeholder before a specific condition is selected. A list of all available
-	/// FileMatchConditions must be provided.
-	/// 
-	/// These controls are made a separate viewmodel so they can apppear in a list
-	/// of existing Match Conditions as an item to be modified and added.
+	/// ViewModel for selecting and instantiating subtypes of a base type T.
+	/// All types must have a constructor with no arguments.
 	/// </summary>
-	public class ConditionPickerVM : ViewModelBase {
+	/// <typeparam name="T"></typeparam>
+	public class TypePickerVM<T> : ViewModelBase {
 
 		#region COMMANDS
 
-		private RelayCommand _cmdCreate;
 		/// <summary>
-		/// Command to create a MatchCondition of the currently selected type.
+		/// Command to request the instantiation of a given Type.
 		/// </summary>
-		public RelayCommand CmdCreateCondition {
+		public RelayCommand CmdInstantiate {
 			get {
-				return this._cmdCreate ?? ( this._cmdCreate = new RelayCommand( this.DispatchCreate ) );
+				return this._cmdInstantiate ?? ( this._cmdInstantiate = new RelayCommand( this.DispatchCreate ) );
 			}
 		}
-
+		private RelayCommand _cmdInstantiate;
 
 		private RelayCommand<TypeDescription> _cmdPickType;
 		/// <summary>
@@ -52,30 +49,30 @@ namespace Lemur.Operations.FileMatching.Models {
 		#region PROPERTIES
 
 		/// <summary>
-		/// Descriptions of available condition types.
+		/// Descriptions of available Types derived from the base type.
 		/// </summary>
-		private static List< TypeDescription > _staticConditionTypes;
+		private static List<TypeDescription> _staticTypes;
 
-		private List<TypeDescription> _conditionTypes;
+		private List<TypeDescription> _availableTypes;
 		/// <summary>
 		/// Descriptions of available condition types.
 		/// </summary>
-		public List<TypeDescription> ConditionTypes {
+		public List<TypeDescription> AvailableTypes {
 
 			get {
 
-				if( this._conditionTypes == null ) {
+				if( this._availableTypes == null ) {
 
-					if( ConditionPickerVM._staticConditionTypes == null ) {
-						ConditionPickerVM._staticConditionTypes = BuildTypeDescs();
+					if( TypePickerVM<T>._staticTypes == null ) {
+						TypePickerVM<T>._staticTypes = BuildTypeDescs();
 					}
-					this.ConditionTypes = ConditionPickerVM._staticConditionTypes;
+					this.AvailableTypes = TypePickerVM<T>._staticTypes;
 				}
-				return this._conditionTypes;
+				return this._availableTypes;
 
 			}
 			set {
-				if( this.SetProperty( ref this._conditionTypes, value ) ) {
+				if( this.SetProperty( ref this._availableTypes, value ) ) {
 					this.RefreshExclusions();
 				}
 			}
@@ -83,7 +80,7 @@ namespace Lemur.Operations.FileMatching.Models {
 		}
 
 		/// <summary>
-		/// Condition type that will be created on the Create Command.
+		/// Type that will be instantiated on the next Create Command.
 		/// </summary>
 		private TypeDescription _createType;
 		public TypeDescription CreateType {
@@ -92,8 +89,8 @@ namespace Lemur.Operations.FileMatching.Models {
 			}
 			set {
 
-				if( !typeof( IMatchCondition ).IsAssignableFrom( value.Type ) ) {
-					throw new ArgumentException( "Assigned value must implement IMatchCondition" );
+				if( !typeof( T ).IsAssignableFrom( value.Type ) ) {
+					throw new ArgumentException( "Assigned value must be of type: " + typeof( T ).Name );
 				}
 				this.SetProperty( ref this._createType, value );
 
@@ -101,12 +98,8 @@ namespace Lemur.Operations.FileMatching.Models {
 		}
 
 		/// <summary>
-		/// Types to exclude from being picked for new match conditions.
+		/// Types to exclude from selection.
 		/// </summary>
-		private Type[] excludeTypes =
-			new[] { typeof( DirectoryCondition ), typeof( BaseCondition ), typeof(ConditionEnumeration),
-				typeof( ConditionList ) };
-
 		public Type[] ExcludeTypes {
 
 			get { return this.excludeTypes; }
@@ -118,40 +111,37 @@ namespace Lemur.Operations.FileMatching.Models {
 			} //set
 
 		}
+		private Type[] excludeTypes;
 
 		#endregion
 
-
 		/// <summary>
-		/// Event triggers when a condition has been selected.
+		/// Event triggers when a specific type has been selected.
 		/// </summary>
 		public event Action<Type> CreateRequested;
 		protected void DispatchCreate() {
-
-			//Console.WriteLine( "DISPATCHING CREATE" );
 			this.CreateRequested?.Invoke( this._createType.Type );
-
 		} //
 
 
-		public ConditionPickerVM() { }
+		public TypePickerVM() { }
 
 		private void RefreshExclusions() {
 
-			if( this._conditionTypes == null || this.excludeTypes == null ) {
+			if( this._availableTypes == null || this.excludeTypes == null ) {
 				return;
 			}
 
-			int len = this._conditionTypes.Count;
+			int len = this._availableTypes.Count;
 			if( len == 0 || this.excludeTypes.Length == 0 ) {
 				return;
 			}
 
-			for( int i = this._conditionTypes.Count - 1; i >= 0; i-- ) {
+			for( int i = this._availableTypes.Count - 1; i >= 0; i-- ) {
 
-				TypeDescription desc = this._conditionTypes[i];
+				TypeDescription desc = this._availableTypes[i];
 				if( this.excludeTypes.Contains( desc.Type ) ) {
-					this._conditionTypes.RemoveAt( i );
+					this._availableTypes.RemoveAt( i );
 				}
 
 			} // for-loop.
@@ -162,7 +152,7 @@ namespace Lemur.Operations.FileMatching.Models {
 		static private List<TypeDescription> BuildTypeDescs() {
 
 			List<TypeDescription> descs = new List<TypeDescription>();
-			List<Type> types = FindConditionTypes();
+			List<Type> types = FindDerivedTypes();
 
 			foreach( Type t in types ) {
 
@@ -170,7 +160,7 @@ namespace Lemur.Operations.FileMatching.Models {
 				if( nameDesc != null ) {
 
 					descs.Add( new TypeDescription( t, nameDesc.Name, nameDesc.Desc ) );
-	
+
 				} else {
 
 					descs.Add( new TypeDescription( t, t.Name ) );
@@ -183,16 +173,16 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		}
 
-		static public List<Type> FindConditionTypes() {
+		static public List<Type> FindDerivedTypes() {
 
 			Type[] available = Assembly.GetCallingAssembly().GetTypes();
 
-			Type conditionType = typeof( BaseCondition );
+			Type baseType = typeof( T );
 			List<Type> results = new List<Type>();
 
 			foreach( Type t in available ) {
 
-				if( conditionType.IsAssignableFrom(t) ) {
+				if( baseType.IsAssignableFrom( t ) ) {
 					results.Add( t );
 				}
 
@@ -202,6 +192,6 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		}
 
-    } // class
+	} // class
 
 } // namespace

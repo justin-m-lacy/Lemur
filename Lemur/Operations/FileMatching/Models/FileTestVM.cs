@@ -46,8 +46,8 @@ namespace Lemur.Operations.FileMatching.Models {
 		/// <summary>
 		/// Description of the matching test being applied.
 		/// </summary>
-		public string TestDesc { get => _testDesc; set => this.SetProperty( ref this._testDesc, value ); }
-		private string _testDesc;
+		public string Desc { get => _desc; set => this.SetProperty( ref this._desc, value ); }
+		private string _desc;
 
 		/// <summary>
 		/// Message to display when the match condition is an exclude condition.
@@ -139,7 +139,7 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		/// <summary>
 		/// Type of the condition being displayed.
-		/// Use in xaml to change the display Template based on type.
+		/// Use in xaml to change the display Template based on Condition type.
 		/// </summary>
 		public Type ConditionType {
 			get {
@@ -186,13 +186,13 @@ namespace Lemur.Operations.FileMatching.Models {
 			this._exclude = exclude;
 		}
 
-		public bool IsMatch( FileSystemInfo info, FileMatchSettings settings ) {
+		public bool IsMatch( FileSystemInfo info ) {
 
 			if( this.condition == null ) {
 				return false;
 			}
 
-			return condition.IsMatch( info, settings );
+			return condition.IsMatch( info );
 
 		} //
 

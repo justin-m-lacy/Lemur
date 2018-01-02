@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Lemur.Operations.FileMatching {
 
-	[TypeConverter(typeof(EnumDescriptionTypeConverter))]
+	[TypeConverter(typeof(EnumNameDescConverter))]
 	public enum MatchType {
 
 		[Description("Match Files" )]

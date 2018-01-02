@@ -26,7 +26,7 @@ namespace Lemur.Operations.FileMatching {
 		/// <param name="file"></param>
 		/// <param name="settings"></param>
 		/// <returns></returns>
-		public override bool IsMatch( FileSystemInfo file, FileMatchSettings settings ) {
+		public override bool IsMatch( FileSystemInfo file ) {
 
 			int len = this.conditions.Count;
 			IList<IMatchCondition> conds = this.conditions;
@@ -37,7 +37,7 @@ namespace Lemur.Operations.FileMatching {
 				if( c == null ) {
 					continue;
 				}
-				if( !c.IsMatch( file, settings ) ) {
+				if( !c.IsMatch( file ) ) {
 					return base.IsMatch( false );
 				}
 
@@ -107,14 +107,14 @@ namespace Lemur.Operations.FileMatching {
 			set { this.conditions = value; }
 		}
 
-		public override bool IsMatch( FileSystemInfo file, FileMatchSettings settings ) {
+		public override bool IsMatch( FileSystemInfo file ) {
 
 			foreach( IMatchCondition c in this.conditions ) {
 
 				if( c == null ) {
 					continue;
 				}
-				if( !c.IsMatch( file, settings  ) ) {
+				if( !c.IsMatch( file  ) ) {
 					return base.IsMatch( false );
 				}
 

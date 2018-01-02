@@ -7,9 +7,9 @@ using Lemur.Windows;
 
 namespace Lemur.Operations.FileMatching.Actions {
 
-	[NameDesc( "Empty Recycle Bin", "Action empties the Recycle Bin. This action cannot be undone." )]
+	[NameDesc( "Empty Recycle Bin", "Empties the Recycle Bin. This action cannot be undone." )]
 	[Serializable]
-	public class EmptyRecycleBin : IFileAction {
+	public class EmptyRecycleBin : FileActionBase {
 
 		/// <summary>
 		/// Whether to show a dialog confirmation while emptying.
@@ -36,7 +36,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 		}
 
-		public bool Run( FileSystemInfo info ) {
+		override public bool Run( FileSystemInfo info ) {
 
 			NativeMethods.RecycleFlag flags = 0;
 			if( !showConfirm ) {
