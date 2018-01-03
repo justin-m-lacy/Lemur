@@ -10,9 +10,8 @@ namespace Lemur.Windows.MVVM {
 
 	/// <summary>
 	/// ViewModel for a simple DataObject whose display is primarily template-based.
-	/// CURRENTLY UNUSED.
 	/// </summary>
-	public class DataObjectVM<T> : ViewModelLite {
+	public class DataObjectVM : ViewModelLite {
 
 		#region PROPERTIES
 
@@ -33,9 +32,9 @@ namespace Lemur.Windows.MVVM {
 		#endregion DISPLAY TEXT
 
 		/// <summary>
-		/// The underlying condition being displayed.
+		/// The underlying object being displayed.
 		/// </summary>
-		public T Data {
+		public object Data {
 			get { return _data; }
 			set {
 
@@ -56,7 +55,7 @@ namespace Lemur.Windows.MVVM {
 			} //set
 
 		}
-		private T _data;
+		private object _data;
 
 		/// <summary>
 		/// Type of the data being displayed
@@ -123,7 +122,7 @@ namespace Lemur.Windows.MVVM {
 
 		public DataObjectVM() { }
 
-		public DataObjectVM( T data ) {
+		public DataObjectVM( object data ) {
 			this.Data = data;
 		}
 

@@ -96,26 +96,10 @@ namespace Lemur.Operations.FileMatching.Models {
 			}
 		}
 
-		private FileMatchOperation operation;
-
-		/// <summary>
-		/// The operation being displayed.
-		/// </summary>
-		public FileMatchOperation Operation {
-			get { return this.operation; }
-			set {
-				if( operation != value ) {
-					this.operation = value;
-					this.NotifyPropertyChanged();
-				}
-			}
-
-		}
-
 		#endregion
 
 		/// <summary>
-		/// Creates a new FileMatchOperation for the current list of MatchConditions and settings.
+		/// Creates a list of file Match Conditions for the selected conditions being displayed.
 		/// The method attempts to clone the MatchConditions so that altering them does not change
 		/// the current ViewModel.
 		/// 
@@ -126,7 +110,7 @@ namespace Lemur.Operations.FileMatching.Models {
 		/// If all options fail, the MatchCondition itself is returned.
 		/// </summary>
 		/// <returns></returns>
-		public FileMatchOperation Create() {
+		public List<IMatchCondition> GetConditions() {
 
 			int len = this._conditionModels.Count;
 			List<IMatchCondition> conditions = new List<IMatchCondition>( len );
@@ -156,6 +140,25 @@ namespace Lemur.Operations.FileMatching.Models {
 
 			} // for-loop.
 
+			return conditions;
+
+		} //
+
+		/// <summary>
+		/// Creates a new FileMatchOperation for the current list of MatchConditions and settings.
+		/// The method attempts to clone the MatchConditions so that altering them does not change
+		/// the current ViewModel.
+		/// 
+		/// In order to clone the MatchConditions, the method first checks if the IMatchCondition
+		/// implements ICloneable.
+		/// If it does not, it checks for a constructor which takes an object of the same type.
+		/// 
+		/// If all options fail, the MatchCondition itself is returned.
+		/// </summary>
+		/// <returns></returns>
+		public FileMatchOperation Create() {
+
+			List<IMatchCondition> conditions = this.GetConditions();
 			FileMatchOperation op = new FileMatchOperation( conditions, new FileMatchSettings( this.Settings ) );
 
 			return op;

@@ -10,6 +10,12 @@ namespace Lemur.Operations.FileMatching.Actions {
 	[Serializable]
 	public class MoveFileAction : FileActionBase {
 
+		public MoveFileAction() {}
+
+		public MoveFileAction( string dest ) {
+			this._destination = dest;
+		}
+
 		private string _destination;
 		public string Destination {
 			get {

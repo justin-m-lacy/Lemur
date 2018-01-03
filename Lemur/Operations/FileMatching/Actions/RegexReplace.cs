@@ -11,11 +11,14 @@ namespace Lemur.Operations.FileMatching.Actions {
 	[Serializable]
 	public class RegexReplace : FileActionBase {
 
+		public Regex ReplaceRule { get => replaceRule; set => replaceRule = value; }
 		private Regex replaceRule;
+
+		public string ReplaceString { get => replaceString; set => replaceString = value; }
 		private string replaceString;
 
-		public Regex ReplaceRule { get => replaceRule; set => replaceRule = value; }
-		public string ReplaceString { get => replaceString; set => replaceString = value; }
+		public RegexReplace() {
+		} //
 
 		public RegexReplace( Regex rule, string replace ) {
 
@@ -25,6 +28,10 @@ namespace Lemur.Operations.FileMatching.Actions {
 		}
 
 		override public bool Run( FileSystemInfo info ) {
+
+			if( replaceRule == null ) {
+				return false;
+			}
 
 			string newName = this.replaceRule.Replace( info.Name, this.replaceString );
 			string path = Path.GetDirectoryName( info.FullName );

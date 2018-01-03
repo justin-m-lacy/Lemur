@@ -182,6 +182,9 @@ namespace Lemur.Windows.MVVM {
 
 			foreach( Type t in available ) {
 
+				if( t.IsAbstract || t.IsInterface ) {
+					continue;
+				}
 				if( baseType.IsAssignableFrom( t ) ) {
 					results.Add( t );
 				}
