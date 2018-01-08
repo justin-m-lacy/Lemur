@@ -19,7 +19,7 @@ namespace Lemur.Windows.MVVM {
 	/// TODO: Automate the sub-object watching better.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class CheckListModel<T> : CollectionViewModelBase,
+	public class CheckListModel<T> : CollectionVMBase,
 		INotifyPropertyChanged, INotifyCollectionChanged where T : IEquatable<T> {
 
 		#region COMMANDS

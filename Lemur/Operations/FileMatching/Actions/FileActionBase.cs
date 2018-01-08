@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching.Actions {
 
+	[Serializable]
 	public abstract class FileActionBase : IFileAction {
 
 		private bool _runOnce;

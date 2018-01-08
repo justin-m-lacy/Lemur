@@ -30,11 +30,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RegexReplace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\BaseCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ConditionList.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ContainedIn.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\DirectoryCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ExtensionCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\FileCount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IsDirectory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IsFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\CustomFileOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IMatchCondition.cs" />
@@ -42,9 +44,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileActionVM.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileMatchBuilderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileTestVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\MoveFileVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\PickerVMs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\SizeConditionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContains.cs" />
@@ -112,15 +113,16 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumNameDescConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\EnumSourceExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\PropertyNotifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\NativeMethods.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\RecycleBinDeleter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\RegistryUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Services\IFileDialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\BoolSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\EnumSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\Setting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\FormatString.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\IView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ListItemModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CheckListModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\TextString.cs" />
@@ -144,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Windows\Text\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Windows\Templates\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Validation\DataSizeRule.cs" />

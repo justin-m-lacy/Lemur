@@ -14,6 +14,9 @@ namespace Lemur {
 
 	/// <summary>
 	/// Removes duplicate copies of a file within a given directory.
+	/// 
+	/// NOTE: Results of the match finder are posted using the Dispatcher
+	/// of the Thread the FileMatchFinder was created on.
 	/// </summary>
 	public class FileMatchFinder : ProgressOperation {
 
@@ -55,6 +58,8 @@ namespace Lemur {
 		private const long SIZE_PER_PROGRESS = 5*1024;
 
 		private int maxChunkSize = 4096 * 1024;     /// approx. 4MB
+
+		#region PROPERTIES
 
 		/// <summary>
 		/// Maximum size of data chunks read from files
@@ -161,6 +166,26 @@ namespace Lemur {
 		private long maxFileSize = long.MaxValue;
 
 		/// <summary>
+		/// Starting directory of the clean.
+		/// </summary>
+		private string _baseSearchDir;
+
+		/// <summary>
+		/// Whether the contents of files should be compared when reporting file matches.
+		/// true by default.
+		/// </summary>
+		public bool MatchContents {
+			get {
+				return this.options.HasFlag( MatchOptions.MatchContents );
+			}
+			set {
+				this.SetOption( MatchOptions.MatchContents, value );
+			}
+		}
+
+		#endregion
+
+		/// <summary>
 		/// Sets the size range when searching for file matches.
 		/// Files outside the size range are ignored.
 		/// If the maximum size is set to a negative value,
@@ -185,24 +210,6 @@ namespace Lemur {
 			this.minFileSize = min;
 			this.maxFileSize = max;
 
-		}
-
-		/// <summary>
-		/// Starting directory of the clean.
-		/// </summary>
-		private string _baseSearchDir;
-
-		/// <summary>
-		/// Whether the contents of files should be compared when reporting file matches.
-		/// true by default.
-		/// </summary>
-		public bool MatchContents {
-			get {
-				return this.options.HasFlag( MatchOptions.MatchContents );
-			}
-			set {
-				this.SetOption( MatchOptions.MatchContents, value );
-			}
 		}
 
 		private void SetOption( MatchOptions opt, bool enabled ) {

@@ -11,7 +11,7 @@ namespace Lemur.Windows.MVVM {
 	/// <summary>
 	/// ViewModel for a simple DataObject whose display is primarily template-based.
 	/// </summary>
-	public class DataObjectVM : ViewModelLite {
+	public class DataObjectVM : ViewModelBase {
 
 		#region PROPERTIES
 

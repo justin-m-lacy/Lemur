@@ -23,7 +23,7 @@ namespace Lemur.Windows.MVVM {
 		/// </summary>
 		public RelayCommand CmdInstantiate {
 			get {
-				return this._cmdInstantiate ?? ( this._cmdInstantiate = new RelayCommand( this.DispatchCreate ) );
+				return this._cmdInstantiate ?? ( this._cmdInstantiate = new RelayCommand( this.DispatchCreate, this.CreateTypeSelected ) );
 			}
 		}
 		private RelayCommand _cmdInstantiate;
@@ -37,7 +37,9 @@ namespace Lemur.Windows.MVVM {
 			get {
 				return this._cmdPickType ??
 					( this._cmdPickType = new RelayCommand<TypeDescription>(
-						( t ) => this.CreateType = t )
+
+						( t ) => { this.CreateType = t; this._cmdInstantiate.RaiseCanExecuteChanged(); }  )
+
 					);
 			}
 
@@ -92,9 +94,11 @@ namespace Lemur.Windows.MVVM {
 				if( !typeof( T ).IsAssignableFrom( value.Type ) ) {
 					throw new ArgumentException( "Assigned value must be of type: " + typeof( T ).Name );
 				}
-				this.SetProperty( ref this._createType, value );
-
+				if( this.SetProperty( ref this._createType, value ) ) {
+					this._cmdInstantiate.RaiseCanExecuteChanged();
+				}
 			}
+
 		}
 
 		/// <summary>
@@ -115,12 +119,18 @@ namespace Lemur.Windows.MVVM {
 
 		#endregion
 
+		public bool CreateTypeSelected() => this.CreateType != null && CreateType.Type != null;
+
 		/// <summary>
 		/// Event triggers when a specific type has been selected.
 		/// </summary>
 		public event Action<Type> CreateRequested;
 		protected void DispatchCreate() {
-			this.CreateRequested?.Invoke( this._createType.Type );
+
+			if( CreateTypeSelected() ) {
+				this.CreateRequested?.Invoke( this._createType.Type );
+			}
+
 		} //
 
 

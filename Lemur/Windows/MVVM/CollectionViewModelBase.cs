@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Lemur.Windows.MVVM {
 
-	public class CollectionViewModelBase : ViewModelBase, INotifyCollectionChanged {
+	public class CollectionVMBase : ViewModelBase, INotifyCollectionChanged {
 
 		public event NotifyCollectionChangedEventHandler CollectionChanged;
 

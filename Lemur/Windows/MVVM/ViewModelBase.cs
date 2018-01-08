@@ -23,6 +23,13 @@ namespace Lemur.Windows.MVVM {
 		#region PROPERTIES
 
 		/// <summary>
+		/// Special listener for when the service provider is set, so subclasses
+		/// can sign up for services when the provider becomes available.
+		/// This is because the service provider isn't always available in the constructor.
+		/// </summary>
+		protected event Action OnProviderChanged;
+
+		/// <summary>
 		/// Provides any services needed by the ViewModel.
 		/// </summary>
 		private IServiceProvider serviceProvider;
@@ -31,7 +38,11 @@ namespace Lemur.Windows.MVVM {
 				return this.serviceProvider;
 			}
 			set {
-				this.SetProperty( ref this.serviceProvider, value );
+
+				if( this.SetProperty( ref this.serviceProvider, value ) ) {
+					this.OnProviderChanged?.Invoke();
+				}
+
 			}
 
 		}
@@ -115,7 +126,7 @@ namespace Lemur.Windows.MVVM {
 
 		protected void NotifyPropertyChanged( [CallerMemberName] string propertyName="" ) {
 
-			this.VerifyPropertyName( propertyName );
+			//this.VerifyPropertyName( propertyName );
 			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( propertyName ) );
 
 		} //

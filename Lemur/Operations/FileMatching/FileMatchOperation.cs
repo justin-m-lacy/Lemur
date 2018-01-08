@@ -62,7 +62,7 @@ namespace Lemur.Operations.FileMatching {
 		public FileMatchSettings Settings => _settings;
 
 		/// <summary>
-		/// List of files or directories that match the search conditions.
+		/// List of files or directories that matched the search conditions.
 		/// The list is cleared at the start of every call to Run()
 		/// </summary>
 		public List<FileSystemInfo> Matches { get { return this.matches; } }
@@ -86,6 +86,13 @@ namespace Lemur.Operations.FileMatching {
 		}
 
 		public FileMatchOperation() {} //
+
+		/// <summary>
+		/// Runs the operation with an object is locked before results are updated.
+		/// </summary>
+		/// <param name="resultLock"></param>
+		public void Run( object resultLock ) {
+		}
 
 		public override void Run() {
 
@@ -142,7 +149,7 @@ namespace Lemur.Operations.FileMatching {
 
 						DirectoryInfo info = new DirectoryInfo( dir );
 						if( this.TestFile( info ) ) {
-							this.matches.Add( info );
+							this.AddResult( info );
 						}
 
 					} catch( Exception e ) {
@@ -161,7 +168,7 @@ namespace Lemur.Operations.FileMatching {
 
 						FileInfo info = new FileInfo( file );
 						if( this.TestFile( info ) ) {
-							this.matches.Add( info );
+							this.AddResult( info );
 						}
 
 					} catch( Exception e ) {
@@ -171,6 +178,22 @@ namespace Lemur.Operations.FileMatching {
 				} // foreach.
 
 			}
+
+		}
+
+		private void AddResult( FileSystemInfo result ) {
+
+			this.Dispatch( () => {
+				this.matches.Add( result );
+			});
+
+		} //
+
+		private void AddError( Exception err ) {
+
+			this.Dispatch( () => {
+				this.errorList.Add( err );
+			} );
 
 		}
 

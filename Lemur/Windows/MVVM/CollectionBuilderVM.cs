@@ -14,7 +14,14 @@ namespace Lemur.Windows.MVVM {
 	/// ViewModel for constructing a collection of objects all derived
 	/// from a single base type.
 	/// </summary>
-	public class CollectionBuilderVM<T> : ViewModelBase {
+	/// <typeparam name="T">
+	/// The base type or interface for all objects in the collection.
+	/// NOTE: The derived types must all contain a parameterless constructor so they can be
+	/// instantiated.
+	/// </typeparam>
+	/// <typeparam name="VM">The ViewModel to use for each created object.</typeparam>
+	public class CollectionBuilderVM<T, VM> : ViewModelBase
+		where VM : DataObjectVM, new() {
 
 		#region COMMANDS
 
@@ -36,15 +43,15 @@ namespace Lemur.Windows.MVVM {
 
 		} // CmdAddCondition
 
-		private RelayCommand<DataObjectVM> _cmdRemove;
+		private RelayCommand<VM> _cmdRemove;
 		/// <summary>
 		/// Remove the Matching Condition specified.
 		/// </summary>
-		public RelayCommand<DataObjectVM> CmdRemove {
+		public RelayCommand<VM> CmdRemove {
 
 			get {
 				return this._cmdRemove ??
-					( this._cmdRemove = new RelayCommand<DataObjectVM>(
+					( this._cmdRemove = new RelayCommand<VM>(
 						( c ) => {
 							this._viewModels.Remove( c );
 						} )
@@ -57,11 +64,11 @@ namespace Lemur.Windows.MVVM {
 
 		#region PROPERTIES
 
-		private readonly ObservableCollection<DataObjectVM> _viewModels = new ObservableCollection<DataObjectVM>();
+		private readonly ObservableCollection<VM> _viewModels = new ObservableCollection<VM>();
 		/// <summary>
 		/// The models displaying the current collection of instantiated items.
 		/// </summary>
-		public ObservableCollection<DataObjectVM> DataModels {
+		public ObservableCollection<VM> DataModels {
 			get => _viewModels;
 		} //
 
@@ -78,6 +85,45 @@ namespace Lemur.Windows.MVVM {
 
 		#endregion
 
+		public CollectionBuilderVM() {
+
+			this._picker.CreateRequested += this.InstantiateType;
+			this.OnProviderChanged += SetDefaultCreators;
+
+		}
+
+		public CollectionBuilderVM( IServiceProvider provider ) : base( provider ) {
+
+			this.SetDefaultCreators();
+			this._picker.CreateRequested += this.InstantiateType;
+
+		}
+
+		virtual protected void SetDefaultCreators() {
+
+			ViewModelBuilder builder = this.GetService<ViewModelBuilder>();
+
+			/// look for a custom creator for the data type.
+			if( builder != null ) {
+				// associate the base type with a default ViewModel creator.
+				builder.SetCreator<T>( this.CreateVM );
+			} //
+
+		} //
+
+		public void SetItems( IEnumerable<T> items ) {
+
+			this._viewModels.Clear();
+			foreach( T item in items ) {
+
+				VM vm = new VM();
+				vm.Data = item;
+				this._viewModels.Add( vm );
+
+			} // for
+
+		}
+
 		/// <summary>
 		/// Check if there are any non-empty conditions in the current operation build.
 		/// </summary>
@@ -92,15 +138,40 @@ namespace Lemur.Windows.MVVM {
 		/// <param name="item"></param>
 		public void Add( T item ) {
 
-			DataObjectVM vm = new DataObjectVM( item );
+			ViewModelBuilder builder = this.GetService<ViewModelBuilder>();
+
+			/// look for a custom creator for the data type.
+			if( builder != null ) {
+
+				Console.WriteLine( "Item type: " + item.GetType().Name );
+
+				var creator = builder.GetCreator( item );
+				if( creator != null ) {
+					VM model = (VM)creator( item );
+					this.DataModels.Add( model );
+					return;
+				}
+
+			}
+
+			VM vm = new VM();
+			vm.Data = item;
 			this.DataModels.Add( vm );
 
 		} //
 
-		  /// <summary>
-		  /// Removes a data item from the Collection.
-		  /// </summary>
-		  /// <param name="data"></param>
+		private VM CreateVM( object data, object view=null ) {
+
+			VM vm = new VM();
+			vm.Data = data;
+			return vm;
+
+		} //
+
+		/// <summary>
+		/// Removes a data item from the Collection.
+		/// </summary>
+		/// <param name="data"></param>
 		public void Remove( T data ) {
 
 			int len = this._viewModels.Count;
@@ -120,7 +191,7 @@ namespace Lemur.Windows.MVVM {
 		/// from the collection.
 		/// </summary>
 		/// <param name="typeVM"></param>
-		public void Remove( DataObjectVM typeVM ) {
+		public void Remove( VM typeVM ) {
 			this._viewModels.Remove( typeVM );
 		}
 
@@ -129,9 +200,60 @@ namespace Lemur.Windows.MVVM {
 		}
 
 		/// <summary>
+		/// Create and add a new Matching Condition of the given type.
+		/// </summary>
+		/// <param name="dataType"></param>
+		public void InstantiateType( Type dataType ) {
+
+			Console.WriteLine( "Instantiating: " + dataType.Name );
+			if( dataType is null ) {
+				throw new ArgumentNullException( "Type cannot be null." );
+			}
+			if( !typeof( T ).IsAssignableFrom( dataType ) ) {
+				throw new ArgumentException( "Type must be a subclass of " + typeof( T ).Name );
+			}
+
+			T instance = (T)Activator.CreateInstance( dataType );
+			this.Add( instance );
+
+		}
+
+		/// <summary>
+		/// Returns a collection of items currently displayed in the view models.
+		/// Unless the items are Value Types, these are references to the actual
+		/// items displayed, and altering them may change the collection itself.
+		/// </summary>
+		/// <returns></returns>
+		public List<T> GetCollection() {
+
+			int count = this._viewModels.Count;
+			List<T> items = new List<T>( count );
+
+			for( int i = 0; i < count; i++ ) {
+
+				T data = (T)this._viewModels[i].Data;
+				if( data != null ) {
+					items.Add( data );
+				}
+
+			} //
+
+			return items;
+
+		}
+
+		/// <summary>
 		/// Attempts to clone the displayed list of data items into a new list
 		/// and return it.
-		/// Objects that cannot be cloned will be included in the list as direct references.
+		/// 
+		/// For each Data item in the collection the following cloning methods are attempted:
+		/// 1) If the item implements ICloneable, ICloneable.Clone() is called to clone the object.
+		/// 2) The item Type is checked for a constructor that can be initialized with by an instance
+		/// of the same type.
+		/// 3) A Deep Clone is attempted using the DataUtils.DeepClone method.
+		/// 
+		/// If cloning fails, a direct reference to the item in the collection is made.
+		/// 
 		/// </summary>
 		/// <returns></returns>
 		public List<T> CloneCollection() {
@@ -174,33 +296,6 @@ namespace Lemur.Windows.MVVM {
 			return items;
 
 		} // CloneCollection()
-
-		/// <summary>
-		/// Create and add a new Matching Condition of the given type.
-		/// </summary>
-		/// <param name="dataType"></param>
-		public void InstantiateType( Type dataType ) {
-
-			Console.WriteLine( "Instantiating: " + dataType.Name );
-			if( dataType is null ) {
-				throw new ArgumentNullException( "Type cannot be null." );
-			}
-			if( !typeof( T ).IsAssignableFrom( dataType ) ) {
-				throw new ArgumentException( "Type must be a subclass of " + typeof( T ).Name );
-			}
-
-			T instance = (T)Activator.CreateInstance( dataType );
-
-			Console.WriteLine( "creating type: " + dataType.Name );
-
-			DataObjectVM vm = new DataObjectVM( instance );
-			this.DataModels.Add( vm );
-
-		}
-
-		public CollectionBuilderVM() {
-			this._picker.CreateRequested += this.InstantiateType;
-		}
 
 	}// class
 

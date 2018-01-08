@@ -50,22 +50,7 @@ namespace Lemur.Windows.MVVM {
 
 		} //
 
-		///NOTE: had to remove this because it didn't support Property[] syntax.
-		///// FIX LATER?
-		/*[Conditional( "DEBUG" )]
-		public void VerifyPropertyName( string propertyName ) {
-
-			if( TypeDescriptor.GetProperties( this )[propertyName] == null ) {
-
-				string msg = "Invalid property name: " + propertyName;
-				throw new Exception( msg );
-
-			}
-
-		}*/
-
 		#endregion
-
 
 	} // class
 
