@@ -9,7 +9,7 @@ using System.IO;
 namespace Lemur.Operations.FileMatching {
 
 	/// <summary>
-	/// Operation that matches files or directories by a list of criteria,
+	/// Operation that matches files or directories by a list of matching criteria,
 	/// and reports the match results.
 	/// </summary>
 	public class FileMatchOperation : ProgressOperation {

@@ -21,12 +21,18 @@ namespace Lemur.Operations.FileMatching.Models {
 
 			set {
 
-				if( !Directory.Exists( value ) ) {
-					throw new ValidationException( "Directory does not exist." );
-				}
+
 				if( SetProperty( ref this.destination, value ) ) {
 
+					/// SetProperty before directory test, because invalid text still gets displayed.
+					/// If the incorrect displayed value isn't saved here, then changing the text back to
+					/// the correct current value won't trigger a PropertyChangedEvent, and the error won't
+					/// remove.
+					if( !Directory.Exists( value ) ) {
+						throw new ValidationException( "Directory does not exist." );
+					}
 					( (MoveFileAction)this.Data ).Destination = value;
+
 
 				}
 
