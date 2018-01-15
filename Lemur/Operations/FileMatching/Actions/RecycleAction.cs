@@ -7,12 +7,12 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching.Actions {
 
-	[NameDesc( "Recycle", "Recycles the target file or directory." )]
+	[NameDesc( "Move To Recycle", "Recycles the target file or directory." )]
 	[Serializable]
 	public class RecycleAction : FileActionBase {
 
 		override public bool Run( FileSystemInfo info ) {
-			return RecycleBinDeleter.Delete( info.Name );
+			return RecycleBinDeleter.Delete( info.FullName );
 		}
 
 	} // class

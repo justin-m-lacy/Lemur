@@ -54,8 +54,15 @@ namespace Lemur.Operations.FileMatching.Actions {
 			this.errorList.Clear();
 			this.ResetProgress();
 
-			if( this._actions != null && this.targets != null ) {
+			if( this._actions == null ) {
 
+				Console.WriteLine( "FileActionOperation: NO ACTIONS FOUND" );
+			} else if( this.targets == null ) {
+				Console.WriteLine( "FileActionOperation: NO TARGETS FOUND" );
+
+			} else {
+
+				Console.WriteLine( "FileActionOperation: Run()" );
 				this.RunActions();
 
 			}

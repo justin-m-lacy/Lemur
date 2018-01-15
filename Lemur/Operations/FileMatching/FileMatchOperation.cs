@@ -148,7 +148,7 @@ namespace Lemur.Operations.FileMatching {
 			}
 
 			Console.WriteLine( "VISITING FILES" );
-			this.VisitFiles( dir );
+			this.VisitEntries( dir );
 
 		} // VisitDirectory()
 
@@ -156,7 +156,7 @@ namespace Lemur.Operations.FileMatching {
 		/// Visit the files in a directory and add any matches.
 		/// </summary>
 		/// <param name="parentDir"></param>
-		private void VisitFiles( string parentDir ) {
+		private void VisitEntries( string parentDir ) {
 
 			//MatchType type = this._settings.Types;
 
@@ -182,7 +182,6 @@ namespace Lemur.Operations.FileMatching {
 					
 					FileInfo info = new FileInfo( file );
 					if( this.TestFile( info ) ) {
-						Console.WriteLine( "TESTING FILE: " + info.Name );
 						this.AddResult( info );
 					}
 
