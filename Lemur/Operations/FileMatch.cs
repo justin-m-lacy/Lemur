@@ -299,9 +299,9 @@ namespace Lemur {
 	} // class
 
 	/// <summary>
-	/// Basic name/size information about a file.
+	/// Basic name/size information about a duplicate file.
 	/// </summary>
-	public struct FileData : IEquatable<FileData> {
+	public struct FileDuplicateInfo : IEquatable<FileDuplicateInfo> {
 
 		public string path;
 		public string Path {
@@ -324,7 +324,7 @@ namespace Lemur {
 			set { this.groupID = value; }
 		}
 
-		public FileData( string filePath, long fileSize = 0, int group=0 ) {
+		public FileDuplicateInfo( string filePath, long fileSize = 0, int group=0 ) {
 
 			this.path = filePath;
 			this.size = fileSize;
@@ -332,14 +332,14 @@ namespace Lemur {
 
 		}
 
-		public bool Equals( FileData other ) {
+		public bool Equals( FileDuplicateInfo other ) {
 			return other.path == this.path;
 		}
 
 		public override bool Equals( object obj ) {
 
-			if ( obj is FileData ) {
-				FileData other = (FileData)obj;
+			if ( obj is FileDuplicateInfo ) {
+				FileDuplicateInfo other = (FileDuplicateInfo)obj;
 				return other.path == this.path;
 			}
 			return false;
@@ -349,11 +349,11 @@ namespace Lemur {
 			return this.path.GetHashCode();
 		}
 
-		public static bool operator ==( FileData x, FileData y ) {
+		public static bool operator ==( FileDuplicateInfo x, FileDuplicateInfo y ) {
 			return x.path == y.path;
 		}
 
-		public static bool operator !=( FileData x, FileData y ) {
+		public static bool operator !=( FileDuplicateInfo x, FileDuplicateInfo y ) {
 			return x.path != y.path;
 		}
 

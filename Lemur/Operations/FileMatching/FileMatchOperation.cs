@@ -14,6 +14,10 @@ namespace Lemur.Operations.FileMatching {
 	/// </summary>
 	public class FileMatchOperation : ProgressOperation {
 
+		private const string ROOT_DIR = "/";
+
+		public event Action<FileSystemInfo> OnMatchFound;
+
 		#region PROPERTIES
 
 		private IEnumerable<IMatchCondition> _conditions;
@@ -54,6 +58,10 @@ namespace Lemur.Operations.FileMatching {
 			get { return this.errorList.ToArray(); }
 		}
 
+		/// <summary>
+		/// Object to lock before adding items to the results list.
+		/// </summary>
+		private object resultLock;
 
 		/// <summary>
 		/// Settings used for the operation.
@@ -70,11 +78,12 @@ namespace Lemur.Operations.FileMatching {
 
 		#endregion
 
-		public FileMatchOperation( string basePath, FileMatchSettings settings=null, IEnumerable<IMatchCondition> conditions = null ) {
+		public FileMatchOperation( string basePath, IEnumerable<IMatchCondition> conditions = null, FileMatchSettings settings = null, object resultLock=null ) {
 
 			this.folderPath = basePath;
-			this._settings = settings;
 			this._conditions = conditions;
+			this.resultLock = resultLock;
+			this._settings = settings;
 
 		}
 
@@ -92,6 +101,10 @@ namespace Lemur.Operations.FileMatching {
 		/// </summary>
 		/// <param name="resultLock"></param>
 		public void Run( object resultLock ) {
+
+			this.resultLock = resultLock;
+			this.Run();
+
 		}
 
 		public override void Run() {
@@ -100,7 +113,12 @@ namespace Lemur.Operations.FileMatching {
 			this.errorList.Clear();
 
 			if( string.IsNullOrEmpty( this.folderPath ) ) {
+
+				Console.WriteLine( "WARNING: NO BASE SEARCH PATH SET. USING ROOT" );
+				this.VisitDirectory( ROOT_DIR );
+
 			} else {
+				Console.WriteLine( "SEARCHING: " + folderPath );
 				this.VisitDirectory( this.folderPath );
 			}
 
@@ -116,7 +134,6 @@ namespace Lemur.Operations.FileMatching {
 		private void VisitDirectory( string dir ) {
 
 			if( !Directory.Exists( dir ) ) {
-				this.OperationComplete();
 				return;
 			}
 
@@ -126,9 +143,11 @@ namespace Lemur.Operations.FileMatching {
 					this.VisitSubDirs( dir );
 				}
 
-			} catch( Exception ) {
+			} catch( Exception e ) {
+				this.AddError( e );
 			}
 
+			Console.WriteLine( "VISITING FILES" );
 			this.VisitFiles( dir );
 
 		} // VisitDirectory()
@@ -139,52 +158,60 @@ namespace Lemur.Operations.FileMatching {
 		/// <param name="parentDir"></param>
 		private void VisitFiles( string parentDir ) {
 
-			MatchType type = this._settings.Types;
+			//MatchType type = this._settings.Types;
 
-			if ( type.HasFlag( MatchType.Directories ) ) {
+			foreach( string dir in Directory.EnumerateDirectories( parentDir ) ) {
 
-				foreach( string dir in Directory.EnumerateDirectories( parentDir ) ) {
+				try {
+
+					DirectoryInfo info = new DirectoryInfo( dir );
+					if( this.TestFile( info ) ) {
+						this.AddResult( info );
+					}
+
+				} catch( Exception e ) {
+					this.errorList.Add( e );
+				}
+
+			} // foreach.
+
+			foreach( string file in Directory.EnumerateFiles( parentDir ) ) {
+
+				try {
+
 					
-					try {
-
-						DirectoryInfo info = new DirectoryInfo( dir );
-						if( this.TestFile( info ) ) {
-							this.AddResult( info );
-						}
-
-					} catch( Exception e ) {
-						this.errorList.Add( e );
+					FileInfo info = new FileInfo( file );
+					if( this.TestFile( info ) ) {
+						Console.WriteLine( "TESTING FILE: " + info.Name );
+						this.AddResult( info );
 					}
 
-				} // foreach.
+				} catch( Exception e ) {
+					this.errorList.Add( e );
+				}
 
-			}
-
-			if( type.HasFlag( MatchType.Files ) ) {
-
-				foreach( string file in Directory.EnumerateFiles( parentDir ) ) {
-
-					try {
-
-						FileInfo info = new FileInfo( file );
-						if( this.TestFile( info ) ) {
-							this.AddResult( info );
-						}
-
-					} catch( Exception e ) {
-						this.errorList.Add( e );
-					}
-
-				} // foreach.
-
-			}
+			} // foreach.
 
 		}
 
 		private void AddResult( FileSystemInfo result ) {
 
 			this.Dispatch( () => {
-				this.matches.Add( result );
+
+				if( resultLock != null ) {
+
+					lock( this.resultLock ) {
+
+						this.matches.Add( result );
+						this.OnMatchFound?.Invoke( result );
+
+					}
+
+				} else {
+					this.matches.Add( result );
+					this.OnMatchFound?.Invoke( result );
+				}
+
 			});
 
 		} //
@@ -192,7 +219,9 @@ namespace Lemur.Operations.FileMatching {
 		private void AddError( Exception err ) {
 
 			this.Dispatch( () => {
+
 				this.errorList.Add( err );
+
 			} );
 
 		}

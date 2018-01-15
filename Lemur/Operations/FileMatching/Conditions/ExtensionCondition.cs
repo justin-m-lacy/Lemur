@@ -15,10 +15,43 @@ namespace Lemur.Operations.FileMatching {
 	[Serializable]
 	public class ExtensionCondition : BaseCondition {
 
+		private const char LEADING_DOT = '.';
+
 		private string[] _extensions;
 		public string[] Extensions {
 			get { return this._extensions; }
-			set { this._extensions = value; }
+
+			set {
+				this._extensions = value;
+				PrefixDots();
+
+			}
+
+		}
+
+		/// <summary>
+		/// Extensions reported by FileInfo.Extension include the leading periods,
+		/// so they must be added to the extensions for testing.
+		/// </summary>
+		private void PrefixDots() {
+
+			if( this._extensions == null ) {
+				return;
+			}
+
+			for( int i = this._extensions.Length - 1; i >= 0; i-- ) {
+
+				string ext = this._extensions[i];
+				if( !string.IsNullOrEmpty(ext) ) {
+
+					if( ext[0] != LEADING_DOT ) {
+						this._extensions[i] = LEADING_DOT + ext;
+					}
+
+				}
+
+			} // for-loop.
+
 		}
 
 		public override bool IsMatch( FileSystemInfo info ) {

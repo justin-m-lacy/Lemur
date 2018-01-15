@@ -7,6 +7,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using Lemur.Utils;
+using System.Collections.Specialized;
 
 namespace Lemur.Windows.MVVM {
 
@@ -73,10 +74,68 @@ namespace Lemur.Windows.MVVM {
 		} //
 
 		/// <summary>
+		/// If SourceCollection is set, ViewModels added to the DataModels list will have their
+		/// corresponding Data items added to the SyncCollection.
+		/// However, items added to the SourceCollection will not be automatically
+		/// reflected in the DataModels collection without an explicit SyncSource() call.
+		/// 
+		/// Setting the SourceCollection to a non-null source will clear all items in DataModels
+		/// and create new DataModels to reflect the new Collection
+		/// </summary>
+		public ICollection<T> SourceCollection {
+			get => this._sourceCollection;
+			set {
+
+				bool prevValNull = ( this._sourceCollection == null );
+				if( !prevValNull ) {
+					// Disable DataModel collection updates while the items are added
+					// to prevent circular Adds to the Source.
+					this.DataModels.CollectionChanged -= this.DataModels_CollectionChanged;
+				}
+
+				if( this.SetProperty( ref this._sourceCollection, value ) ) {
+
+					if( value != null ) {
+
+						this.SetItems( value );
+						this.DataModels.CollectionChanged += DataModels_CollectionChanged;
+					}
+
+				}
+
+			}
+
+		} // SourceCollection
+		private ICollection<T> _sourceCollection;
+
+		private void DataModels_CollectionChanged( object sender, NotifyCollectionChangedEventArgs e ) {
+
+			// Reflect any changes in the SourceCollection.
+			if( e.OldItems != null ) {
+
+				foreach( VM vm in e.OldItems ) {
+					this._sourceCollection.Remove( (T)vm.Data );
+				}
+
+			}
+			if( e.NewItems != null ) {
+
+				foreach( VM vm in e.NewItems ) {
+					this._sourceCollection.Add( (T)vm.Data );
+				}
+
+			}
+
+		}
+
+		
+
+		/// <summary>
 		/// A placeholder VM that allows selecting from the available Types
 		/// in order to instantiate one.
 		/// </summary>
 		private readonly TypePickerVM<T> _picker = new TypePickerVM<T>();
+
 		public TypePickerVM<T> Picker {
 			get {
 				return this._picker;
@@ -111,19 +170,6 @@ namespace Lemur.Windows.MVVM {
 
 		} //
 
-		public void SetItems( IEnumerable<T> items ) {
-
-			this._viewModels.Clear();
-			foreach( T item in items ) {
-
-				VM vm = new VM();
-				vm.Data = item;
-				this._viewModels.Add( vm );
-
-			} // for
-
-		}
-
 		/// <summary>
 		/// Check if there are any non-empty conditions in the current operation build.
 		/// </summary>
@@ -131,6 +177,48 @@ namespace Lemur.Windows.MVVM {
 		public bool HasItems() {
 			return this._viewModels != null && this._viewModels.Count > 0;
 		}
+
+		public void SetItems( IEnumerable<T> items ) {
+
+			this._viewModels.Clear();
+			foreach( T item in items ) {
+
+				this.Add( item );
+
+			} // for
+
+		}
+
+		/// <summary>
+		/// If a SourceCollection has been set, ensures that all items in the SourceCollection
+		/// are reflected in the DataModels collection.
+		/// The Sync is from Source to DataModels, since items in the DataModels collection
+		/// are already automatically reflected in the SourceCollection.
+		/// If the SourceCollection is null, no changes occur.
+		/// </summary>
+		public void SyncSource() {
+
+			if( this.SourceCollection != null ) {
+
+				/// Turn off CollectionChanged events to prevent circular adding.
+				this.DataModels.CollectionChanged -= this.DataModels_CollectionChanged;
+
+				foreach( T item in this.SourceCollection ) {
+
+					if( this.DataModels.Count(
+						( vm ) => EqualityComparer<T>.Default.Equals( item, (T)vm.Data )
+						) == 0 ) {
+
+						this.Add( item );
+					}
+	
+				}
+
+				this.DataModels.CollectionChanged += this.DataModels_CollectionChanged;
+
+			}
+
+		} //
 
 		/// <summary>
 		/// Add a match requirement to the match operation.

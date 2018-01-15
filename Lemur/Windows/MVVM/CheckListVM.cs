@@ -19,8 +19,8 @@ namespace Lemur.Windows.MVVM {
 	/// TODO: Automate the sub-object watching better.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class CheckListModel<T> : CollectionVMBase,
-		INotifyPropertyChanged, INotifyCollectionChanged where T : IEquatable<T> {
+	public class CheckListVM<T> : CollectionVMBase,
+		INotifyPropertyChanged, INotifyCollectionChanged {
 
 		#region COMMANDS
 
@@ -91,12 +91,12 @@ namespace Lemur.Windows.MVVM {
 
 		}
 
-		private readonly ObservableCollection<ListItemModel<T>> items = new ObservableCollection<ListItemModel<T>>();
+		private readonly ObservableCollection<ListItemModel<T>> _itemModels = new ObservableCollection<ListItemModel<T>>();
 		/// <summary>
 		/// The items being displayed.
 		/// </summary>
 		public ObservableCollection<ListItemModel<T>> Items {
-			get { return this.items; }
+			get { return this._itemModels; }
 		} //
 
 		private readonly ObservableCollection<T> _checkedItems = new ObservableCollection<T>();
@@ -110,11 +110,19 @@ namespace Lemur.Windows.MVVM {
 		#endregion
 
 		/// <summary>
+		/// Returns an array of ListItem ViewModels for the checked items.
+		/// </summary>
+		/// <returns></returns>
+		protected IEnumerable<ListItemModel<T>> GetCheckedVMs() {
+			return this._itemModels.Where( ( item ) => item.IsChecked ).ToArray();
+		}
+
+		/// <summary>
 		/// Returns a list of all items that have been checked.
 		/// </summary>
 		/// <returns></returns>
-		public IEnumerable<ListItemModel<T>> GetCheckedItems() {
-			return this.Items.Where( ( item ) => { return item.IsChecked; } ).ToArray();
+		public IEnumerable< T > GetCheckedItems() {
+			return this._checkedItems.ToArray();
 		}
 
 		/// <summary>
@@ -162,6 +170,34 @@ namespace Lemur.Windows.MVVM {
 			return this.CheckedItems.Count > 0;
 		}
 
+		public void Add( T item, bool isChecked = false ) {
+
+			this._itemModels.Add( new ListItemModel<T>( item, isChecked ) );
+
+		}
+
+		/// <summary>
+		/// Removes all checked items from the list, and returns an array
+		/// of the items removed.
+		/// </summary>
+		/// <returns></returns>
+		public T[] RemoveCheckedItems() {
+
+			T[] items = this.CheckedItems.ToArray();
+
+			int len = this._itemModels.Count;
+			for( int i = len - 1; i >= 0; i-- ) {
+
+				if( _itemModels[i].IsChecked ) {
+					this._itemModels.RemoveAt( i );
+				}
+
+			} // for-loop.
+
+			return items;
+
+		}
+
 		/// <summary>
 		/// Removes items from the list.
 		/// </summary>
@@ -169,7 +205,7 @@ namespace Lemur.Windows.MVVM {
 		public void Remove( IEnumerable<ListItemModel<T>> remove_items ) {
 
 			foreach( ListItemModel<T> item in remove_items ) {
-				this.items.Remove( item );
+				this._itemModels.Remove( item );
 			}
 
 		}
@@ -179,17 +215,17 @@ namespace Lemur.Windows.MVVM {
 		/// </summary>
 		public void Clear() {
 
-			this.items.Clear();
+			this._itemModels.Clear();
 			this.CheckedItems.Clear();
 
 			this.CmdDelete.RaiseCanExecuteChanged();
 
 		} //
 
-		public CheckListModel( IEnumerable<T> start_files=null ) {
+		public CheckListVM( IEnumerable<T> start_files=null ) {
 
-			this.items = new ObservableCollection<ListItemModel<T>>();
-			this.items.CollectionChanged += this.Items_CollectionChanged;
+			this._itemModels = new ObservableCollection<ListItemModel<T>>();
+			this._itemModels.CollectionChanged += this.Items_CollectionChanged;
 
 			if( start_files != null ) {
 
@@ -198,7 +234,7 @@ namespace Lemur.Windows.MVVM {
 				foreach( T data in start_files ) {
 
 					ListItemModel<T> listItem = new ListItemModel<T>( data );
-					this.items.Add( listItem );
+					this._itemModels.Add( listItem );
 
 				} // for
 

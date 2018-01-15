@@ -9,7 +9,7 @@ namespace Lemur.Windows.MVVM {
 	/// Defined as class instead of struct to facilitate MVVM
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class ListItemModel<T> : INotifyPropertyChanged where T : IEquatable<T> {
+	public class ListItemModel<T> : INotifyPropertyChanged {
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

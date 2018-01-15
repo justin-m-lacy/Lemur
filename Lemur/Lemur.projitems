@@ -127,7 +127,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\Setting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\FormatString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ListItemModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CheckListModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CheckListVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\TextString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\View.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ViewModelBase.cs" />

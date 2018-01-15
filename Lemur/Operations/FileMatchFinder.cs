@@ -267,7 +267,7 @@ namespace Lemur {
 				this.FindAllMatches();
 
 			} catch( Exception ) {
-
+				
 			} finally {
 
 				/// Mark operation as complete.
@@ -281,12 +281,12 @@ namespace Lemur {
 
 			ICollection<FileMatchGroup> matches = this.matches;
 
-			List<FileData> fileSizes = this.GetFileSizes( this._baseSearchDir, this.RecursiveSearch );
+			List<FileDuplicateInfo> fileSizes = this.GetFileSizes( this._baseSearchDir, this.RecursiveSearch );
 			int totalFiles = fileSizes.Count;
 
 			for ( int fileIndex = 0; fileIndex < totalFiles; fileIndex++ ) {
 
-				FileData curFile = fileSizes[fileIndex];
+				FileDuplicateInfo curFile = fileSizes[fileIndex];
 				if ( string.IsNullOrEmpty(curFile.path) ) {
 					// file was already assigned to a group. messy marker...
 					continue;
@@ -308,7 +308,7 @@ namespace Lemur {
 		/// <param name="curFile"></param>
 		/// <param name="fileIndex"></param>
 		/// <returns></returns>
-		private FileMatchGroup FindMatches( List<FileData> allFiles, FileData curFile, int fileIndex ) {
+		private FileMatchGroup FindMatches( List<FileDuplicateInfo> allFiles, FileDuplicateInfo curFile, int fileIndex ) {
 
 			FileMatchGroup matchGroup = null;
 			int totalFiles = allFiles.Count;
@@ -316,7 +316,7 @@ namespace Lemur {
 
 			for ( int nextIndex = fileIndex + 1; nextIndex < totalFiles; nextIndex++ ) {
 
-				FileData nextFile = allFiles[nextIndex];
+				FileDuplicateInfo nextFile = allFiles[nextIndex];
 				this.AdvanceFileProgress( nextFile.size );
 
 				if ( string.IsNullOrEmpty( nextFile.path ) ) {
@@ -336,7 +336,7 @@ namespace Lemur {
 
 					matchGroup.Add( nextFile.path );
 					/// clear the entry so it isn't used again.
-					allFiles[nextIndex] = new FileData();
+					allFiles[nextIndex] = new FileDuplicateInfo();
 
 				}
 				if ( this.CancelRequested() ) {
@@ -434,7 +434,7 @@ namespace Lemur {
 		/// <param name="baseDir"></param>
 		/// <param name="recursive"></param>
 		/// <returns></returns>
-		private List<FileData> GetFileSizes( string baseDir, bool recursive ) {
+		private List<FileDuplicateInfo> GetFileSizes( string baseDir, bool recursive ) {
 
 			string[] filePaths;
 			if ( recursive ) {
@@ -446,7 +446,7 @@ namespace Lemur {
 			this.SetMaxProgress( filePaths.Length );
 
 			/// sort files by file size to compare files of the same size.
-			List<FileData> files = new List<FileData>( filePaths.Length );
+			List<FileDuplicateInfo> files = new List<FileDuplicateInfo>( filePaths.Length );
 			long size;
 
 			for ( int i = filePaths.Length - 1; i >= 0; i-- ) {
@@ -460,7 +460,7 @@ namespace Lemur {
 
 						this.AddFileProgress( size );
 
-						files.Add( new FileData( info.FullName, size ) );
+						files.Add( new FileDuplicateInfo( info.FullName, size ) );
 					}
 
 				} catch( Exception ) {
