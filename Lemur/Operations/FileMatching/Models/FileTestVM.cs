@@ -44,11 +44,17 @@ namespace Lemur.Operations.FileMatching.Models {
 		/// </summary>
 		public bool Exclude {
 
-			get => ((IMatchCondition)Data).Exclude;
+			get {
+				IMatchCondition cond = ( Data as IMatchCondition );
+				if( cond == null ) {
+					return false;
+				}
+				return cond.Exclude;
+			}
 			set {
 
-				IMatchCondition cond = (IMatchCondition)Data;
-				if( cond.Exclude != value ) {
+				IMatchCondition cond = Data as IMatchCondition;
+				if( cond != null && cond.Exclude != value ) {
 					cond.Exclude = value;
 					this.NotifyPropertyChanged();
 				}
@@ -69,11 +75,12 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		public bool IsMatch( FileSystemInfo info ) {
 
-			if( this.Data == null ) {
+			IMatchCondition cond = this.Data as IMatchCondition;
+			if( cond == null ) {
 				return false;
 			}
 
-			return ((IMatchCondition)Data).IsMatch( info );
+			return cond.IsMatch( info );
 
 		} //
 

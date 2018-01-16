@@ -36,7 +36,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\FileCount.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IsDirectory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IsFile.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\CustomFileOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileEnumerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IMatchCondition.cs" />

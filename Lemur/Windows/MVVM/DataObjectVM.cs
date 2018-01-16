@@ -80,14 +80,17 @@ namespace Lemur.Windows.MVVM {
 		public object this[string propName] {
 
 			get {
-
+				Console.WriteLine( "GETTING PROPERTY" );
 				if( this._dataType == null ) {
 					return null;
 				}
 
 				TypeInfo info = this._dataType.GetTypeInfo();
-				PropertyInfo prop = info.GetProperty( propName, BindingFlags.IgnoreCase );
+				/// NOTE: BindingFlags are necessary for inclusion, not meant for implicit exclusion.
+				PropertyInfo prop = info.GetProperty( propName,
+					BindingFlags.Instance | BindingFlags.Public | BindingFlags.IgnoreCase );
 				if( prop == null ) {
+					Console.WriteLine( @"ERROR: Property '" + propName + @"' does not exist" );
 					return null;
 				}
 				return prop.GetValue( this._data );
@@ -100,8 +103,10 @@ namespace Lemur.Windows.MVVM {
 				}
 
 				TypeInfo info = this._dataType.GetTypeInfo();
-				PropertyInfo prop = info.GetProperty( propName, BindingFlags.IgnoreCase );
+				PropertyInfo prop = info.GetProperty( propName,
+					BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase );
 				if( prop == null ) {
+					Console.WriteLine( @"ERROR: Property '" + propName + @"' does not exist" );
 					return;
 				}
 

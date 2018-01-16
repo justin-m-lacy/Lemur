@@ -17,29 +17,30 @@ namespace Lemur.Operations.FileMatching.Models {
 	/// </summary>
 	public class MoveFileVM : DataObjectVM {
 
-		public string Destination { get => destination;
+		public string Destination {
 
+			get {
+				MoveFileAction action = this.Data as MoveFileAction;
+				if( action == null ) {
+					return string.Empty;
+				}
+				return action.Destination;
+			}
 			set {
 
+				// The value has to be passed on to the underlying Action, or else
+				// replacing 'Data' won't update the property without additional work.
+				MoveFileAction action = this.Data as MoveFileAction;
+				if( action != null && value != action.Destination ) {
 
-				if( SetProperty( ref this.destination, value ) ) {
-
-					/// SetProperty before directory test, because invalid text still gets displayed.
-					/// If the incorrect displayed value isn't saved here, then changing the text back to
-					/// the correct current value won't trigger a PropertyChangedEvent, and the error won't
-					/// remove.
-					if( !Directory.Exists( value ) ) {
-						throw new ValidationException( "Directory does not exist." );
-					}
-					( (MoveFileAction)this.Data ).Destination = value;
-
+					action.Destination = value;
+					this.NotifyPropertyChanged();
 
 				}
 
 			}
 
-		}
-		private string destination;
+		} //
 
 		public RelayCommand CmdPickFolder {
 			get {
