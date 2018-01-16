@@ -6,7 +6,7 @@ using System.Text;
 namespace Lemur.Operations.Matching {
 
 	/// <summary>
-	/// 
+	/// CURRENTLY UNUSED. Possible abstraction of running matches that probably won't pay off.
 	/// </summary>
 	/// <typeparam name="T">The type of objects being tested for matches.</typeparam>
 	/// <typeparam name="S">The class or enum which provides settings when running

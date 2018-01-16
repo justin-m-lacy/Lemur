@@ -134,7 +134,7 @@ namespace Lemur.Windows.MVVM {
 		/// A placeholder VM that allows selecting from the available Types
 		/// in order to instantiate one.
 		/// </summary>
-		private readonly TypePickerVM<T> _picker = new TypePickerVM<T>();
+		private readonly TypePickerVM<T> _picker = new TypePickerVM<T>( true );
 
 		public TypePickerVM<T> Picker {
 			get {

@@ -38,7 +38,8 @@ namespace Lemur.Windows.MVVM {
 				return this._cmdPickType ??
 					( this._cmdPickType = new RelayCommand<TypeDescription>(
 
-						( t ) => { this.CreateType = t; this._cmdInstantiate.RaiseCanExecuteChanged(); }  )
+						( t ) => {
+							this.CreateType = t; this._cmdInstantiate.RaiseCanExecuteChanged(); }  )
 
 					);
 			}
@@ -90,13 +91,24 @@ namespace Lemur.Windows.MVVM {
 				return this._createType;
 			}
 			set {
-
-				if( !typeof( T ).IsAssignableFrom( value.Type ) ) {
+				Console.WriteLine( "ATTEMPTING TO SET NEW VALUE" );
+				if( value == null ) {
+					this._createType = null;
+				} else if ( !typeof( T ).IsAssignableFrom( value.Type ) ) {
 					throw new ArgumentException( "Assigned value must be of type: " + typeof( T ).Name );
 				}
+
 				if( this.SetProperty( ref this._createType, value ) ) {
-					this._cmdInstantiate.RaiseCanExecuteChanged();
+
+					this.CmdInstantiate.RaiseCanExecuteChanged();
 				}
+				/// Check even if property hasn't changed. This allows repeating the same selection.
+				/// NOTE: ComboBox's will not allow repeat selection of the same item by default,
+				/// you have to override PreviewMouseDown code to unset the selected item manually.
+				if( this.CreateOnSelect ) {
+					this.CmdInstantiate.Execute( null );
+				}
+
 			}
 
 		}
@@ -115,6 +127,13 @@ namespace Lemur.Windows.MVVM {
 			} //set
 
 		}
+
+		public bool CreateOnSelect {
+			get => _createOnSelect;
+			set => this.SetProperty( ref this._createOnSelect, value );
+		}
+		private bool _createOnSelect;
+
 		private Type[] excludeTypes;
 
 		#endregion
@@ -127,6 +146,7 @@ namespace Lemur.Windows.MVVM {
 		public event Action<Type> CreateRequested;
 		protected void DispatchCreate() {
 
+			Console.WriteLine( "CREATE CALLED" );
 			if( CreateTypeSelected() ) {
 				this.CreateRequested?.Invoke( this._createType.Type );
 			}
@@ -134,7 +154,9 @@ namespace Lemur.Windows.MVVM {
 		} //
 
 
-		public TypePickerVM() { }
+		public TypePickerVM( bool createOnSelect=false ) {
+			this.CreateOnSelect = createOnSelect;
+		}
 
 		private void RefreshExclusions() {
 

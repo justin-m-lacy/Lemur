@@ -13,10 +13,10 @@ namespace Lemur.Operations.FileMatching {
 		override public bool IsMatch( FileSystemInfo info ) {
 
 			if( info is FileInfo ) {
-				return true;
+				return base.IsMatch( true );
 			}
 
-			return false;
+			return base.IsMatch( false );
 
 		}
 

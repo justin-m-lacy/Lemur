@@ -124,6 +124,13 @@ namespace Lemur.Windows.MVVM {
 
 		} //
 
+		protected void NotifyAllPropertiesChanged() {
+
+			//this.VerifyPropertyName( propertyName );
+			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( null ) );
+
+		}
+
 		protected void NotifyPropertyChanged( [CallerMemberName] string propertyName="" ) {
 
 			//this.VerifyPropertyName( propertyName );

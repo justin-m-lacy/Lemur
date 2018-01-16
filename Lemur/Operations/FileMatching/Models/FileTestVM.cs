@@ -40,37 +40,31 @@ namespace Lemur.Operations.FileMatching.Models {
 
 		/// <summary>
 		/// Whether the Matching operation includes or excludes a file which matches
-		/// the test condition. Default is false ( file IS included if it matches. )
+		/// the test condition. Default is false ( File is INCLUDED on a match. )
 		/// </summary>
 		public bool Exclude {
 
-			get => this._exclude;
+			get => ((IMatchCondition)Data).Exclude;
 			set {
 
-				if( this.SetProperty( ref this._exclude, value ) ) {
-					if( Data != null ) {
-						((IMatchCondition)Data).Exclude = value;
-					}
+				IMatchCondition cond = (IMatchCondition)Data;
+				if( cond.Exclude != value ) {
+					cond.Exclude = value;
+					this.NotifyPropertyChanged();
 				}
 
 			} // set
 
 		} // Exclude
 
-		/// <summary>
-		/// This variable duplicates the exclude from the BaseCondition itself,
-		/// but this allows the value to be saved when the BaseCondition is null,
-		/// or is switched.
-		/// </summary>
-		private bool _exclude;
-
 		#endregion
 
 		public FileTestVM() { }
 
-		public FileTestVM( IMatchCondition matchTest, bool exclude=false ) {
+		public FileTestVM( IMatchCondition matchTest ) {
+
 			this.Data = matchTest;
-			this._exclude = exclude;
+
 		}
 
 		public bool IsMatch( FileSystemInfo info ) {

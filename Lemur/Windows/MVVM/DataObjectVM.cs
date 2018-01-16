@@ -48,7 +48,7 @@ namespace Lemur.Windows.MVVM {
 						this.DataType = null;
 					}
 					// update all property indexers on the condition.
-					this.NotifyPropertyChanged( "Property[]" );
+					this.NotifyAllPropertiesChanged();
 
 				}
 

@@ -33,15 +33,17 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// <returns></returns>
 		override public bool Run( FileSystemInfo info ) {
 
+			string new_path = Path.Combine( this._destination, info.Name );
+
 			if( info is FileInfo ) {
 
-				File.Move( info.Name, this._destination );
+				File.Move( info.FullName, new_path );
 				return true;
 
 			}
 			if( info is DirectoryInfo ) {
 
-				Directory.Move( info.Name, this._destination );
+				Directory.Move( info.FullName, new_path );
 				return true;
 
 			}

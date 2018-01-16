@@ -46,10 +46,10 @@ namespace Lemur.Operations.FileMatching {
 			int fileCount = dir.GetFiles().Length;
 
 			if( fileCount >= minFiles && fileCount <= maxFiles ) {
-				return true;
+				return base.IsMatch( true );
 			}
 
-			return false;
+			return base.IsMatch( false );
 
 		}
 
