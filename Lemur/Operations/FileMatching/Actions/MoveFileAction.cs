@@ -43,10 +43,10 @@ namespace Lemur.Operations.FileMatching.Actions {
 				return this._destination;
 			}
 			set {
+
 				this._destination = value;
-				if( !string.IsNullOrEmpty( value ) ) {
-					this._isAbsolute = Path.IsPathRooted( value );
-				}
+				this._isAbsolute = Path.IsPathRooted( value );
+
 			}
 		}
 		private string _destination;

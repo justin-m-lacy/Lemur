@@ -17,6 +17,18 @@ namespace Lemur.Operations.FileMatching.Models {
 	/// </summary>
 	public class MoveFileVM : DataObjectVM {
 
+		public bool IsRelative {
+			get {
+
+				MoveFileAction action = this.Data as MoveFileAction;
+				if( action == null || string.IsNullOrEmpty( action.Destination ) ) {
+					return false;
+				}
+				return action.IsRelative;
+
+			}
+		}
+
 		public string Destination {
 
 			get {
@@ -35,6 +47,7 @@ namespace Lemur.Operations.FileMatching.Models {
 
 					action.Destination = value;
 					this.NotifyPropertyChanged();
+					this.NotifyPropertyChanged( "IsRelative" );
 
 				}
 

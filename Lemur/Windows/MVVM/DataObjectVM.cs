@@ -18,7 +18,7 @@ namespace Lemur.Windows.MVVM {
 		#region DISPLAY TEXT
 
 		/// <summary>
-		/// Name of the data item being displayed to the user.
+		/// Name of the data item being displayed.
 		/// </summary>
 		public string DisplayName { get => _displayName; set => this.SetProperty( ref this._displayName, value ); }
 		private string _displayName;
