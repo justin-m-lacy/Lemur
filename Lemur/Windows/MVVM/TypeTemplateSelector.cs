@@ -59,7 +59,7 @@ namespace Lemur.Windows.MVVM {
 				} else {
 					testingType = item.GetType();
 				}
-				
+
 				Console.WriteLine( "ATTEMPTING TO FIND TEMPLATE: " + testingType.Name );
 				if( !this.templates.TryGetValue( testingType, out templateName ) ) {
 					templateName = this.defaultTemplate;
@@ -67,11 +67,8 @@ namespace Lemur.Windows.MVVM {
 
 			}
 			Console.WriteLine( "USING TEMPLATE: " + templateName );
-			return ( string.IsNullOrEmpty(templateName) ) ? null : parent.FindResource( templateName ) as DataTemplate; ;
+			return ( string.IsNullOrEmpty( templateName ) ) ? null : parent.FindResource( templateName ) as DataTemplate;
 
-		}
-
-		public TypeTemplateSelector() {
 		}
 
 	} // class

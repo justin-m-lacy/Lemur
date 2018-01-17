@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -25,17 +26,28 @@ namespace Lemur.Windows.MVVM {
 		private object defaultTemplate;
 
 		/// <summary>
-		/// Property of the source item to use as a Key into the Templates table.
-		/// If no property is set, the item itself is used as the key.
+		/// Property path in the source item to use as a Key into the Templates table.
+		/// If no key path is set, the item itself is used as the key.
 		/// </summary>
-		public string KeyProperty { get => keyProperty; set => keyProperty = value; }
-		private string keyProperty;
+		public string KeyPath {
+			get {
+				if( keyPath == null || keyPath.Length == 0 ) {
+					return string.Empty;
+				}
+				return string.Join( ".", this.keyPath );
+			}
+			set {
+				if( string.IsNullOrEmpty( value ) ) {
+					this.keyPath = null;
+				} else {
+					this.keyPath = value.Split( '.' );
+				}
+			}
+
+		}
+		private string[] keyPath;
 
 		public override DataTemplate SelectTemplate( object item, DependencyObject container ) {
-
-			if( item == null ) {
-				return null;
-			}
 
 			FrameworkElement parent = container as FrameworkElement;
 			if( parent == null ) {
@@ -49,24 +61,18 @@ namespace Lemur.Windows.MVVM {
 
 			} else {
 
-				object hashKey;		// key into the hash to get the templateKey, or template object.
+				// key into the hash to get the templateKey, or template object.
+				object hashKey = this.ReadKeyPath( item, this.keyPath );
 
-				if( !string.IsNullOrEmpty( this.keyProperty ) ) {
-
-					/// Find the type of the given property.
-					hashKey = item.GetType().GetProperty( this.keyProperty ).GetValue( item );
-
-				} else {
-					hashKey = item;
-				}
-
-				Console.WriteLine( "ATTEMPTING TO FIND TEMPLATE: " + hashKey );
+				Console.WriteLine( "FINDING TEMPLATE FOR KEY: " + hashKey );
 				if( this.templateTable.ContainsKey( hashKey ) ) {
 
+					Console.WriteLine( "KEY EXISTS" );
 					templateObject = this.templateTable[hashKey] ?? this.defaultTemplate;
 
 				} else {
 
+					Console.WriteLine( "KEY DOES NOT EXIST" );
 					templateObject = this.defaultTemplate;
 				}
 
@@ -84,11 +90,41 @@ namespace Lemur.Windows.MVVM {
 
 			// The template object should be a key into a ResourceDictionary. Find the actual DataTemplate.
 			string templateKey = templateObject as string;
+			Console.WriteLine( "EXPECTED TEMPLATE: " + templateObject );
 			return ( string.IsNullOrEmpty( templateKey ) ) ? null : parent.FindResource( templateKey ) as DataTemplate;
 
 		}
 
-		public TemplateSelector() {
+		/// <summary>
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="props"></param>
+		/// <returns></returns>
+		private object ReadKeyPath( object item, string[] props ) {
+
+			if( props == null || props.Length == 0 ) {
+				return item;
+			}
+			int len = props.Length;
+
+			object curObject = item;
+			for( int i = 0; i < len; i++ ) {
+
+				if( curObject == null ) {
+					return null;
+				}
+
+				string propName = props[i];
+				PropertyInfo pInfo = curObject.GetType().GetProperty( propName );
+				if( pInfo == null ) {
+					throw new Exception( "Property: " + pInfo + " not found on object: " + curObject );
+				}
+				curObject = (object)pInfo.GetValue( curObject );
+
+			}
+
+			return curObject;
+
 		}
 
 	} // class
