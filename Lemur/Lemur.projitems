@@ -53,8 +53,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Behaviors\BubbleMouseWheel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\CommandToVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringToRegex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionBuilderVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DataObjectVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TypeTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\StringSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TypePickerVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FolderClean.cs" />
@@ -125,7 +129,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\EnumSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Settings\Setting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\FormatString.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ListItemModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ListItemVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CheckListVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Text\TextString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\View.cs" />

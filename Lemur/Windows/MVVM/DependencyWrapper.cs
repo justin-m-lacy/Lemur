@@ -7,6 +7,7 @@ namespace Lemur.Windows.MVVM {
 
 	/// <summary>
 	/// Wraps an object into a dependency property so its value can be bound in xaml.
+	/// Currently unused and untested. Maybe a bad idea.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	public class DependencyWrapper<T> : DependencyObject {

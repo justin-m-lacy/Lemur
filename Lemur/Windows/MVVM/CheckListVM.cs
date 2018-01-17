@@ -76,13 +76,13 @@ namespace Lemur.Windows.MVVM {
 		}
 
 		public const string SelectedPropertyName = "SelectedItem";
-		private ListItemModel<T> selectedItem;
+		private ListItemVM<T> selectedItem;
 		/// <summary>
 		/// Allows a binding for an item clicked or selected in a list,
 		/// instead of one being marked with a checkbox.
 		/// TODO: Allow multiselection.
 		/// </summary>
-		public ListItemModel<T> SelectedItem {
+		public ListItemVM<T> SelectedItem {
 
 			get { return this.selectedItem; }
 			set {
@@ -91,11 +91,11 @@ namespace Lemur.Windows.MVVM {
 
 		}
 
-		private readonly ObservableCollection<ListItemModel<T>> _itemModels = new ObservableCollection<ListItemModel<T>>();
+		private readonly ObservableCollection<ListItemVM<T>> _itemModels = new ObservableCollection<ListItemVM<T>>();
 		/// <summary>
 		/// The items being displayed.
 		/// </summary>
-		public ObservableCollection<ListItemModel<T>> Items {
+		public ObservableCollection<ListItemVM<T>> Items {
 			get { return this._itemModels; }
 		} //
 
@@ -113,7 +113,7 @@ namespace Lemur.Windows.MVVM {
 		/// Returns an array of ListItem ViewModels for the checked items.
 		/// </summary>
 		/// <returns></returns>
-		protected IEnumerable<ListItemModel<T>> GetCheckedVMs() {
+		protected IEnumerable<ListItemVM<T>> GetCheckedVMs() {
 			return this._itemModels.Where( ( item ) => item.IsChecked ).ToArray();
 		}
 
@@ -130,7 +130,7 @@ namespace Lemur.Windows.MVVM {
 		/// </summary>
 		/// <param name="item"></param>
 		/// <param name="nowChecked"></param>
-		private void ItemCheckedChanged( ListItemModel<T> item, bool nowChecked ) {
+		private void ItemCheckedChanged( ListItemVM<T> item, bool nowChecked ) {
 
 			if( nowChecked ) {
 
@@ -172,7 +172,7 @@ namespace Lemur.Windows.MVVM {
 
 		public void Add( T item, bool isChecked = false ) {
 
-			this._itemModels.Add( new ListItemModel<T>( item, isChecked ) );
+			this._itemModels.Add( new ListItemVM<T>( item, isChecked ) );
 
 		}
 
@@ -202,9 +202,9 @@ namespace Lemur.Windows.MVVM {
 		/// Removes items from the list.
 		/// </summary>
 		/// <param name="remove_items"></param>
-		public void Remove( IEnumerable<ListItemModel<T>> remove_items ) {
+		public void Remove( IEnumerable<ListItemVM<T>> remove_items ) {
 
-			foreach( ListItemModel<T> item in remove_items ) {
+			foreach( ListItemVM<T> item in remove_items ) {
 				this._itemModels.Remove( item );
 			}
 
@@ -224,7 +224,7 @@ namespace Lemur.Windows.MVVM {
 
 		public CheckListVM( IEnumerable<T> start_files=null ) {
 
-			this._itemModels = new ObservableCollection<ListItemModel<T>>();
+			this._itemModels = new ObservableCollection<ListItemVM<T>>();
 			this._itemModels.CollectionChanged += this.Items_CollectionChanged;
 
 			if( start_files != null ) {
@@ -233,7 +233,7 @@ namespace Lemur.Windows.MVVM {
 
 				foreach( T data in start_files ) {
 
-					ListItemModel<T> listItem = new ListItemModel<T>( data );
+					ListItemVM<T> listItem = new ListItemVM<T>( data );
 					this._itemModels.Add( listItem );
 
 				} // for
@@ -249,8 +249,8 @@ namespace Lemur.Windows.MVVM {
 		/// <param name="e"></param>
 		private void ListItem_PropertyChanged( object sender, PropertyChangedEventArgs e ) {
 
-			if( e.PropertyName == ListItemModel<T>.IsCheckedPropertyName ) {
-				this.ItemCheckedChanged( (ListItemModel<T>)sender, ( (ListItemModel<T>)sender).IsChecked );
+			if( e.PropertyName == ListItemVM<T>.IsCheckedPropertyName ) {
+				this.ItemCheckedChanged( (ListItemVM<T>)sender, ( (ListItemVM<T>)sender).IsChecked );
 			}
 
 		} // ListItem_PropertyChanged()
@@ -268,7 +268,7 @@ namespace Lemur.Windows.MVVM {
 
 			if( e.NewItems != null ) {
 
-				foreach( ListItemModel<T> item in e.NewItems ) {
+				foreach( ListItemVM<T> item in e.NewItems ) {
 
 					if( item.IsChecked ) {
 						this.ItemCheckedChanged( item, true );
@@ -280,7 +280,7 @@ namespace Lemur.Windows.MVVM {
 			}
 			if( e.OldItems != null ) {
 
-				foreach( ListItemModel<T> listItem in e.OldItems ) {
+				foreach( ListItemVM<T> listItem in e.OldItems ) {
 
 					if( listItem.IsChecked ) {
 						this.ItemCheckedChanged( listItem, false );

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching.Actions {
 
-	[NameDesc( "Move Files", "Moves the target files or directories to a new location." )]
+	[NameDesc( "Move Files", @"Moves the target files or directories to a new location." )]
 	[Serializable]
 	public class MoveFileAction : FileActionBase {
 
@@ -20,7 +20,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 			set { this._createDirs = value; }
 
 		}
-		private bool _createDirs;
+		private bool _createDirs = true;
 
 		/// <summary>
 		/// Returns true if the current destination is a relative path.
@@ -76,7 +76,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 			/// TODO: This operation could be a waste since it might only need to run once.
 			/// But if the destination is a relative path, even having a pre-run method
 			/// wouldn't be enough to confirm path existence.
-			/// Could only force create for relative paths?
+			/// Might have a pre-run do absolute paths, and relative paths check every file.
 			if( this.CreateDirs ) {
 				Directory.CreateDirectory( new_dir );
 			}

@@ -70,7 +70,7 @@ namespace Lemur.Operations.FileMatching.Models {
 			IFileDialogService dialog = this.GetService<IFileDialogService>();
 			if( dialog != null ) {
 
-				string dest = dialog.PickFolder( "Choose a destination folder..." );
+				string dest = dialog.PickFolder( @"Choose a destination folder..." );
 				if( !string.IsNullOrEmpty( dest ) ) {
 					this.Destination = dest;
 				}

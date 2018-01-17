@@ -9,7 +9,7 @@ namespace Lemur.Windows.MVVM {
 	/// Defined as class instead of struct to facilitate MVVM
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	public class ListItemModel<T> : INotifyPropertyChanged {
+	public class ListItemVM<T> : INotifyPropertyChanged {
 
 		public event PropertyChangedEventHandler PropertyChanged;
 
@@ -58,7 +58,7 @@ namespace Lemur.Windows.MVVM {
 
 		}
 
-		public ListItemModel( T data ) {
+		public ListItemVM( T data ) {
 
 			this._item = data;
 			this._checked = false;
@@ -66,7 +66,7 @@ namespace Lemur.Windows.MVVM {
 		}
 
 
-		public ListItemModel( T data, bool isChecked ) {
+		public ListItemVM( T data, bool isChecked ) {
 
 			this._item = data;
 			this._checked = isChecked;
