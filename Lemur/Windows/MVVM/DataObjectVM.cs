@@ -125,10 +125,97 @@ namespace Lemur.Windows.MVVM {
 
 		#endregion
 
+		#region PROPERTY CACHING
+
+		public bool HasPropertyCache {
+			get {
+				return this._propCache != null;
+			}
+			set {
+				if( value == true ) {
+					this._propCache = new Dictionary<string, object>();
+				} else {
+
+					if( this._propCache != null ) {
+						this._propCache.Clear();
+						this._propCache = null;
+					}
+
+				}
+
+			}
+
+		} //
+
+		/// <summary>
+		/// Caches the property value, overriding any existing value.
+		/// </summary>
+		/// <param name="prop"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		protected void CacheProp( string prop, object value ) {
+			this._propCache[prop] = value;
+		}
+
+		/// <summary>
+		/// Caches the property value, overriding any existing value.
+		/// </summary>
+		/// <param name="prop"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		protected void CacheProp<T>( string prop, T value ) {
+			this._propCache[prop] = value;
+		}
+
+		/// <summary>
+		/// Optional Property cache for properties that are costly to retrieve or compute from the source.
+		/// </summary>
+		private Dictionary<string, object> _propCache;
+		protected bool TryGetCache<T>( string prop, out T value ) {
+
+			object readVal;
+			if( this._propCache.TryGetValue( prop, out readVal ) ) {
+
+				/// TODO: More options to avoid costly cast.
+				if( readVal is T ) {
+					value = (T)readVal;
+					return true;
+				}
+
+			}
+
+			value = default( T );
+			return false;
+		}
+
+		/// <summary>
+		/// Clears values in the cache without deleting the cache dictionary.
+		/// </summary>
+		protected void ClearCache() {
+
+			if( this._propCache != null ) {
+				this._propCache.Clear();
+			}
+
+		}
+
+		#endregion
+
 		public DataObjectVM() { }
 
 		public DataObjectVM( object data ) {
 			this.Data = data;
+		}
+
+		/// <summary>
+		/// Creates a DataObject ViewModel with an option to use a backing property cache.
+		/// </summary>
+		/// <param name="data"></param>
+		/// <param name="usePropCache"></param>
+		public DataObjectVM( object data, bool usePropCache ) : this( data ) {
+
+			this.HasPropertyCache = usePropCache;
+
 		}
 
 	} // class

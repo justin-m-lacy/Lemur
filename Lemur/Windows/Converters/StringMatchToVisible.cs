@@ -39,7 +39,7 @@ namespace Lemur.Windows.Converters {
 		public string TargetString {
 			get { return (string)this.GetValue( TargetStringProperty ); }
 			set {
-				Console.WriteLine( "STRING MATCH TARGET CHANGING" );
+				
 				if( value != this.TargetString ) {
 					this.SetValue( TargetStringProperty, value );
 				}
@@ -63,7 +63,7 @@ namespace Lemur.Windows.Converters {
 		}
 
 		public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture ) {
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 	} // class

@@ -231,7 +231,7 @@ namespace Lemur.Windows.MVVM {
 			/// look for a custom creator for the data type.
 			if( builder != null ) {
 
-				Console.WriteLine( "Item type: " + item.GetType().Name );
+				//Console.WriteLine( "CollectionBuilder: Creating Item Type: " + item.GetType().Name );
 
 				var creator = builder.GetCreator( item );
 				if( creator != null ) {
@@ -293,7 +293,6 @@ namespace Lemur.Windows.MVVM {
 		/// <param name="dataType"></param>
 		public void InstantiateType( Type dataType ) {
 
-			Console.WriteLine( "Instantiating: " + dataType.Name );
 			if( dataType is null ) {
 				throw new ArgumentNullException( "Type cannot be null." );
 			}

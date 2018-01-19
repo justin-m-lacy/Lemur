@@ -91,7 +91,7 @@ namespace Lemur.Windows.MVVM {
 				return this._createType;
 			}
 			set {
-				Console.WriteLine( "ATTEMPTING TO SET NEW VALUE" );
+
 				if( value == null ) {
 					this._createType = null;
 				} else if ( !typeof( T ).IsAssignableFrom( value.Type ) ) {
@@ -146,7 +146,6 @@ namespace Lemur.Windows.MVVM {
 		public event Action<Type> CreateRequested;
 		protected void DispatchCreate() {
 
-			Console.WriteLine( "CREATE CALLED" );
 			if( CreateTypeSelected() ) {
 				this.CreateRequested?.Invoke( this._createType.Type );
 			}

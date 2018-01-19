@@ -1,30 +1,31 @@
-﻿using System;
+﻿using Lemur.Types;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
-using System.Windows;
 using System.Windows.Data;
 
 namespace Lemur.Windows.Converters {
 
 	/// <summary>
-	/// Returns Visiblity.Visible if the bound object is not-null,
-	/// and Visiblity.Collapsed otherwise.
+	/// Converts from FileSystemInfo to size string.
 	/// </summary>
-	public class NonNullToVisible : IValueConverter {
+	public class FileEntryToSizeString : IValueConverter {
 
 		public object Convert( object value, Type targetType, object parameter, CultureInfo culture ) {
 
-			if( object.Equals( value, null ) ) {
-				return Visibility.Collapsed;
-			}
-			if( value is string && ((string)value) == string.Empty) {
-				return Visibility.Collapsed;
+			FileInfo fInfo = value as FileInfo;
+			if( fInfo != null ) {
+				return DataSize.ToDataString( fInfo.Length );
 			}
 
-			return Visibility.Visible;
-
-		}
+			DirectoryInfo dInfo = value as DirectoryInfo;
+			if( dInfo != null ) {
+				return "-";
+			}
+			throw new ArgumentException( "Value must be a FileSystemInfo object" );
+		} //
 
 		public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture ) {
 			throw new NotSupportedException();

@@ -60,13 +60,13 @@ namespace Lemur.Windows.MVVM {
 					testingType = item.GetType();
 				}
 
-				Console.WriteLine( "ATTEMPTING TO FIND TEMPLATE: " + testingType.Name );
+				//Console.WriteLine( "ATTEMPTING TO FIND TEMPLATE: " + testingType.Name );
 				if( !this.templates.TryGetValue( testingType, out templateName ) ) {
 					templateName = this.defaultTemplate;
 				}
 
 			}
-			Console.WriteLine( "USING TEMPLATE: " + templateName );
+			//Console.WriteLine( "USING TEMPLATE: " + templateName );
 			return ( string.IsNullOrEmpty( templateName ) ) ? null : parent.FindResource( templateName ) as DataTemplate;
 
 		}

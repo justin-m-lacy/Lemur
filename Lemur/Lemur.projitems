@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\SizeCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Behaviors\BubbleMouseWheel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\CommandToVisible.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\FileEntryToSizeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\StringToRegex.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\CollectionBuilderVM.cs" />

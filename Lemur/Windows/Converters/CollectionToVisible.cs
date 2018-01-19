@@ -22,17 +22,15 @@ namespace Lemur.Windows.Converters {
 
 			ICollection collection = value as ICollection;
 			if( collection == null || collection.Count == 0 ) {
-				Console.WriteLine( "NOTHING IN COLLECTION" );
 				return Visibility.Collapsed;
 			}
-			Console.WriteLine( "COUNT: " + collection.Count );
 
 			return Visibility.Visible;
 
 		}
 
 		public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture ) {
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 	} // class

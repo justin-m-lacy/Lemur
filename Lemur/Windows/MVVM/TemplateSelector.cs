@@ -64,15 +64,15 @@ namespace Lemur.Windows.MVVM {
 				// key into the hash to get the templateKey, or template object.
 				object hashKey = this.ReadKeyPath( item, this.keyPath );
 
-				Console.WriteLine( "FINDING TEMPLATE FOR KEY: " + hashKey );
+				//Console.WriteLine( "TemplateSelector: FINDING TEMPLATE FOR KEY: " + hashKey );
 				if( this.templateTable.ContainsKey( hashKey ) ) {
 
-					Console.WriteLine( "KEY EXISTS" );
+					//Console.WriteLine( "TemplateSelector: KEY EXISTS" );
 					templateObject = this.templateTable[hashKey] ?? this.defaultTemplate;
 
 				} else {
 
-					Console.WriteLine( "KEY DOES NOT EXIST" );
+					//Console.WriteLine( "TemplateSelector: KEY DOES NOT EXIST: " + hashKey );
 					templateObject = this.defaultTemplate;
 				}
 
@@ -90,7 +90,7 @@ namespace Lemur.Windows.MVVM {
 
 			// The template object should be a key into a ResourceDictionary. Find the actual DataTemplate.
 			string templateKey = templateObject as string;
-			Console.WriteLine( "EXPECTED TEMPLATE: " + templateObject );
+			//Console.WriteLine( "TemplateSelector: RETRIEVING TEMPLATE: " + templateObject );
 			return ( string.IsNullOrEmpty( templateKey ) ) ? null : parent.FindResource( templateKey ) as DataTemplate;
 
 		}
@@ -125,6 +125,10 @@ namespace Lemur.Windows.MVVM {
 
 			return curObject;
 
+		}
+
+		public TemplateSelector() {
+			//Console.WriteLine( "INSTANTIATING A TEMPLATE SELECTOR" );
 		}
 
 	} // class
