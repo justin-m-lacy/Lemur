@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameRegexTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\SizeCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Behaviors\BubbleMouseWheel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\CustomGridView.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\CommandToVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\FileEntryToSizeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToVisible.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\TypeUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\AppUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\ByteTextBox.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\CachedImage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\IntegerField.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\KeyGestureBox.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\ArrayToString.cs" />
