@@ -41,12 +41,6 @@ namespace Lemur.Operations.FileMatching.Actions {
 		}
 		private ICollection<FileSystemInfo> targets = new List<FileSystemInfo>();
 
-		/// <summary>
-		/// Settings used for the operation.
-		/// </summary>
-		private FileMatchSettings _settings;
-		public FileMatchSettings Settings => _settings;
-
 		#endregion
 
 		public override void Run() {

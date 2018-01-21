@@ -170,7 +170,18 @@ namespace Lemur.Windows.MVVM {
 			return this.CheckedItems.Count > 0;
 		}
 
-		public void Add( T item, bool isChecked = false ) {
+		public void Add( ListItemVM<T> itemModel, bool isChecked=false ) {
+			itemModel.IsChecked = isChecked;
+			this._itemModels.Add( itemModel );
+		}
+
+		/// <summary>
+		/// TODO: Replace ViewModel creation with a ViewModel lookup dictionary.
+		/// (ViewModelBuilder?)
+		/// </summary>
+		/// <param name="item"></param>
+		/// <param name="isChecked"></param>
+		public virtual void Add( T item, bool isChecked = false ) {
 
 			this._itemModels.Add( new ListItemVM<T>( item, isChecked ) );
 

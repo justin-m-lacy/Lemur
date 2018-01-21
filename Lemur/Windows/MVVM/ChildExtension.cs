@@ -11,6 +11,7 @@ namespace Lemur.Windows.MVVM {
 	/// <summary>
 	/// Intention is to set an object reference by specifying a parent object
 	/// and a child name or type. Used because future references aren't allowed.
+	/// NOTE: CURRENTLY UNUSED. Might delete.
 	/// </summary>
 	public class ChildExtension : MarkupExtension {
 
@@ -25,6 +26,14 @@ namespace Lemur.Windows.MVVM {
 		}
 
 		private string childName;
+		public string ChildName {
+			get => this.childName;
+			set => this.childName = value;
+		}
+
+		public ChildExtension( string child ) {
+			this.childName = child;
+		}
 
 		public ChildExtension() { }
 

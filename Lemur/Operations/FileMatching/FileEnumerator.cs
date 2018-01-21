@@ -6,12 +6,16 @@ using System.Text;
 
 namespace Lemur.Operations.FileMatching {
 
+	/// <summary>
+	/// CURRENTLY UNUSED.
+	/// Might delete. Idea is to provide files that can be processed while more files are found?
+	/// </summary>
 	public class FileLister : IEnumerable<FileSystemInfo> {
 
 		/// <summary>
 		/// Fringe of files to be visited.
 		/// </summary>
-		private List<FileSystemInfo> _fringe;
+		private readonly List<FileSystemInfo> _fringe = new List<FileSystemInfo>();
 
 		private string baseDirectory;
 
@@ -36,7 +40,7 @@ namespace Lemur.Operations.FileMatching {
 		/// <summary>
 		/// Fringe of files to be visited.
 		/// </summary>
-		private List<FileSystemInfo> _fringe;
+		private readonly List<FileSystemInfo> _fringe = new List<FileSystemInfo>();
 
 		private string baseDirectory;
 		public FileEnumerator( string baseDir ) {

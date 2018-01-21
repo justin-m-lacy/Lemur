@@ -94,9 +94,13 @@ namespace Lemur.Windows.Controls {
 		/// <param name="e"></param>
 		private static void ColumnVisibleChanged( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
 
+			Console.WriteLine( "COLUMN VISIBLE CHANGED: " + ( (bool)e.NewValue ) );
+
 			Action<GridViewColumn, bool> visAction = d.GetValue( VisibleActionProperty ) as Action<GridViewColumn, bool>;
 			if( visAction != null ) {
 				visAction( d as GridViewColumn, (bool)e.NewValue );
+			} else {
+				Console.WriteLine( "NO VISIBLE ACTION" );
 			}
 
 		} //
@@ -234,15 +238,7 @@ namespace Lemur.Windows.Controls {
 			}
 
 
-		}
-
-		private void Item_Unchecked( object sender, RoutedEventArgs e ) {
-			this.ShowColumn( ( sender as MenuItem ).Header );
-		}
-
-		private void Item_Checked( object sender, RoutedEventArgs e ) {
-			this.HideColumn( ( sender as MenuItem ).Header );
-		}
+		} // RemoveColumnMenu()
 
 		private void Columns_CollectionChanged( object sender, NotifyCollectionChangedEventArgs e ) {
 
@@ -253,6 +249,7 @@ namespace Lemur.Windows.Controls {
 					if(
 						( this._hiddenColumns == null || !this._hiddenColumns.Contains( c ) ) ) {
 						// if column is in hidden items, owner doesn't change.
+						Console.WriteLine( "CLEARING VIS ACTION: " + c.Header );
 						c.ClearValue( VisibleActionProperty );
 					}
 
@@ -265,6 +262,7 @@ namespace Lemur.Windows.Controls {
 
 				foreach( GridViewColumn c in e.NewItems ) {
 
+					Console.WriteLine( "SETTING COL VIS ACTION: " + c.Header );
 					c.SetValue( VisibleActionProperty, new Action<GridViewColumn, bool>( this.UpdateVisibility ) );
 					if( (bool)c.GetValue( VisibleProperty ) == false ) {
 						this.HideColumn( c );
@@ -350,10 +348,11 @@ namespace Lemur.Windows.Controls {
 			/// show or hide the column.
 			if( visible ) {
 
+				Console.WriteLine( "Show Visiblity changed" );
 				this.ShowColumn( c );
 
 			} else {
-
+				Console.WriteLine( "Hide Visiblity changed" );
 				this.HideColumn( c );
 
 			}
@@ -424,7 +423,6 @@ namespace Lemur.Windows.Controls {
 		private void CacheColumn( int index ) {
 
 			GridViewColumn c = this.Columns[index];
-			this.Columns.RemoveAt( index );
 
 			if( this._hiddenColumns == null ) {
 				this._hiddenColumns = new List<GridViewColumn>();
@@ -432,6 +430,10 @@ namespace Lemur.Windows.Controls {
 			c.SetValue( VisibleProperty, false );
 
 			this._hiddenColumns.Add( c );
+
+			/// MUST BE ADDED AFTER added to _hiddenColumns.
+			/// TODO: way too messy.
+			this.Columns.RemoveAt( index );
 
 			if( !this._updatingHideCols ) {
 				this.RemoveHideCol( c );
