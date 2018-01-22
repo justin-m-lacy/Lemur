@@ -63,7 +63,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// </summary>
 		/// <param name="info"></param>
 		/// <returns></returns>
-		override public bool Run( FileSystemInfo info ) {
+		override public FileActionResult Run( FileSystemInfo info ) {
 
 			string new_dir;
 
@@ -86,17 +86,17 @@ namespace Lemur.Operations.FileMatching.Actions {
 			if( info is FileInfo ) {
 
 				File.Move( info.FullName, new_path );
-				return true;
+				return new FileActionResult( true, new FileInfo(new_path) );
 
 			}
 			if( info is DirectoryInfo ) {
 
 				Directory.Move( info.FullName, new_path );
-				return true;
+				return new FileActionResult( true, new DirectoryInfo(new_path) );
 
 			}
 
-			return false;
+			return new FileActionResult(false);
 
 		}
 

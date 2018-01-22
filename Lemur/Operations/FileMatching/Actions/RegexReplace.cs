@@ -27,10 +27,10 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 		}
 
-		override public bool Run( FileSystemInfo info ) {
+		override public FileActionResult Run( FileSystemInfo info ) {
 
 			if( replaceRule == null ) {
-				return false;
+				return new FileActionResult( false);
 			}
 
 			string newName = this.replaceRule.Replace( info.Name, this.replaceString );
@@ -41,14 +41,15 @@ namespace Lemur.Operations.FileMatching.Actions {
 			// rename
 			if( info is FileInfo ) {
 				File.Move( info.FullName, newPath );
-				return true;
+				return new FileActionResult( true, new FileInfo(newPath) );
 			}
 
 			if( info is DirectoryInfo ) {
 				Directory.Move( info.FullName, newPath );
+				return new FileActionResult( true, new DirectoryInfo( newPath ) );
 			}
 
-			return false;
+			return new FileActionResult(false);
 
 		}
 

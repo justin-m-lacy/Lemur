@@ -36,7 +36,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 		}
 
-		override public bool Run( FileSystemInfo info ) {
+		override public FileActionResult Run( FileSystemInfo info ) {
 
 			NativeMethods.RecycleFlag flags = 0;
 			if( !showConfirm ) {
@@ -46,7 +46,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 				flags |= NativeMethods.RecycleFlag.SHERB_NOPROGRESSUI;
 			}
 
-			return RecycleBinDeleter.EmptyRecycleBin( flags );
+			return new FileActionResult( RecycleBinDeleter.EmptyRecycleBin( flags ) );
 
 		}
 

@@ -14,11 +14,11 @@ namespace Lemur.Operations.FileMatching.Actions {
 	[Serializable]
 	public class FileDeleteAction : FileActionBase {
 
-		override public bool Run( FileSystemInfo info ) {
+		override public FileActionResult Run( FileSystemInfo info ) {
 
 			info.Delete();
 
-			return true;
+			return new FileActionResult( true );
 
 		}
 

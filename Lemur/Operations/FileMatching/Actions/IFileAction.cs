@@ -23,7 +23,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// <param name="info"></param>
 		/// <param name="settings"></param>
 		/// <returns></returns>
-		bool Run( FileSystemInfo info );
+		FileActionResult Run( FileSystemInfo info );
 
 		/// <summary>
 		/// Run the action on an enumeration of files.
@@ -33,7 +33,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// </summary>
 		/// <param name="fileList"></param>
 		/// <returns></returns>
-		bool Run( IEnumerable<FileSystemInfo> fileList );
+		FileActionResult[] Run( IEnumerable<FileSystemInfo> fileList );
 
 	} // class
 

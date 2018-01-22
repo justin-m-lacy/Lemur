@@ -25,7 +25,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 			this.replaceString = replace;
 		}
 
-		override public bool Run( FileSystemInfo info ) {
+		override public FileActionResult Run( FileSystemInfo info ) {
 
 			string newName = info.Name.Replace( searchString, replaceString );
 			string path = Path.GetDirectoryName( info.FullName );
@@ -35,14 +35,15 @@ namespace Lemur.Operations.FileMatching.Actions {
 			// rename
 			if( info is FileInfo ) {
 				File.Move( info.FullName, newPath );
-				return true;
+				return new FileActionResult( true, new FileInfo(newPath) );
 			}
 
 			if( info is DirectoryInfo ) {
 				Directory.Move( info.FullName, newPath );
+				return new FileActionResult( true, new DirectoryInfo( newPath ) );
 			}
 
-			return false;
+			return new FileActionResult(false);
 		}
 
 	} // class

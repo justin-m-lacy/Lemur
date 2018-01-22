@@ -11,8 +11,8 @@ namespace Lemur.Operations.FileMatching.Actions {
 		private bool _runOnce;
 		public bool RunOnce { get => _runOnce; set => _runOnce = value; }
 
-		virtual public bool Run( FileSystemInfo info ) {
-			return false;
+		virtual public FileActionResult Run( FileSystemInfo info ) {
+			return new FileActionResult( false );
 		}
 
 		/// <summary>
@@ -22,9 +22,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 		/// </summary>
 		/// <param name="fileList"></param>
 		/// <returns></returns>
-		virtual public bool Run( IEnumerable<FileSystemInfo> fileList ) {
-
-			bool success = true;
+		virtual public FileActionResult[] Run( IEnumerable<FileSystemInfo> fileList ) {
 
 			if( this._runOnce ) {
 
@@ -32,27 +30,26 @@ namespace Lemur.Operations.FileMatching.Actions {
 
 					if( files.MoveNext() ) {
 
-						return this.Run( files.Current );
+						return new[] { this.Run( files.Current ) };
 
 					} else {
-						return this.Run( new FileInfo( "/" ) );
+						return new[] { this.Run( new FileInfo( "/" ) ) };
 					}
 
 				}
 
 			} else {
 
+				List<FileActionResult> results = new List<FileActionResult>();
+
 				foreach( FileSystemInfo info in fileList ) {
 
-					if( !this.Run( info ) ) {
-						success = false;
-					}
+					results.Add( this.Run( info ) );
 
 				}
+				return results.ToArray();
 
 			}
-
-			return success;
 
 		}
 

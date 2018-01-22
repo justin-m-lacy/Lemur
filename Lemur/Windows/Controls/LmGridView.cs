@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Specialized;
 using System.Windows.Data;
+using Lemur.Utils;
+using System.Collections.ObjectModel;
 
 namespace Lemur.Windows.Controls {
 
@@ -156,6 +158,14 @@ namespace Lemur.Windows.Controls {
 		public event EventHandler<ColumnToggledEventArgs> ColumnToggled;
 
 		/// <summary>
+		/// All columns, whether visible or not?
+		/// While not necessary, having this collection simplifies some of the code.
+		/// NOTE: doesn't help much because still have to listen to Columns callback to add to AllColumns...
+		/// [TODO]
+		/// </summary>
+		//private readonly ObservableCollection<GridViewColumn> AllColumns = new ObservableCollection<GridViewColumn>();
+
+		/// <summary>
 		/// Columns cached but not currently displayed.
 		/// </summary>
 		private List<GridViewColumn> _hiddenColumns;
@@ -189,8 +199,6 @@ namespace Lemur.Windows.Controls {
 
 		private void MakeColumnMenuItem( GridViewColumn c ) {
 
-			Console.WriteLine( "CREATING BINDING" );
-
 			MenuItem item = new MenuItem();
 
 			string nameStr = GetNameOrHeaderStr( c );
@@ -206,7 +214,8 @@ namespace Lemur.Windows.Controls {
 			item.SetBinding( MenuItem.IsCheckedProperty, checkedBinding );
 
 			item.Header = nameStr;
-			item.Name = "lmrAuto" + nameStr;
+
+			item.Name = this.MakeMenuName( nameStr );
 
 			this.ColumnHeaderContextMenu.Items.Add( item );
 
@@ -237,8 +246,14 @@ namespace Lemur.Windows.Controls {
 
 			}
 
-
 		} // RemoveColumnMenu()
+
+		private string MakeMenuName( string columnName ) {
+
+			string prefix = "lmrAuto";
+			return prefix + StringUtils.MakeVarName(columnName);
+
+		}
 
 		private void Columns_CollectionChanged( object sender, NotifyCollectionChangedEventArgs e ) {
 

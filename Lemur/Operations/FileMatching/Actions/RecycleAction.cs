@@ -11,8 +11,11 @@ namespace Lemur.Operations.FileMatching.Actions {
 	[Serializable]
 	public class RecycleAction : FileActionBase {
 
-		override public bool Run( FileSystemInfo info ) {
-			return RecycleBinDeleter.Delete( info.FullName );
+		override public FileActionResult Run( FileSystemInfo info ) {
+
+			bool success = RecycleBinDeleter.Delete( info.FullName );
+			return new FileActionResult( success );
+
 		}
 
 	} // class

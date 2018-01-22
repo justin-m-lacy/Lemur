@@ -52,7 +52,7 @@ namespace Lemur.Windows.MVVM {
 
 				() => {
 
-					string[] paths = this.Items.Where( ( item ) => { return item.IsChecked; } ).Select( ( item ) => { return item.Item.FullName; } ).ToArray();
+					string[] paths = this.Items.Where( ( item ) => { return item.IsChecked; } ).Select( item => item.Item.FullName ).ToArray();
 					AppUtils.OpenExternalAsync( paths );
 
 				}, this.HasCheckedItems
@@ -79,9 +79,7 @@ namespace Lemur.Windows.MVVM {
 
 			  () => {
 
-				  foreach( var ck in this.CheckedItems ) {
-					  AppUtils.ShowExternalAsync( Path.GetDirectoryName( ck.FullName ) );
-				  }
+				  AppUtils.ShowExternalAsync( this.CheckedItems.Select( f=>Path.GetDirectoryName(f.FullName) ).ToArray() );
 
 			  },
 
@@ -180,6 +178,15 @@ namespace Lemur.Windows.MVVM {
 				this.DeleteChecked,
 				this.HasCheckedItems
 			);
+
+			this.CheckedItems.CollectionChanged += CheckedItems_CollectionChanged;
+		}
+
+		private void CheckedItems_CollectionChanged( object sender, NotifyCollectionChangedEventArgs e ) {
+
+			this.CmdDelete.RaiseCanExecuteChanged();
+			this.CmdOpenChecked.RaiseCanExecuteChanged();
+			this.CmdShowLocation.RaiseCanExecuteChanged();
 
 		}
 
