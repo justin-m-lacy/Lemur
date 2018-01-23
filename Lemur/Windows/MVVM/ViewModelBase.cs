@@ -114,8 +114,6 @@ namespace Lemur.Windows.MVVM {
 				return false;
 			}
 
-			this.VerifyPropertyName( propertyName );
-
 			original = newVal;
 
 			this.PropertyChanged?.Invoke( this, new System.ComponentModel.PropertyChangedEventArgs( propertyName ) );

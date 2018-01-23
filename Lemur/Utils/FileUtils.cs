@@ -107,7 +107,7 @@ namespace Lemur.Utils {
 			return files.ToArray();
 
 		} // GetFiles()
-
+		
 		/// <summary>
 		/// Serializes an object to a stream as binary data.
 		/// </summary>

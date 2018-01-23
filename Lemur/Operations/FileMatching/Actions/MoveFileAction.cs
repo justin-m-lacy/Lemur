@@ -23,6 +23,15 @@ namespace Lemur.Operations.FileMatching.Actions {
 		private bool _createDirs = true;
 
 		/// <summary>
+		/// Overwrite any existing files.
+		/// TODO
+		/// </summary>
+		public bool Overwrite {
+			get => this._overwrite;
+			set => this._overwrite = value;
+		}
+
+		/// <summary>
 		/// Returns true if the current destination is a relative path.
 		/// </summary>
 		public bool IsRelative {
@@ -32,6 +41,7 @@ namespace Lemur.Operations.FileMatching.Actions {
 			get { return this._isAbsolute; }
 		}
 
+		private bool _overwrite;
 		private bool _isAbsolute;
 
 		/// <summary>

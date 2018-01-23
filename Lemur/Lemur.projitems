@@ -21,8 +21,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatchFinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\EmptyRecycleBin.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileActionBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileActionResult.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileDeleteAction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\FileActionOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\IFileAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\MoveFileAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RecycleAction.cs" />
@@ -40,7 +40,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\IMatchCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\EmptyCondition.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\FileMatchSettings.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\BaseConditionVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Models\FileTestVM.cs" />
