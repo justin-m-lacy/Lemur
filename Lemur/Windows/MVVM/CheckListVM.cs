@@ -24,11 +24,60 @@ namespace Lemur.Windows.MVVM {
 
 		#region COMMANDS
 
-		private RelayCommand _cmdDeleteChecked;
+		/// <summary>
+		/// Check all items in the list.
+		/// </summary>
+		public RelayCommand<bool> CmdToggleCheckAll {
+
+			get {
+				return this._cmdToggleCheckAll ?? ( this._cmdToggleCheckAll = new RelayCommand<bool>( 
+					( b )=>{
+						if( b ) this.CheckAll(); else this.UncheckAll();
+					}) );
+			}
+
+			set {
+				this.SetProperty( ref this._cmdToggleCheckAll, value );
+			} //
+
+		} // CmdDelete
+		private RelayCommand<bool> _cmdToggleCheckAll;
 
 		/// <summary>
-		/// Command to delete all checked items.
+		/// Check all items in the list.
 		/// </summary>
+		public RelayCommand CmdUncheckAll {
+
+			get {
+				return this._cmdUncheckAll ?? ( this._cmdUncheckAll = new RelayCommand( this.UncheckAll ) );
+			}
+
+			set {
+				this.SetProperty( ref this._cmdUncheckAll, value );
+			} //
+
+		} // CmdDelete
+		private RelayCommand _cmdUncheckAll;
+
+		/// <summary>
+		/// Check all items in the list.
+		/// </summary>
+		public RelayCommand CmdCheckAll {
+
+			get {
+				return this._cmdCheckAll ?? ( this._cmdCheckAll = new RelayCommand( this.CheckAll ) );
+			}
+
+			set {
+				this.SetProperty( ref this._cmdCheckAll, value );
+			} //
+
+		} // CmdDelete
+		private RelayCommand _cmdCheckAll;
+
+		  /// <summary>
+		  /// Command to delete all checked items.
+		  /// </summary>
 		public RelayCommand CmdDelete {
 
 			get {
@@ -42,6 +91,8 @@ namespace Lemur.Windows.MVVM {
 			} //
 
 		} // CmdDelete
+		private RelayCommand _cmdDeleteChecked;
+
 
 		private RelayCommand _cmdAddItem;
 		public RelayCommand CmdAddItem {
@@ -108,6 +159,18 @@ namespace Lemur.Windows.MVVM {
 		}
 
 		#endregion
+
+		public void CheckAll() {
+			for( int i = this._itemModels.Count - 1; i >= 0; i-- ) {
+				this._itemModels[i].IsChecked = true;
+			}
+		}
+
+		public void UncheckAll() {
+			for( int i = this._itemModels.Count - 1; i >= 0; i-- ) {
+				this._itemModels[i].IsChecked = false;
+			}
+		}
 
 		/// <summary>
 		/// Returns an array of ListItem ViewModels for the checked items.

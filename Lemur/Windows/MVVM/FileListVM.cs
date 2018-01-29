@@ -9,7 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Lemur.Windows.MVVM {
 
 	public class FileListVM : CheckListVM<FileSystemInfo> {
@@ -191,7 +190,8 @@ namespace Lemur.Windows.MVVM {
 		}
 
 		/// <summary>
-		/// Delete selected files asynchronously.
+		/// By default, deleted items are only removed from the list, not deleted.
+		/// The custom delete action can be used to actually delete the files.
 		/// </summary>
 		/// <returns></returns>
 		private void DeleteChecked() {

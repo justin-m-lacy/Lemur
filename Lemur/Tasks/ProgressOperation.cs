@@ -212,6 +212,8 @@ namespace Lemur.Tasks {
 
 		/// <summary>
 		/// Cancels an Operation in progress.
+		/// This technically only requests the operation to cancel. The operation must
+		/// return from any running methods.
 		/// </summary>
 		public void Cancel() {
 

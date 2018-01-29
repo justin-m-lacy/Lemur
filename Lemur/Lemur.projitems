@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StringUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Behaviors\BubbleMouseWheel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\LMGridView.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\FeedbackList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\CommandToVisible.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\FileEntryToSizeString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Converters\IntToVisible.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\FileListItemVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\FileListVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ToolBarVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TypeTemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\StringSetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TypePickerVM.cs" />

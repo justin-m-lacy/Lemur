@@ -46,7 +46,8 @@ namespace Lemur.Windows.Controls {
 			typeof( bool ), typeof( LMGridView ), new PropertyMetadata( false, AutoMenuChanged ) );
 
 		/// <summary>
-		/// NOTE: For some reason it's not possible to store a direct reference to the owning Grid, or list of owning grids.
+		/// Action to take when the column's Visible property is set to true.
+		/// NOTE: For some reason it's not possible to store a reference to the owning Grid.
 		/// StackOverflowException will occur with no loops or recursion in the main program. Happens in the underlying MS code.
 		/// Might have something to do with storing an object as a DependencyProperty value while the xaml is still parsing.
 		/// TODO: Make this an Action list so multiple grids can use the same GridViewColumn.
@@ -190,21 +191,26 @@ namespace Lemur.Windows.Controls {
 			for( int i = 0; i < numCols; i++ ) {
 
 				GridViewColumn c = this.Columns[i];
-				this.MakeColumnMenuItem( c );
+				MenuItem m = this.MakeColumnMenuItem( c );
+				if( m != null ) {
+					menu.Items.Add( m );
+				}
 
 			}
 
 
 		} //
 
-		private void MakeColumnMenuItem( GridViewColumn c ) {
+		private MenuItem MakeColumnMenuItem( GridViewColumn c ) {
 
 			MenuItem item = new MenuItem();
 
 			string nameStr = GetNameOrHeaderStr( c );
 			if( string.IsNullOrEmpty( nameStr ) ) {
-				return;
+				return null;
 			}
+
+			item.DataContext = c;
 			item.IsCheckable = true;
 			PropertyPath path = new PropertyPath( LMGridView.VisibleProperty);
 			Binding checkedBinding = new Binding();
@@ -217,9 +223,44 @@ namespace Lemur.Windows.Controls {
 
 			item.Name = this.MakeMenuName( nameStr );
 
-			this.ColumnHeaderContextMenu.Items.Add( item );
+			return item;
 
 		}
+
+		private bool HasColumnMenuItem( GridViewColumn c ) {
+
+			ContextMenu menu = this.ColumnHeaderContextMenu;
+			if( menu != null ) {
+				foreach( MenuItem item in menu.Items ) {
+					if( item.DataContext == c ) {
+						return true;
+					}
+				}
+			}
+			return false;
+
+		}
+
+		private void RemoveColumnMenuItem( GridViewColumn c ) {
+
+			ContextMenu menu = this.ColumnHeaderContextMenu;
+			if( menu == null ) {
+				return;
+			}
+
+			ItemCollection items = menu.Items;
+			for( int i = items.Count-1; i >= 0; i-- ) {
+
+				MenuItem item = items[i] as MenuItem;
+				if( item != null && item.DataContext == c ) {
+					items.RemoveAt( i );
+					break;
+				}
+
+			}
+
+		}
+
 
 		/// <summary>
 		/// Removes automatically generated ContextMenu items that allow selecting visible columns.
@@ -264,7 +305,7 @@ namespace Lemur.Windows.Controls {
 					if(
 						( this._hiddenColumns == null || !this._hiddenColumns.Contains( c ) ) ) {
 						// if column is in hidden items, owner doesn't change.
-						Console.WriteLine( "CLEARING VIS ACTION: " + c.Header );
+						Console.WriteLine( "CLEARING COLUMN: " + c.Header );
 						c.ClearValue( VisibleActionProperty );
 					}
 
@@ -277,14 +318,19 @@ namespace Lemur.Windows.Controls {
 
 				foreach( GridViewColumn c in e.NewItems ) {
 
-					Console.WriteLine( "SETTING COL VIS ACTION: " + c.Header );
+					//Console.WriteLine( "SETTING COL VIS ACTION: " + c.Header );
 					c.SetValue( VisibleActionProperty, new Action<GridViewColumn, bool>( this.UpdateVisibility ) );
 					if( (bool)c.GetValue( VisibleProperty ) == false ) {
 						this.HideColumn( c );
 					}
-					if( this.AutoColumnMenu ) {
-						this.MakeColumnMenuItem( c );
+
+					if( this.AutoColumnMenu && !this.HasColumnMenuItem(c) ) {
+
+						MenuItem item = this.MakeColumnMenuItem( c );
+						this.ColumnHeaderContextMenu.Items.Add( item );
+
 					}
+
 
 				}
 
@@ -363,11 +409,11 @@ namespace Lemur.Windows.Controls {
 			/// show or hide the column.
 			if( visible ) {
 
-				Console.WriteLine( "Show Visiblity changed" );
+				//Console.WriteLine( "Show Visiblity changed" );
 				this.ShowColumn( c );
 
 			} else {
-				Console.WriteLine( "Hide Visiblity changed" );
+				//Console.WriteLine( "Hide Visiblity changed" );
 				this.HideColumn( c );
 
 			}

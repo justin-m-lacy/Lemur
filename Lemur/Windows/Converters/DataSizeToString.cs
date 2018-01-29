@@ -20,17 +20,29 @@ namespace Lemur.Windows.Converters {
 
 				DataSize size = (DataSize)value;
 				return size.ToString();
+			} else if( value is long ) {
+				return DataSize.GetString( (long)value, 2 );
 			}
+
 			return DependencyProperty.UnsetValue;
 
 		}
 
 		public object ConvertBack( object value, Type targetType, object parameter, CultureInfo culture ) {
 
-			DataSize size;
-			if( DataSize.TryParse( (string)value, out size ) ) {
-				return size;
+			if( targetType == typeof( DataSize ) ) {
+				DataSize size;
+				if( DataSize.TryParse( (string)value, out size ) ) {
+					return size;
+				}
+			} else if( targetType == typeof( long ) ) {
+
+				long size;
+				if ( DataSize.TryParse( (string)value, out size ) ) {
+					return size;
+				}
 			}
+
 
 			return DependencyProperty.UnsetValue;
 

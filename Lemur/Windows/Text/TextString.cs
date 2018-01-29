@@ -6,6 +6,9 @@ namespace Lemur.Windows.Text {
 
 	public struct TextString {
 
+		public const string Error = "error";
+		public const string Message = "message";
+
 		public string Text {
 			get;
 			set;
@@ -27,6 +30,14 @@ namespace Lemur.Windows.Text {
 			this.Text = text;
 			this.Type = type;
 
+		}
+
+		public static implicit operator string( TextString s ) {
+			return s.Text;
+		}
+
+		public static implicit operator TextString( string s ) {
+			return new TextString( s );
 		}
 
     } // class
