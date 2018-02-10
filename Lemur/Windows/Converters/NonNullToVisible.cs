@@ -15,7 +15,7 @@ namespace Lemur.Windows.Converters {
 
 		public object Convert( object value, Type targetType, object parameter, CultureInfo culture ) {
 
-			if( object.Equals( value, null ) ) {
+			if( value == null ) {
 				return Visibility.Collapsed;
 			}
 			if( value is string && ((string)value) == string.Empty) {

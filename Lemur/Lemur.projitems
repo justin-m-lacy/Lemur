@@ -28,6 +28,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RecycleAction.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\NameReplace.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\RegexReplace.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Actions\UploadFile.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\BaseCondition.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ConditionList.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\ContainedIn.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameContains.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\NameRegexTest.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Operations\FileMatching\Conditions\SizeCondition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Operations\WatchOperation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils\StringUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Behaviors\BubbleMouseWheel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\Controls\LMGridView.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\DataObjectVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\FileListItemVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\FileListVM.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\OutputVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TemplateSelector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\ToolBarVM.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Windows\MVVM\TypeTemplateSelector.cs" />

@@ -44,6 +44,11 @@ namespace Lemur.Operations {
 			get { return this.deletedList.ToArray(); }
 		}
 
+		private bool _deleteEmptyFolders = true;
+		public bool DeleteEmptyFolders {
+			set => _deleteEmptyFolders = value;
+		}
+
 		/// <summary>
 		/// Initializes a FolderClean operation, including removing files in the given size range.
 		/// </summary>
@@ -178,39 +183,6 @@ namespace Lemur.Operations {
 
 		}
 
-		/*private void CleanFolder( string directory, bool recursive ) {
-
-			int fileCount = this.TryDeleteFiles( directory );
-
-		}*/
-
-		/// <summary>
-		/// Attempts to delete any empty folders in the given directory,
-		/// and returns the number of directories remaining.
-		/// </summary>
-		/// <param name="parentDir"></param>
-		/// <returns></returns>
-		/*private int TryDeleteDirs( string parentDir, bool recursive ) {
-
-			try {
-
-				string[] dirs = Directory.GetDirectories( parentDir );
-				int dirCount = dirs.Length;
-
-
-				if( !recursive ) {
-					return dirCount;
-				}
-
-				return dirCount;
-
-			} catch( Exception ) {
-				// prevent this directory from being deleted in the event of an error.
-				return 1;
-			}
-
-		}*/
-
 		/// <summary>
 		/// Deletes the specified directory if it contains no folders, or files that
 		/// can't be deleted,
@@ -238,7 +210,7 @@ namespace Lemur.Operations {
 
 			int fileCount = this.TryDeleteFiles( directory );
 
-			if ( fileCount == 0 && dirCount == 0 ) {
+			if ( this._deleteEmptyFolders && fileCount == 0 && dirCount == 0 ) {
 				return this.Delete( directory );
 			}
 

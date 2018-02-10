@@ -50,8 +50,8 @@ namespace Lemur.Windows.MVVM {
 		/// ViewElement bound to the ViewMode.
 		/// NOTE: This could be a problem for VM's bound to multiple Views...
 		/// </summary>
-		private FrameworkElement _view;
-		public FrameworkElement ViewElement {
+		private object _view;
+		public object ViewElement {
 			get { return this._view; }
 			set {
 				this.SetProperty( ref this._view, value );

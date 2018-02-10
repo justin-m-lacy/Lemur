@@ -1,6 +1,7 @@
 ﻿using Lemur.Windows.Text;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,34 @@ namespace Lemur.Windows.Controls {
 		public static readonly DependencyProperty ClearProperty =
 			DependencyProperty.Register( "Clear", typeof( bool ), typeof( FeedbackList ), new PropertyMetadata( false, ClearChangedCallback ) );
 
+		public static readonly DependencyProperty FeedbackProperty =
+			DependencyProperty.Register( "Feedback", typeof( ICollection<TextString> ), typeof( FeedbackList ),
+				new PropertyMetadata( null, FeedbackChanged ) );
+
+		private static void FeedbackChanged( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
+
+			FeedbackList fb = d as FeedbackList;
+
+			INotifyCollectionChanged changed = e.OldValue as INotifyCollectionChanged;
+			if( changed != null ) {
+				changed.CollectionChanged -= fb.StringsChanged;
+			}
+
+			ICollection<TextString> textItems = e.NewValue as ICollection<TextString>;
+			if( textItems != null ) {
+
+				changed = textItems as INotifyCollectionChanged;
+				if( changed != null ) {
+					changed.CollectionChanged += fb.StringsChanged;
+				}
+				foreach( TextString s in textItems ) {
+					fb.AddText( s );
+				}
+
+			}
+
+		} // FeedbackChanged()
+
 		private static void ClearChangedCallback( DependencyObject d, DependencyPropertyChangedEventArgs e ) {
 
 			if( (bool)e.NewValue == true ) {
@@ -50,20 +79,19 @@ namespace Lemur.Windows.Controls {
 
 			TextString msg_pair = (TextString)e.NewValue;
 			if( string.IsNullOrEmpty( msg_pair.Text ) ) {
-				return;
+				( d as FeedbackList ).ClearList();
 			}
 			FeedbackList fb = d as FeedbackList;
-
-			string msgType = msg_pair.Type;
-			if( string.IsNullOrEmpty( msgType ) || msgType.ToLower() == TextString.Message ) {
-				fb.AddMessage( msg_pair.Text );
-			} else {
-				fb.AddError( msg_pair.Text );
-			}
+			fb.AddText( msg_pair );
 
 			// need to reset the value to allow multiple identical messages.
 			d.SetCurrentValue( CurrentProperty, CurrentProperty.DefaultMetadata.DefaultValue );
 
+		}
+
+		public ICollection<TextString> Feedback {
+			get => (ICollection<TextString>)GetValue( FeedbackProperty );
+			set => SetValue( FeedbackProperty, value );
 		}
 
 		public Brush ErrorBrush {
@@ -89,6 +117,33 @@ namespace Lemur.Windows.Controls {
 
 		}
 
+		private void StringsChanged( object sender, NotifyCollectionChangedEventArgs args ) {
+
+			if( args.Action == NotifyCollectionChangedAction.Reset ) {
+				this.Items.Clear();
+				return;
+			}
+
+			if( args.OldItems != null ) {
+
+				foreach( TextString s in args.OldItems ) {
+					this.RemoveText( s );
+				}
+
+			}
+
+			if( args.NewItems != null ) {
+
+				foreach( TextString s in args.NewItems ) {
+					this.AddText( s );
+				}
+
+			}
+
+
+
+		} //
+
 		/// <summary>
 		/// Set the current message. By default, the new message is added
 		/// to the end of the list.
@@ -104,6 +159,32 @@ namespace Lemur.Windows.Controls {
 
 		public void ClearList() {
 			this.Items.Clear();
+		}
+
+		public void AddText( TextString text ) {
+
+			string msgType = text.Type;
+			if( string.IsNullOrEmpty( msgType ) || msgType.ToLower() == TextString.Message ) {
+				this.AddMessage( text.Text );
+			} else {
+				this.AddError( text.Text );
+			}
+
+		}
+
+		public void RemoveText( TextString text ) {
+
+			TextBlock b;
+			for( int i = this.Items.Count - 1; i >= 0; i-- ) {
+
+				b = this.Items[i] as TextBlock;
+				if( b != null && b.Text == text ) {
+					this.Items.RemoveAt( i );
+					return;
+				}
+
+			}
+
 		}
 
 		public void AddError( string msg ) {

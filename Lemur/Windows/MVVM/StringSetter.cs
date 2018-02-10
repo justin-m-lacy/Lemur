@@ -47,6 +47,7 @@ namespace Lemur.Windows.MVVM {
 		}
 
 		public StringSetter() {
+			this.Visibility = Visibility.Collapsed;
 		}
 
     } // class

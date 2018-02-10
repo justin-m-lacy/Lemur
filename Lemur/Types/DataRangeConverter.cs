@@ -13,7 +13,7 @@ namespace Lemur.Types {
 		public override bool CanConvertFrom( ITypeDescriptorContext context, Type sourceType ) {
 
 			if( sourceType == null ) {
-				return false;
+				return true;
 			}
 			if( sourceType != typeof( string ) ) {
 				return false;
@@ -23,6 +23,10 @@ namespace Lemur.Types {
 		}
 
 		public override object ConvertFrom( ITypeDescriptorContext context, CultureInfo culture, object value ) {
+
+			if( value == null ) {
+				return new DataRange();
+			}
 
 			if( !( value is string ) ) {
 				throw new NotSupportedException();

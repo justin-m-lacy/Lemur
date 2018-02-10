@@ -157,6 +157,9 @@ namespace Lemur.Windows.MVVM {
 		public ObservableCollection<T> CheckedItems {
 			get { return this._checkedItems; }
 		}
+		public int CheckedCount {
+			get => this._checkedItems.Count;
+		}
 
 		#endregion
 
@@ -210,7 +213,8 @@ namespace Lemur.Windows.MVVM {
 				}
 	
 			} //
-			
+
+			this.NotifyPropertyChanged( "CheckedCount" );
 			this.CmdDelete.RaiseCanExecuteChanged();
 	
 		}
@@ -257,6 +261,7 @@ namespace Lemur.Windows.MVVM {
 		/// <returns></returns>
 		public T[] RemoveCheckedItems() {
 
+			/// necessary since removing items triggers callbacks that removes the checkedItem as well.
 			T[] items = this.CheckedItems.ToArray();
 
 			int len = this._itemModels.Count;

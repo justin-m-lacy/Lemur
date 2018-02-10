@@ -284,7 +284,12 @@ namespace Lemur {
 			List<FileDuplicateInfo> fileSizes = this.GetFileSizes( this._baseSearchDir, this.RecursiveSearch );
 			int totalFiles = fileSizes.Count;
 
+
 			for ( int fileIndex = 0; fileIndex < totalFiles; fileIndex++ ) {
+
+				if( this.CancelRequested() ) {
+					return;
+				}
 
 				FileDuplicateInfo curFile = fileSizes[fileIndex];
 				if ( string.IsNullOrEmpty(curFile.path) ) {
